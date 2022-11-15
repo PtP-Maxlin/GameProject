@@ -5,6 +5,7 @@ from buttons import ContinuePauseButton
 from buttons import NextButton
 from buttons import RestartButton
 from data import Data
+#from buttons import BackButton
 
 
 ''' 此处是游戏所有的界面类  '''
