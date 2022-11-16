@@ -116,7 +116,7 @@ class MainMenu:
         ''' 以下部分不同菜单类的切换 '''
         while True:
             if self.change_scene_number == 1:
-                if sound1:
+                if sound1 and self.music_button.flag:
                     pygame.mixer.init()
                     pygame.mixer.music.load('塔防游戏素材/音乐/开始界面 The 7 Seas.mp3')
                     sound1 = False
@@ -125,7 +125,7 @@ class MainMenu:
                 self.draw_main_menu()
                 self.check_scene1()
             elif self.change_scene_number == 2:
-                if sound1:
+                if sound1 and self.music_button.flag:
                     pygame.mixer.init()
                     pygame.mixer.music.load('塔防游戏素材/音乐/开始界面 The 7 Seas.mp3')
                     sound1 = False
@@ -135,7 +135,7 @@ class MainMenu:
                 self.music_button.draw(self.win)
                 self.check_scene2()
             elif self.change_scene_number == 3:
-                if sound3:
+                if sound3 and self.music_button.flag:
                     pygame.mixer.init()
                     '''记得在这边加背景音乐！！！'''
                     # pygame.mixer.music.load('第一关沼泽背景音乐')
@@ -163,7 +163,7 @@ class MainMenu:
 
 
             elif self.change_scene_number == 4:
-                if sound4:
+                if sound4 and self.music_button.flag:
                     pygame.mixer.init()
                     pygame.mixer.music.load('塔防游戏素材/音乐/丛林地图.mp3')
                     sound4 = False
@@ -191,7 +191,7 @@ class MainMenu:
 
             elif self.change_scene_number == 5:
                 self.clock.tick(100)
-                if sound5:
+                if sound5 and self.music_button.flag:
                     pygame.mixer.init()
                     '''记得在这边加背景音乐！！！'''
                     # pygame.mixer.music.load('第三关沙漠背景音乐')
