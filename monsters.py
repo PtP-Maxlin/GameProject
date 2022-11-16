@@ -109,7 +109,7 @@ class Ntr(Monsters):
 
 
 imgs2 = []
-for x in range(25):
+for x in range(24):
     add_str = str(x)
     if x < 10:
         add_str = "0" + add_str
@@ -118,6 +118,7 @@ for x in range(25):
         pygame.image.load(os.path.join("塔防游戏素材/怪物/哥布林/Walking", "0_Goblin_Walking_" + add_str + ".png")),
         (75, 75)))
 
+
 class Goblin(Monsters):
     def __init__(self, path):  # def __init__(self, path)  self.path = path
         super().__init__(path)
@@ -125,8 +126,8 @@ class Goblin(Monsters):
         self.height = 75  # 体积
         self.max_health = 20
         self.health = self.max_health  # 血量
-        self.count_coin = 10  # 金币
-        self.count_score = 10  # 分数
+        self.count_coin = 15  # 金币
+        self.count_score = 30  # 分数
         self.v = 1  # 移动速度
         self.path = path
         self.images = imgs2[:]
@@ -150,8 +151,8 @@ class Wraith(Monsters):
         self.height = 63  # 体积
         self.max_health = 10
         self.health = self.max_health  # 血量
-        self.count_coin = 10  # 金币
-        self.count_score = 10  # 分数
+        self.count_coin = 25  # 金币
+        self.count_score = 50  # 分数
         self.v = 1.5  # 移动速度
         self.path = path
         self.images = imgs3[:]
