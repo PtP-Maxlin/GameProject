@@ -74,7 +74,7 @@ class MainMenu:
 
         self.enemies = []
         self.clicks = []
-        self.wave = -1
+
         self.current_wave = []
         self.timer = time.time()
         self.clock = pygame.time.Clock()
@@ -84,13 +84,13 @@ class MainMenu:
         self.font_lives = pygame.font.Font(None, 36)
         self.font_score = pygame.font.Font(None, 50)
         self.font_money = pygame.font.Font(None, 50)
-        # font_wave = pygame.font.Font(None, 50)
+        self.font_wave = pygame.font.Font(None, 50)
         # font_left = pygame.font.Font(None, 30)
 
         self.lives = 8
         self.score = 0
         self.money = 1000
-
+        self.wave = -1
 
 
 
@@ -120,7 +120,7 @@ class MainMenu:
                     pygame.mixer.init()
                     pygame.mixer.music.load('塔防游戏素材/音乐/开始界面 The 7 Seas.mp3')
                     sound1 = False
-                    sound3, sound4, sound5,sound6, sound7  = True, True, True, True, True
+                    sound3, sound4, sound5, sound6, sound7 = True, True, True, True, True
                     pygame.mixer.music.play()
                 self.draw_main_menu()
                 self.check_scene1()
@@ -129,7 +129,7 @@ class MainMenu:
                     pygame.mixer.init()
                     pygame.mixer.music.load('塔防游戏素材/音乐/开始界面 The 7 Seas.mp3')
                     sound1 = False
-                    sound3, sound4, sound5,sound6, sound7  = True, True, True, True, True
+                    sound3, sound4, sound5, sound6, sound7 = True, True, True, True, True
                     pygame.mixer.music.play()
                 self.level_scene.draw(self.win)
                 self.music_button.draw(self.win)
@@ -137,8 +137,7 @@ class MainMenu:
             elif self.change_scene_number == 3:
                 if sound3 and self.music_button.flag:
                     pygame.mixer.init()
-                    '''记得在这边加背景音乐！！！'''
-                    # pygame.mixer.music.load('第一关沼泽背景音乐')
+                    pygame.mixer.music.load('塔防游戏素材/音乐/沼泽地图.mp3')
                     sound3 = False
                     sound1, sound4, sound5, sound6, sound7 = True, True, True, True, True
                     pygame.mixer.music.play()
@@ -160,8 +159,6 @@ class MainMenu:
                 # if event.type == pygame.MOUSEBUTTONDOWN:
                 #     self.clicks.append(event.pos)
                 #     print(self.clicks)
-
-
 
             elif self.change_scene_number == 4:
                 if sound4 and self.music_button.flag:
@@ -190,13 +187,12 @@ class MainMenu:
                 #     self.clicks.append(event.pos)
                 #     print(self.clicks)
 
-
             elif self.change_scene_number == 5:
                 self.clock.tick(100)
                 if sound5 and self.music_button.flag:
                     pygame.mixer.init()
                     '''记得在这边加背景音乐！！！'''
-                    # pygame.mixer.music.load('第三关沙漠背景音乐')
+                    pygame.mixer.music.load('塔防游戏素材/音乐/沙漠地图.mp3')
                     sound5 = False
                     sound1, sound3, sound4, sound6, sound7 = True, True, True, True, True
                     pygame.mixer.music.play()
@@ -299,6 +295,7 @@ class MainMenu:
                 if event.key == pygame.K_ESCAPE:
                     self.change_scene_number = 2
 
+
     def check_Failure_scene(self):
         '''失败界面的按钮判定，加在3，4,5界面的后面'''
         for event in pygame.event.get():
@@ -368,25 +365,25 @@ class MainMenu:
         lives_text = self.font_lives.render(str(self.lives), True, (255, 255, 255))
         score_text = self.font_score.render(str(self.score), True, (120, 255, 120))
         money_text = self.font_money.render(str(self.money), True, (255, 255, 120))
-        # wave_text = font_wave.render(str(self.wave), True, (255, 255, 200))
+        wave_text = self.font_wave.render(str(self.wave), True, (255, 255, 200))
         # left_text = font_left.render(str(self.left), True, (0, 0, 0))
         if num == 1:
             win.blit(lives_text, [36, 24])
             win.blit(score_text, [1010, 15])
             win.blit(money_text, [1258, 15])
-            # win.blit(self.wave_text, [1235, 120])
+            win.blit(wave_text, [1245, 120])
             # win.blit(self.left_text, [1290, 140])
         elif num == 2:
             win.blit(lives_text, [61, 20])
             win.blit(score_text, [990, 15])
             win.blit(money_text, [1243, 15])
-            # win.blit(self.wave_text, [607, 20])
+            win.blit(wave_text, [607, 20])
             # win.blit(self.left_text, [660, 45])
         elif num == 3:
             win.blit(lives_text, [33, 16])
             win.blit(score_text, [990, 15])
             win.blit(money_text, [1243, 15])
-            # win.blit(self.wave_text, [625, 25])
+            win.blit(wave_text, [625, 25])
             # win.blit(self.left_text, [685, 45])
     # 显示生命、分数、金钱、波数和剩余怪数
 
