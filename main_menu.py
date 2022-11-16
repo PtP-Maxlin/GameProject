@@ -144,6 +144,7 @@ class MainMenu:
                     pygame.mixer.music.play()
                 self.battle_scene1.draw(self.win)
                 self.music_button.draw(self.win)
+                self.drawdata(1, self.win)
                 self.check_battle_scene()
 
                 # 测试代码
@@ -171,6 +172,7 @@ class MainMenu:
                     pygame.mixer.music.play()
                 self.battle_scene2.draw(self.win)
                 self.music_button.draw(self.win)
+                self.drawdata(2, self.win)
                 self.check_battle_scene()
 
                 waves = [[5, 5], [10, 15]]
