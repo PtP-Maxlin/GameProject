@@ -48,14 +48,12 @@ class MusicButton:
         self.height = self.music_on_button.get_height()
         ''' 检验音乐按钮处于开或关状态的变量 '''
         self.music_paused = True
-        self.flag = True
         if self.music_paused:
             self.music_rect = self.music_on_button.get_rect()
         else:
             self.music_rect = self.music_off_button.get_rect()
         self.music_rect.x = 150
         self.music_rect.y = 0
-        self.music_click_number = 0
 
     ''' 检测音乐开关情况并渲染对应的图标 '''
 
@@ -70,16 +68,13 @@ class MusicButton:
     def click_music_on_button(self, mouse_pos):
         button_on_clicked = self.music_rect.collidepoint(mouse_pos)
         if button_on_clicked:
-            self.music_click_number += 1
-            ''' 默认值为0，即默认播放，点击后变为1，关闭音乐，再次点击还原播放 '''
-            if self.music_click_number % 2 == 1:
-                self.music_paused = False
-                self.flag = False
-                pygame.mixer.music.pause()
-            else:
-                self.music_paused = True
-                self.flag = True
+            self.music_paused = not self.music_paused
+            if self.music_paused:
                 pygame.mixer.music.unpause()
+            else:
+                pygame.mixer.music.pause()
+
+
 
 
 ''' 控制游戏是否暂停的按钮 '''
@@ -88,9 +83,9 @@ class MusicButton:
 
 class ContinuePauseButton:
     def __init__(self):
-        self.continue_button = pygame.image.load('塔防游戏素材/按钮/继续.png')
+        self.continue_button = pygame.image.load('塔防游戏素材/按钮/暂停.png')
         self.continue_button = pygame.transform.smoothscale(self.continue_button, (75, 75))
-        self.pause_button = pygame.image.load('塔防游戏素材/按钮/暂停.png')
+        self.pause_button = pygame.image.load('塔防游戏素材/按钮/继续.png')
         self.pause_button = pygame.transform.smoothscale(self.pause_button, (75, 75))
         self.width = self.continue_button.get_width()
         self.height = self.pause_button.get_height()
@@ -101,7 +96,6 @@ class ContinuePauseButton:
             self.music_rect = self.pause_button.get_rect()
         self.rect.x = 215
         self.rect.y = -6
-        self.game_click_number = 0
 
     def draw(self, win):
         if self.game_paused:
@@ -112,12 +106,8 @@ class ContinuePauseButton:
     def click_continue_button(self, mouse_pos):
         button_on_clicked = self.rect.collidepoint(mouse_pos)
         if button_on_clicked:
-            self.game_click_number += 1
-            if self.game_click_number % 2 == 1:
-                self.game_paused = False
-
-            else:
-                self.game_paused = True
+            self.game_paused = not self.game_paused
+            return self.game_paused
 
 
 ''' 返回上个界面的按钮 '''
@@ -193,4 +183,3 @@ class BackButton:
 
     def draw(self, win):
         win.blit(self.Back_button, self.back_rect)
-
