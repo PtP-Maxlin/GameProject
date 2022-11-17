@@ -5,7 +5,6 @@ from buttons import MusicButton
 from buttons import NumberButton
 from buttons import ContinuePauseButton
 
-
 from scenes import LevelSelection
 from scenes import BattleScene1
 from scenes import BattleScene2
@@ -17,23 +16,19 @@ from monsters import *
 import time
 import random
 
-
-
-
-
 """
         需要初始化的变量
         waves[][]  第几关、第几个口
 
         path[][]  第几关、第几个口
-        
+
         wave_enemies[][] 第几关、第几个口 每个里面path一样
 
 """
 path_1_1 = [(1, 580), (115, 579), (194, 534), (214, 464), (232, 394), (305, 341), (391, 317), (430, 248), (457, 173),
-         (512, 119), (560, 105), (773, 108), (782, 106), (820, 91), (845, 90), (867, 94), (915, 108), (1041, 107),
-         (1108, 130), (1118, 123), (1145, 168), (1149, 245), (1100, 311), (1029, 329), (966, 373),
-         (936, 442), (955, 505), (1001, 545), (1070, 573), (1101, 572), (1110, 582)]
+            (512, 119), (560, 105), (773, 108), (782, 106), (820, 91), (845, 90), (867, 94), (915, 108), (1041, 107),
+            (1108, 130), (1118, 123), (1145, 168), (1149, 245), (1100, 311), (1029, 329), (966, 373),
+            (936, 442), (955, 505), (1001, 545), (1070, 573), (1101, 572), (1110, 582)]
 
 path_2_1 = [(1, 374), (247, 374), (247, 99), (1025, 99), (1025, 546), (673, 546), (673, 393)]
 
@@ -51,10 +46,11 @@ path_3_3 = [(0, 675), (444, 675), (444, 575), (923, 575), (923, 477), (1293, 477
 
 path_3_4 = [(1399, 677), (923, 677), (923, 575), (445, 575), (445, 477), (127, 477), (127, 387)]
 
-
 '''游戏的菜单类'''
 ''' 初始化各种按钮以及界面背景图'''
 ''' 以数字1,2,3,4,5分别指代开始菜单，选关菜单以及1,2,3关的菜单'''
+
+
 class MainMenu:
     def __init__(self, win):
         self.width = 1400
@@ -97,9 +93,9 @@ class MainMenu:
 
         self.pause = True
 
-
     ''' 启动游戏的菜单 '''
     ''' 界面变化后音乐也要变更,开始与选关界面为sound1,123关分别对应sound345,sound6为控制失败音乐，sound7为控制成功音乐 '''
+
     def run_game(self):
         sound1, sound3, sound4, sound5, sound6, sound7 = True, True, True, True, True, True
 
@@ -211,8 +207,8 @@ class MainMenu:
 
             pygame.display.update()
 
-
     ''' 主菜单的渲染 '''
+
     def draw_main_menu(self):
         self.win.blit(self.bg, (0, 0))
         self.play_button.draw(self.win)
@@ -222,6 +218,7 @@ class MainMenu:
     ''' 不同按钮功能的实现 '''
     ''' 开始菜单选择开始游戏将进入选关界面，即场景2，选择退出按钮会退出游戏 
         在选关界面选择返回将会回到开始菜单，选择关卡1,2,3将分别进入对应关卡场景，即场景3，4，5 '''
+
     def click_play_button(self, mouse_pos):
         play_button_clicked = self.play_button.rect.collidepoint(mouse_pos)
         if play_button_clicked and self.play_button.rect.collidepoint(mouse_pos):
@@ -253,6 +250,7 @@ class MainMenu:
     ''' 开始界面检测开始游戏和退出按钮的点击，选关界面检测选关1,2,3以及返回按钮的点击；
         地图1,2,3界面检测音乐，暂停按钮的点击，以及键盘是否输入esc键，如输入则返回选关界面 
         成功界面检测是否进入下一关或返回选关界面的按钮点击，失败界面检测是否重新开始或返回选关 '''
+
     def check_scene1(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -293,7 +291,6 @@ class MainMenu:
                 if event.key == pygame.K_ESCAPE:
                     self.change_scene_number = 2
 
-
     def check_Failure_scene(self):
         '''失败界面的按钮判定，加在3，4,5界面的后面'''
         for event in pygame.event.get():
@@ -331,7 +328,11 @@ class MainMenu:
         if sum(self.current_wave) == 0:
             if len(self.enemies) == 0:
                 self.wave += 1
-                self.current_wave = waves[self.wave]
+                if self.wave > len(waves):
+                    # 跳到成功界面
+                    self.change_scene_number = 1
+                else:
+                    self.current_wave = waves[self.wave - 1]
         else:
             for x in range(len(self.current_wave)):
                 if self.current_wave[x] != 0:
@@ -345,7 +346,11 @@ class MainMenu:
             if self.pause:
                 en.move()
             if target[0] - 5 <= en.x <= target[0] + 5 and target[1] - 5 <= en.y <= target[1] + 5:
+                self.lives -= 1
                 self.enemies.remove(en)
+                if self.lives <= 0:
+                    # 跳到失败界面
+                    self.change_scene_number = 1
 
         for en in self.enemies:
             en.draw(self.win)
@@ -382,7 +387,6 @@ class MainMenu:
             win.blit(score_text, [990, 15])
             win.blit(money_text, [1243, 15])
             win.blit(wave_text, [625, 25])
-
 
 
 
