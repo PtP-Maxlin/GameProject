@@ -346,6 +346,7 @@ class MainMenu:
         for en in self.enemies:
             en.move()
             if target[0] - 5 <= en.x <= target[0] + 5 and target[1] - 5 <= en.y <= target[1] + 5:
+                self.lives -= 1
                 self.enemies.remove(en)
 
         for en in self.enemies:
