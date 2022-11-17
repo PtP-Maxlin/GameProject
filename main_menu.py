@@ -97,7 +97,7 @@ class MainMenu:
         self.font_money = pygame.font.Font(None, 50)
         self.font_wave = pygame.font.Font(None, 50)
 
-        self.lives = 8
+        self.lives = 2
         self.score = 0
         self.money = 1000
         self.wave = 0
@@ -151,7 +151,7 @@ class MainMenu:
                 self.check_battle_scene()
 
                 # 测试代码
-                self.waves = [[10]]
+                self.waves = [[5]]
 
                 if self.pause:
                     if time.time() - self.timer >= random.randrange(1, 6) / 2:
@@ -181,14 +181,14 @@ class MainMenu:
                 self.drawdata(2, self.win)
                 self.check_battle_scene()
 
-                self.waves = [[5, 5], [10, 15]]
+                self.waves = [[5, 5]]
 
                 if self.pause:
                     if time.time() - self.timer >= random.randrange(1, 6):
                         self.timer = time.time()
                         self.get_waves_enemies(self.waves, [Goblin(path_2_4), Wraith(path_2_4)])  # 出一波敌人
 
-                self.monsters_die()
+                # self.monsters_die()
 
                 self.draw_enemies((673, 308))
 
@@ -351,7 +351,10 @@ class MainMenu:
                 mouse_pos = pygame.mouse.get_pos()
                 if self.FailureScene.ReturnButton.rect.collidepoint(mouse_pos):
                     self.change_scene_number = 2
+                    self.flushdata()
                 elif self.FailureScene.RestartButton.rect.collidepoint(mouse_pos):
+                    self.change_scene_number = self.battle_scene_number + 2
+                    self.flushdata()
                     '''重新渲染界面'''
 
     def check_Victory_scene(self):
@@ -370,9 +373,9 @@ class MainMenu:
                 elif self.VictoryScene.ReturnButton.rect.collidepoint(mouse_pos):
                     self.change_scene_number = 2
                 elif self.VictoryScene.RestartButton.rect.collidepoint(mouse_pos):
+                    self.change_scene_number = self.battle_scene_number + 2
                     self.flushdata()
                     '''重新渲染界面'''
-
 
     def get_waves_enemies(self, waves, wave_enemies):  # 每一关的波数和对应的小怪种类、数量, 每一关、每个出怪口都是不同的
         """
@@ -453,7 +456,7 @@ class MainMenu:
         self.pause_button.flush_button()
         self.pause = True
         self.enemies.clear()
-        self.lives = 8
+        self.lives = 2
         self.score = 0
         self.money = 1000
         self.wave = 0
