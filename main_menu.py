@@ -80,6 +80,7 @@ class MainMenu:
         self.battle_scene2 = BattleScene2()
         self.battle_scene3 = BattleScene3()
         self.change_scene_number = 1
+        self.battle_scene_number = 1
         self.FailureScene = FailureScene()
         self.VictoryScene = VictoryScene()
 
@@ -132,18 +133,10 @@ class MainMenu:
                 self.level_scene.draw(self.win)
                 self.music_button.draw(self.win)
                 self.check_scene2()
-
-                self.pause_button.flush_button()
-                self.pause = True
-                self.enemies.clear()
-                self.lives = 8
-                self.score = 0
-                self.money = 1000
-                self.wave = 0
-                self.waves.clear()
-                self.current_wave.clear()  # 重新加载数据
+                self.flushdata()
 
             elif self.change_scene_number == 3:
+                self.battle_scene_number = 1
                 if sound3 and self.music_button.music_paused:
                     pygame.mixer.init()
                     pygame.mixer.music.load('塔防游戏素材/音乐/沼泽地图.mp3')
@@ -158,13 +151,14 @@ class MainMenu:
                 self.check_battle_scene()
 
                 # 测试代码
-                self.waves = [[10], [20]]
+                self.waves = [[10]]
 
                 if self.pause:
                     if time.time() - self.timer >= random.randrange(1, 6) / 2:
                         self.timer = time.time()
                         self.get_waves_enemies(self.waves, [Ntr(path_1_1)])  # 出一波敌人
 
+                self.monsters_die()
                 self.draw_enemies((1110, 582))
 
                 # event = pygame.event.wait()
@@ -173,6 +167,7 @@ class MainMenu:
                 #     print(self.clicks)
 
             elif self.change_scene_number == 4:
+                self.battle_scene_number = 2
                 if sound4 and self.music_button.music_paused:
                     pygame.mixer.init()
                     pygame.mixer.music.load('塔防游戏素材/音乐/丛林地图.mp3')
@@ -193,7 +188,7 @@ class MainMenu:
                         self.timer = time.time()
                         self.get_waves_enemies(self.waves, [Goblin(path_2_4), Wraith(path_2_4)])  # 出一波敌人
 
-                # self.monsters_die()
+                self.monsters_die()
 
                 self.draw_enemies((673, 308))
 
@@ -203,6 +198,7 @@ class MainMenu:
                 #     print(self.clicks)
 
             elif self.change_scene_number == 5:
+                self.battle_scene_number = 3
                 self.clock.tick(100)
                 if sound5 and self.music_button.music_paused:
                     pygame.mixer.init()
@@ -217,14 +213,14 @@ class MainMenu:
                 self.drawdata(3, self.win)
                 self.check_battle_scene()
 
-                self.waves = [[5, 5], [10, 15], [5, 5]]
+                self.waves = [[1, 2]]
 
                 if self.pause:
                     if time.time() - self.timer >= random.randrange(1, 6):
                         self.timer = time.time()
                         self.get_waves_enemies(self.waves, [Goblin(path_3_4), Wraith(path_3_4)])  # 出一波敌人
 
-                # self.monsters_die()
+                self.monsters_die()
                 self.draw_enemies((127, 387))
 
                 # event = pygame.event.wait()
@@ -257,7 +253,7 @@ class MainMenu:
                 self.FailureScene.draw(self.win)
                 self.restart_button.draw(self.win)
                 self.check_Failure_scene()
-                self.drawdata(4, self.win)
+                self.drawdata(5, self.win)
 
             pygame.display.update()
 
@@ -367,11 +363,16 @@ class MainMenu:
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = pygame.mouse.get_pos()
                 if self.VictoryScene.NextButton.rect.collidepoint(mouse_pos):
-                    self.change_scene_number += 1
+                    self.change_scene_number = self.battle_scene_number + 3
+                    if self.battle_scene_number == 3:
+                        self.change_scene_number = 3
+                    self.flushdata()
                 elif self.VictoryScene.ReturnButton.rect.collidepoint(mouse_pos):
                     self.change_scene_number = 2
                 elif self.VictoryScene.RestartButton.rect.collidepoint(mouse_pos):
+                    self.flushdata()
                     '''重新渲染界面'''
+
 
     def get_waves_enemies(self, waves, wave_enemies):  # 每一关的波数和对应的小怪种类、数量, 每一关、每个出怪口都是不同的
         """
@@ -443,7 +444,21 @@ class MainMenu:
             win.blit(wave_text, [625, 25])
 
         elif num == 4:
+            win.blit(score_text, [670, 385])
+
+        elif num == 5:
             win.blit(score_text, [675, 400])
+
+    def flushdata(self):
+        self.pause_button.flush_button()
+        self.pause = True
+        self.enemies.clear()
+        self.lives = 8
+        self.score = 0
+        self.money = 1000
+        self.wave = 0
+        self.waves.clear()
+        self.current_wave.clear()  # 重新加载数据
 
 
 
