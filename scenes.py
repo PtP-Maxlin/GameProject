@@ -1,7 +1,6 @@
 import pygame
 from buttons import NumberButton
 from buttons import ReturnButton
-from buttons import ContinuePauseButton
 from buttons import NextButton
 from buttons import RestartButton
 
@@ -34,34 +33,27 @@ class BattleScene1:
     def __init__(self):
         self.win = pygame.display.set_mode((1400, 750))
         self.bg = pygame.image.load('塔防游戏素材/地图/第一关.png')
-        #self.continue_pause_button = ContinuePauseButton()
 
     def draw(self, win):
         win.blit(self.bg, (0, 0))
-        #self.continue_pause_button.draw(win)
 
 
 class BattleScene2:
     def __init__(self):
         self.win = pygame.display.set_mode((1400, 750))
         self.bg = pygame.image.load('塔防游戏素材/地图/第二关.png')
-        #self.continue_pause_button = ContinuePauseButton()
 
     def draw(self, win):
         win.blit(self.bg, (0, 0))
-        #self.continue_pause_button.draw(win)
-
 
 
 class BattleScene3:
     def __init__(self):
         self.win = pygame.display.set_mode((1400, 750))
         self.bg = pygame.image.load('塔防游戏素材/地图/第三关.png')
-        #self.continue_pause_button = ContinuePauseButton()
 
     def draw(self, win):
         win.blit(self.bg, (0, 0))
-        #self.continue_pause_button.draw(win)
 
 
 ''' 失败界面 '''
