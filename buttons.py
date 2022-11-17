@@ -44,8 +44,6 @@ class MusicButton:
         self.music_on_button = pygame.transform.smoothscale(self.music_on_button, (64, 65))
         self.music_off_button = pygame.image.load('塔防游戏素材/按钮/button_sound_off.png')
         self.music_off_button = pygame.transform.smoothscale(self.music_off_button, (64, 65))
-        self.width = self.music_on_button.get_width()
-        self.height = self.music_on_button.get_height()
         ''' 检验音乐按钮处于开或关状态的变量 '''
         self.music_paused = True
         if self.music_paused:
@@ -87,13 +85,11 @@ class ContinuePauseButton:
         self.continue_button = pygame.transform.smoothscale(self.continue_button, (75, 75))
         self.pause_button = pygame.image.load('塔防游戏素材/按钮/继续.png')
         self.pause_button = pygame.transform.smoothscale(self.pause_button, (75, 75))
-        self.width = self.continue_button.get_width()
-        self.height = self.pause_button.get_height()
         self.game_paused = True
         if self.game_paused:
             self.rect = self.continue_button.get_rect()
         else:
-            self.music_rect = self.pause_button.get_rect()
+            self.rect = self.pause_button.get_rect()
         self.rect.x = 215
         self.rect.y = -6
 
@@ -107,7 +103,7 @@ class ContinuePauseButton:
         button_on_clicked = self.rect.collidepoint(mouse_pos)
         if button_on_clicked:
             self.game_paused = not self.game_paused
-            return self.game_paused
+        return self.game_paused
 
 
 ''' 返回上个界面的按钮 '''
