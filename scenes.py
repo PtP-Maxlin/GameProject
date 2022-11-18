@@ -62,15 +62,15 @@ class FailureScene:
     def __init__(self):
         self.win = pygame.display.set_mode((1400, 750))
         self.bg = pygame.image.load('塔防游戏素材/地图/失败.png')
-        self.RestartButton= RestartButton()
-        self.ReturnButton= ReturnButton()
+        self.RestartButton = RestartButton()
+        self.ReturnButton = ReturnButton()
         self.ReturnButton.rect.midbottom = (450, 667)
         self.RestartButton = RestartButton()
         self.RestartButton.rect.midbottom = (950, 667)
 
     def draw(self, win):
         win.blit(self.bg, (0, 0))
-        self.RestartButton.draw(win)
+        self.RestartButton.draw_fail(win)
         self.ReturnButton.draw(win)
 
 
@@ -84,12 +84,14 @@ class VictoryScene:
         self.ReturnButton = ReturnButton()
         self.ReturnButton.rect.midbottom = (300, 667)
         self.NextButton = NextButton()
+        self.RestartButton.rect.midbottom = (700, 667)
+
 
     def draw(self, win):
         win.blit(self.bg, (0, 0))
-        self.RestartButton.draw(win)
         self.ReturnButton.draw(win)
         self.NextButton.draw(win)
+        self.RestartButton.draw_win(win)
 
 
 

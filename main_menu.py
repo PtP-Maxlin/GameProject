@@ -1,13 +1,6 @@
 import sys
-from buttons import PlayButton
-from buttons import ExitButton
-from buttons import MusicButton
-from buttons import NumberButton
-from buttons import ContinuePauseButton
-from buttons import RestartButton
-from buttons import NextButton
-from buttons import BackButton
 
+from buttons import *
 
 from scenes import LevelSelection
 from scenes import BattleScene1
@@ -74,6 +67,21 @@ class MainMenu:
         self.restart_button = RestartButton()
         self.next_button = NextButton()
         self.back_button = BackButton()
+
+        self.hole_1_1 = Hole_1_1()
+        self.hole_1_1_bool = True
+        self.hole_1_2 = Hole_1_2()
+        self.hole_1_2_bool = True
+        self.hole_1_3 = Hole_1_3()
+        self.hole_1_3_bool = True
+        self.hole_1_4 = Hole_1_4()
+        self.hole_1_4_bool = True
+        self.hole_1_5 = Hole_1_5()
+        self.hole_1_5_bool = True
+        self.hole_1_6 = Hole_1_6()
+        self.hole_1_6_bool = True
+        self.hole_1_7 = Hole_1_7()
+        self.hole_1_7_bool = True
 
         self.level_scene = LevelSelection()
         self.battle_scene1 = BattleScene1()
@@ -147,9 +155,38 @@ class MainMenu:
                 self.music_button.draw(self.win)
                 self.pause_button.draw(self.win)
                 self.back_button.draw(self.win)
+
+                self.hole_1_1.draw(self.win)
+                self.hole_1_2.draw(self.win)
+                self.hole_1_3.draw(self.win)
+                self.hole_1_4.draw(self.win)
+                self.hole_1_5.draw(self.win)
+                self.hole_1_6.draw(self.win)
+                self.hole_1_7.draw(self.win)
+
                 self.drawdata(1, self.win)
                 self.check_battle_scene()
 
+                if not self.hole_1_1_bool:
+                    self.hole_1_1.drawmenu(self.win)
+
+                if not self.hole_1_2_bool:
+                    self.hole_1_2.drawmenu(self.win)
+
+                if not self.hole_1_3_bool:
+                    self.hole_1_3.drawmenu(self.win)
+
+                if not self.hole_1_4_bool:
+                    self.hole_1_4.drawmenu(self.win)
+
+                if not self.hole_1_5_bool:
+                    self.hole_1_5.drawmenu(self.win)
+
+                if not self.hole_1_6_bool:
+                    self.hole_1_6.drawmenu(self.win)
+
+                if not self.hole_1_7_bool:
+                    self.hole_1_7.drawmenu(self.win)
                 # 测试代码
                 self.waves = [[5]]
 
@@ -238,7 +275,6 @@ class MainMenu:
                     pygame.mixer.music.play()
                 self.VictoryScene.draw(self.win)
                 self.next_button.draw(self.win)
-                self.restart_button.draw(self.win)
                 self.check_Victory_scene()
                 self.drawdata(4, self.win)
 
@@ -251,7 +287,6 @@ class MainMenu:
                     sound1, sound3, sound4, sound5, sound6 = True, True, True, True, True
                     pygame.mixer.music.play()
                 self.FailureScene.draw(self.win)
-                self.restart_button.draw(self.win)
                 self.check_Failure_scene()
                 self.drawdata(5, self.win)
 
@@ -300,6 +335,7 @@ class MainMenu:
         if back_button_clicked:
             self.change_scene_number = 2
 
+
     ''' 以下部分为检测不同场景中发生事件的函数 '''
     ''' 开始界面检测开始游戏和退出按钮的点击，选关界面检测选关1,2,3以及返回按钮的点击；
         地图1,2,3界面检测音乐，暂停按钮的点击，以及键盘是否输入esc键，如输入则返回选关界面 
@@ -336,6 +372,13 @@ class MainMenu:
                 self.music_button.click_music_on_button(mouse_pos)
                 self.click_back_button(mouse_pos)
                 self.pause = self.pause_button.click_continue_button(mouse_pos)
+                self.hole_1_1_bool = self.hole_1_1.click_hole_1_1(mouse_pos)
+                self.hole_1_2_bool = self.hole_1_2.click_hole_1_2(mouse_pos)
+                self.hole_1_3_bool = self.hole_1_3.click_hole_1_3(mouse_pos)
+                self.hole_1_4_bool = self.hole_1_4.click_hole_1_4(mouse_pos)
+                self.hole_1_5_bool = self.hole_1_5.click_hole_1_5(mouse_pos)
+                self.hole_1_6_bool = self.hole_1_6.click_hole_1_6(mouse_pos)
+                self.hole_1_7_bool = self.hole_1_7.click_hole_1_7(mouse_pos)
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     self.change_scene_number = 2
@@ -352,9 +395,11 @@ class MainMenu:
                 if self.FailureScene.ReturnButton.rect.collidepoint(mouse_pos):
                     self.change_scene_number = 2
                     self.flushdata()
+
                 elif self.FailureScene.RestartButton.rect.collidepoint(mouse_pos):
                     self.change_scene_number = self.battle_scene_number + 2
                     self.flushdata()
+
                     '''重新渲染界面'''
 
     def check_Victory_scene(self):
@@ -370,11 +415,13 @@ class MainMenu:
                     if self.battle_scene_number == 3:
                         self.change_scene_number = 3
                     self.flushdata()
+
                 elif self.VictoryScene.ReturnButton.rect.collidepoint(mouse_pos):
                     self.change_scene_number = 2
                 elif self.VictoryScene.RestartButton.rect.collidepoint(mouse_pos):
                     self.change_scene_number = self.battle_scene_number + 2
                     self.flushdata()
+
                     '''重新渲染界面'''
 
     def get_waves_enemies(self, waves, wave_enemies):  # 每一关的波数和对应的小怪种类、数量, 每一关、每个出怪口都是不同的
@@ -454,6 +501,22 @@ class MainMenu:
 
     def flushdata(self):
         self.pause_button.flush_button()
+
+        self.hole_1_1.flush()
+        self.hole_1_1_bool = True
+        self.hole_1_2.flush()
+        self.hole_1_2_bool = True
+        self.hole_1_3.flush()
+        self.hole_1_3_bool = True
+        self.hole_1_4.flush()
+        self.hole_1_4_bool = True
+        self.hole_1_5.flush()
+        self.hole_1_5_bool = True
+        self.hole_1_6.flush()
+        self.hole_1_6_bool = True
+        self.hole_1_7.flush()
+        self.hole_1_7_bool = True
+
         self.pause = True
         self.enemies.clear()
         self.lives = 2
