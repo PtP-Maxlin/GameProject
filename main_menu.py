@@ -106,7 +106,7 @@ class MainMenu:
         self.font_money = pygame.font.Font(None, 50)
         self.font_wave = pygame.font.Font(None, 50)
 
-        self.lives = 2
+        self.lives = 9
         self.score = 0
         self.money = 1000
         self.wave = 0
@@ -542,7 +542,7 @@ class MainMenu:
 
         self.pause = True
         self.enemies.clear()
-        self.lives = 2
+        self.lives = 9
         self.score = 0
         self.money = 1000
         self.wave = 0
