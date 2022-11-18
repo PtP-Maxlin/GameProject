@@ -92,6 +92,8 @@ class MainMenu:
         self.battle_scene_number = 1
         self.FailureScene = FailureScene()
         self.VictoryScene = VictoryScene()
+        
+        self.towers = [ArchTower(450, 400)]
 
         self.enemies = []
         self.clicks = []
@@ -196,8 +198,9 @@ class MainMenu:
                         self.timer = time.time()
                         self.get_waves_enemies(self.waves, [Ntr(path_1_1)])  # 出一波敌人
 
-                self.monsters_die()
                 self.draw_enemies((1110, 582))
+                self.draw_towers()
+                self.towers_attack()
 
                 # event = pygame.event.wait()
                 # if event.type == pygame.MOUSEBUTTONDOWN:
@@ -226,9 +229,9 @@ class MainMenu:
                         self.timer = time.time()
                         self.get_waves_enemies(self.waves, [Goblin(path_2_4), Wraith(path_2_4)])  # 出一波敌人
 
-                # self.monsters_die()
-
                 self.draw_enemies((673, 308))
+                self.draw_towers()
+                self.towers_attack()
 
                 # event = pygame.event.wait()
                 # if event.type == pygame.MOUSEBUTTONDOWN:
@@ -258,8 +261,9 @@ class MainMenu:
                         self.timer = time.time()
                         self.get_waves_enemies(self.waves, [Goblin(path_3_4), Wraith(path_3_4)])  # 出一波敌人
 
-                self.monsters_die()
                 self.draw_enemies((127, 387))
+                self.draw_towers()
+                self.towers_attack()
 
                 # event = pygame.event.wait()
                 # if event.type == pygame.MOUSEBUTTONDOWN:
@@ -483,13 +487,16 @@ class MainMenu:
         for en in self.enemies:
             en.draw(self.win)
 
-    def monsters_die(self):
-        for en in self.enemies:
-            if self.pause:
-                if en.die(0.1):
-                    self.enemies.remove(en)
-                    self.money += en.count_coin
-                    self.score += en.count_score
+    def draw_towers(self):
+        for tower in self.towers:
+            tower.draw(self.win)
+
+    def towers_attack(self):
+        if self.pause:
+            for tower in self.towers:
+                count = tower.attack(self.enemies)
+                self.money += count[0]
+                self.score += count[1]
 
     # 渲染生命，分数，金钱和波数
     def drawdata(self, num, win):
