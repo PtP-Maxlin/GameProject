@@ -2,6 +2,7 @@ import pygame
 import os
 import math
 import time
+from bullet import *
 
 
 class Tower:
@@ -21,9 +22,6 @@ class Tower:
         self.bottom_imgs = []
         self.top_imgs = []
         self.damage = 2
-        self.tower_imgs = []
-        self.archer_imgs = []
-        self.archer_count = 0
         self.range = 150
         self.original_range = self.range
         self.left = True
@@ -35,8 +33,8 @@ class Tower:
 tower_imgs1 = []
 for x in range(7, 10):
     tower_imgs1.append(pygame.transform.scale(
-            pygame.image.load(os.path.join("塔防游戏素材/防御塔/archer_towers/archer_1", str(x) + ".png")),
-            (90, 90)))
+        pygame.image.load(os.path.join("塔防游戏素材/防御塔/archer_towers/archer_1", str(x) + ".png")),
+        (90, 90)))
 archer_imgs1 = []
 for x in range(38, 50):
     archer_imgs1.append(
@@ -47,8 +45,12 @@ class ArchTower(Tower):
 
     def __init__(self, x, y):
         super().__init__(x, y)
+        self.tower_imgs = []
+        self.archer_imgs = []
+        self.archer_count = 0
         self.tower_imgs = tower_imgs1[:]
         self.archer_imgs = archer_imgs1[:]
+        self.bullet = []
 
     def draw(self, win):
         img = self.tower_imgs[self.level - 1]
@@ -59,6 +61,8 @@ class ArchTower(Tower):
             self.archer_count = 0
         archer = self.archer_imgs[self.archer_count // 10]
         win.blit(archer, ((self.x - 25), (self.y - archer.get_height() - 25)))
+        for bullet in self.bullet:
+            bullet.draw(win)
 
     def attack(self, enemies):
         count = [0, 0]
@@ -78,32 +82,27 @@ class ArchTower(Tower):
             first_enemy = enemy_inRange[0]
             if time.time() - self.timer >= 0.5:
                 self.timer = time.time()
-                if first_enemy.die(self.damage):
-                    count[0] = first_enemy.count_coin
-                    count[1] = first_enemy.count_score
-                    enemies.remove(first_enemy)
-            # if first_enemy.x > self.x and not self.left:
-            #     self.left = True
-            #     for x, img in enumerate(self.archer_imgs):
-            #         self.archer_imgs[x] = pygame.transform.flip(img, True, False)
-            # elif self.left and first_enemy.x < self.x:
-            #     self.left = False
-            #     for x, img in enumerate(self.archer_imgs):
-            #         self.archer_imgs[x] = pygame.transform.flip(img, True, False)
-
+                self.bullet.append(ArcherBullet(self.x, self.y, first_enemy))
+        for bullet in self.bullet:
+            if bullet.move():
+                if bullet.target.die(self.damage):
+                    count[0] = bullet.target.count_coin
+                    count[1] = bullet.target.count_score
+                    enemies.remove(bullet.target)
+                self.bullet.remove(bullet)
         return count
 
-    
+
 turret_imgs1 = []
 for x in range(5, 8):
     turret_imgs1.append(pygame.transform.scale(
-            pygame.image.load(os.path.join("塔防游戏素材/防御塔/投石塔", str(x) + ".png")),
-            (90, 90)))
+        pygame.image.load(os.path.join("塔防游戏素材/防御塔/投石塔", str(x) + ".png")),
+        (90, 90)))
 turret_imgs2 = []
 for x in range(12, 15):
     turret_imgs2.append(pygame.transform.scale(
-            pygame.image.load(os.path.join("塔防游戏素材/防御塔/投石塔", str(x) + ".png")),
-            (90, 90)))
+        pygame.image.load(os.path.join("塔防游戏素材/防御塔/投石塔", str(x) + ".png")),
+        (90, 90)))
 
 
 class TurretTower(Tower):
@@ -115,6 +114,7 @@ class TurretTower(Tower):
         self.attack_range = self.range / 3
         self.bottom_imgs = turret_imgs1[:]
         self.top_imgs = turret_imgs2[:]
+        self.bullet = []
 
     def draw(self, win):
         bottom = self.bottom_imgs[self.level - 1]
@@ -125,6 +125,8 @@ class TurretTower(Tower):
             self.move = -self.move
         top = self.top_imgs[self.level - 1]
         win.blit(top, (self.x - 45, (self.y - top.get_height() + 10 + self.count)))
+        for bullet in self.bullet:
+            bullet.draw(win)
 
     def attack(self, enemies):
         count = [0, 0]
@@ -142,28 +144,18 @@ class TurretTower(Tower):
         enemy_inRange.sort(key=lambda x: -x.distance)
         if len(enemy_inRange) > 0:
             first_enemy = enemy_inRange[0]
-            enemy_toAttack = []
-            for enemy in enemies:
-                x = enemy.x
-                y = enemy.y
-                dis = math.sqrt((first_enemy.x - x) ** 2 + (first_enemy.y - y) ** 2)  # distance
-                if dis < self.attack_range:
-                    enemy_toAttack.append(enemy)
             if time.time() - self.timer >= 2:
                 self.timer = time.time()
-                for enemy in enemy_toAttack:
+                self.bullet.append(TurretBullet(self.x, self.y, first_enemy))
+        for bullet in self.bullet:
+            if bullet.move():
+                bullet.getAttackTarget(enemies, self.attack_range)
+                for enemy in bullet.enemy_toAttack:
                     if enemy.die(self.damage):
                         count[0] = enemy.count_coin
                         count[1] = enemy.count_score
                         enemies.remove(enemy)
-            # if first_enemy.x > self.x and not self.left:
-            #     self.left = True
-            #     for x, img in enumerate(self.archer_imgs):
-            #         self.archer_imgs[x] = pygame.transform.flip(img, True, False)
-            # elif self.left and first_enemy.x < self.x:
-            #     self.left = False
-            #     for x, img in enumerate(self.archer_imgs):
-            #         self.archer_imgs[x] = pygame.transform.flip(img, True, False)
-
+                self.bullet.remove(bullet)
         return count
+
     
