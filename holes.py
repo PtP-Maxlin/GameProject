@@ -3,7 +3,7 @@ import pygame
 
 class Hole_1_1:
     def __init__(self):
-        self.hole = pygame.image.load('塔防游戏素材/按钮/坑.jpg')
+        self.hole = pygame.image.load('塔防游戏素材/按钮/坑1.jpg')
         self.hole_menu = pygame.image.load('塔防游戏素材/按钮/建造2.png')
         self.hole = pygame.transform.smoothscale(self.hole, (130, 58))
         self.hole_menu = pygame.transform.smoothscale(self.hole_menu, (150, 130))
@@ -40,7 +40,7 @@ class Hole_1_1:
 
 class Hole_1_2:
     def __init__(self):
-        self.hole = pygame.image.load('塔防游戏素材/按钮/坑.jpg')
+        self.hole = pygame.image.load('塔防游戏素材/按钮/坑1.jpg')
         self.hole_menu = pygame.image.load('塔防游戏素材/按钮/建造2.png')
         self.hole = pygame.transform.smoothscale(self.hole, (130, 58))
         self.hole_menu = pygame.transform.smoothscale(self.hole_menu, (150, 130))
@@ -75,7 +75,7 @@ class Hole_1_2:
 
 class Hole_1_3:
     def __init__(self):
-        self.hole = pygame.image.load('塔防游戏素材/按钮/坑.jpg')
+        self.hole = pygame.image.load('塔防游戏素材/按钮/坑1.jpg')
         self.hole_menu = pygame.image.load('塔防游戏素材/按钮/建造2.png')
         self.hole = pygame.transform.smoothscale(self.hole, (130, 58))
         self.hole_menu = pygame.transform.smoothscale(self.hole_menu, (150, 130))
@@ -110,7 +110,7 @@ class Hole_1_3:
 
 class Hole_1_4:
     def __init__(self):
-        self.hole = pygame.image.load('塔防游戏素材/按钮/坑.jpg')
+        self.hole = pygame.image.load('塔防游戏素材/按钮/坑1.jpg')
         self.hole_menu = pygame.image.load('塔防游戏素材/按钮/建造2.png')
         self.hole = pygame.transform.smoothscale(self.hole, (130, 58))
         self.hole_menu = pygame.transform.smoothscale(self.hole_menu, (150, 130))
@@ -145,7 +145,7 @@ class Hole_1_4:
 
 class Hole_1_5:
     def __init__(self):
-        self.hole = pygame.image.load('塔防游戏素材/按钮/坑.jpg')
+        self.hole = pygame.image.load('塔防游戏素材/按钮/坑1.jpg')
         self.hole_menu = pygame.image.load('塔防游戏素材/按钮/建造2.png')
         self.hole = pygame.transform.smoothscale(self.hole, (130, 58))
         self.hole_menu = pygame.transform.smoothscale(self.hole_menu, (150, 130))
@@ -180,7 +180,7 @@ class Hole_1_5:
 
 class Hole_1_6:
     def __init__(self):
-        self.hole = pygame.image.load('塔防游戏素材/按钮/坑.jpg')
+        self.hole = pygame.image.load('塔防游戏素材/按钮/坑1.jpg')
         self.hole_menu = pygame.image.load('塔防游戏素材/按钮/建造2.png')
         self.hole = pygame.transform.smoothscale(self.hole, (130, 58))
         self.hole_menu = pygame.transform.smoothscale(self.hole_menu, (150, 130))
@@ -215,7 +215,7 @@ class Hole_1_6:
 
 class Hole_1_7:
     def __init__(self):
-        self.hole = pygame.image.load('塔防游戏素材/按钮/坑.jpg')
+        self.hole = pygame.image.load('塔防游戏素材/按钮/坑1.jpg')
         self.hole_menu = pygame.image.load('塔防游戏素材/按钮/建造2.png')
         self.hole = pygame.transform.smoothscale(self.hole, (130, 58))
         self.hole_menu = pygame.transform.smoothscale(self.hole_menu, (150, 130))
