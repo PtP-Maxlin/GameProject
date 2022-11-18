@@ -1,6 +1,7 @@
 import pygame
 import os
 import math
+import time
 
 
 class Tower:
@@ -10,6 +11,7 @@ class Tower:
         self.x = x
         self.y = y
         self.level = 1
+        self.timer = time.time()
 
         self.width = 0
         self.height = 0
@@ -18,12 +20,13 @@ class Tower:
         self.number = 1  # 建造的序号
         self.bottom_imgs = []
         self.top_imgs = []
-        self.damage = 1
+        self.damage = 2
         self.tower_imgs = []
         self.archer_imgs = []
         self.archer_count = 0
         self.range = 150
         self.original_range = self.range
+        self.left = True
 
     def draw(self, win):  # 每个防御塔不一样
         pass
@@ -56,8 +59,8 @@ class ArchTower(Tower):
             self.archer_count = 0
         archer = self.archer_imgs[self.archer_count // 10]
         win.blit(archer, ((self.x - 25), (self.y - archer.get_height() - 25)))
-        
-     def attack(self, enemies):
+
+    def attack(self, enemies):
         count = [0, 0]
         self.inRange = False
         enemy_inRange = []
