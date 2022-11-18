@@ -28,6 +28,7 @@ class Monsters:
         self.path_pos = 0
         self.move_count = 0
         self.move_step_dis = 0
+        self.distance = 0
 
     def move(self):  # 移动
         self.animation_count += 1
@@ -43,6 +44,7 @@ class Monsters:
         length = math.sqrt((dirn[0]) ** 2 + (dirn[1]) ** 2)
         dirn = (dirn[0] / length, dirn[1] / length)
         move_x, move_y = ((self.x + dirn[0] * self.v), (self.y + dirn[1] * self.v))
+        self.distance += self.v
         self.x = move_x
         self.y = move_y
         if dirn[0] >= 0:
@@ -106,6 +108,8 @@ class Ntr(Monsters):
         self.max_health = 10
         self.health = self.max_health
         self.images = imgs1[:]
+        self.count_coin = 5
+        self.count_score = 10
 
 
 imgs2 = []
