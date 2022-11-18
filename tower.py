@@ -92,3 +92,78 @@ class ArchTower(Tower):
             #         self.archer_imgs[x] = pygame.transform.flip(img, True, False)
 
         return count
+
+    
+turret_imgs1 = []
+for x in range(5, 8):
+    turret_imgs1.append(pygame.transform.scale(
+            pygame.image.load(os.path.join("塔防游戏素材/防御塔/投石塔", str(x) + ".png")),
+            (90, 90)))
+turret_imgs2 = []
+for x in range(12, 15):
+    turret_imgs2.append(pygame.transform.scale(
+            pygame.image.load(os.path.join("塔防游戏素材/防御塔/投石塔", str(x) + ".png")),
+            (90, 90)))
+
+
+class TurretTower(Tower):
+    def __init__(self, x, y):
+        super().__init__(x, y)
+        self.count = 0
+        self.move = 0.5
+        self.damage = 10
+        self.attack_range = self.range / 3
+        self.bottom_imgs = turret_imgs1[:]
+        self.top_imgs = turret_imgs2[:]
+
+    def draw(self, win):
+        bottom = self.bottom_imgs[self.level - 1]
+        win.blit(bottom, (self.x - bottom.get_width() / 2, self.y - bottom.get_height() / 2))
+        # 这里后面改成攻击才动
+        self.count += self.move
+        if self.count >= 10 or self.count <= -10:
+            self.move = -self.move
+        top = self.top_imgs[self.level - 1]
+        win.blit(top, (self.x - 45, (self.y - top.get_height() + 10 + self.count)))
+
+    def attack(self, enemies):
+        count = [0, 0]
+        self.inRange = False
+        enemy_inRange = []
+        for enemy in enemies:
+            x = enemy.x
+            y = enemy.y
+            dis = math.sqrt((self.x - x) ** 2 + (self.y - y) ** 2)  # distance
+            if dis < self.range:
+                self.inRange = True
+                enemy_inRange.append(enemy)
+
+        # 选定最近的一个敌人攻击
+        enemy_inRange.sort(key=lambda x: -x.distance)
+        if len(enemy_inRange) > 0:
+            first_enemy = enemy_inRange[0]
+            enemy_toAttack = []
+            for enemy in enemies:
+                x = enemy.x
+                y = enemy.y
+                dis = math.sqrt((first_enemy.x - x) ** 2 + (first_enemy.y - y) ** 2)  # distance
+                if dis < self.attack_range:
+                    enemy_toAttack.append(enemy)
+            if time.time() - self.timer >= 2:
+                self.timer = time.time()
+                for enemy in enemy_toAttack:
+                    if enemy.die(self.damage):
+                        count[0] = enemy.count_coin
+                        count[1] = enemy.count_score
+                        enemies.remove(enemy)
+            # if first_enemy.x > self.x and not self.left:
+            #     self.left = True
+            #     for x, img in enumerate(self.archer_imgs):
+            #         self.archer_imgs[x] = pygame.transform.flip(img, True, False)
+            # elif self.left and first_enemy.x < self.x:
+            #     self.left = False
+            #     for x, img in enumerate(self.archer_imgs):
+            #         self.archer_imgs[x] = pygame.transform.flip(img, True, False)
+
+        return count
+    
