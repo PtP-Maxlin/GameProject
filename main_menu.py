@@ -9,28 +9,23 @@ from scenes import BattleScene2
 from scenes import BattleScene3
 from scenes import FailureScene
 from scenes import VictoryScene
+from towers import *
 
 from monsters import *
 import time
 import random
 
-
-
-
-
 """
         需要初始化的变量
         waves[][]  第几关、第几个口
-
         path[][]  第几关、第几个口
-        
-        wave_enemies[][] 第几关、第几个口 每个里面path一样
 
+        wave_enemies[][] 第几关、第几个口 每个里面path一样
 """
 path_1_1 = [(1, 580), (115, 579), (194, 534), (214, 464), (232, 394), (305, 341), (391, 317), (430, 248), (457, 173),
-         (512, 119), (560, 105), (773, 108), (782, 106), (820, 91), (845, 90), (867, 94), (915, 108), (1041, 107),
-         (1108, 130), (1118, 123), (1145, 168), (1149, 245), (1100, 311), (1029, 329), (966, 373),
-         (936, 442), (955, 505), (1001, 545), (1070, 573), (1101, 572), (1110, 582)]
+            (512, 119), (560, 105), (773, 108), (782, 106), (820, 91), (845, 90), (867, 94), (915, 108), (1041, 107),
+            (1108, 130), (1118, 123), (1145, 168), (1149, 245), (1100, 311), (1029, 329), (966, 373),
+            (936, 442), (955, 505), (1001, 545), (1070, 573), (1101, 572), (1110, 582)]
 
 path_2_1 = [(1, 374), (247, 374), (247, 99), (1025, 99), (1025, 546), (673, 546), (673, 393)]
 
@@ -48,10 +43,11 @@ path_3_3 = [(0, 675), (444, 675), (444, 575), (923, 575), (923, 477), (1293, 477
 
 path_3_4 = [(1399, 677), (923, 677), (923, 575), (445, 575), (445, 477), (127, 477), (127, 387)]
 
-
 '''游戏的菜单类'''
 ''' 初始化各种按钮以及界面背景图'''
 ''' 以数字1,2,3,4,5分别指代开始菜单，选关菜单以及1,2,3关的菜单'''
+
+
 class MainMenu:
     def __init__(self, win):
         self.width = 1400
@@ -71,18 +67,31 @@ class MainMenu:
 
         self.hole_1_1 = Hole_1_1()
         self.hole_1_1_bool = True
+        self.hole_1_1_select1 = False
+
         self.hole_1_2 = Hole_1_2()
         self.hole_1_2_bool = True
+        self.hole_1_2_select1 = False
+
         self.hole_1_3 = Hole_1_3()
         self.hole_1_3_bool = True
+        self.hole_1_3_select1 = False
+
         self.hole_1_4 = Hole_1_4()
         self.hole_1_4_bool = True
+        self.hole_1_4_select1 = False
+
         self.hole_1_5 = Hole_1_5()
         self.hole_1_5_bool = True
+        self.hole_1_5_select1 = False
+
         self.hole_1_6 = Hole_1_6()
         self.hole_1_6_bool = True
+        self.hole_1_6_select1 = False
+
         self.hole_1_7 = Hole_1_7()
         self.hole_1_7_bool = True
+        self.hole_1_7_select1 = False
 
         self.level_scene = LevelSelection()
         self.battle_scene1 = BattleScene1()
@@ -92,8 +101,9 @@ class MainMenu:
         self.battle_scene_number = 1
         self.FailureScene = FailureScene()
         self.VictoryScene = VictoryScene()
-        
-        self.towers = [ArchTower(450, 400)]
+
+        self.towers = []
+        # self.towers = [ArchTower(450, 400)]
 
         self.enemies = []
         self.clicks = []
@@ -110,15 +120,17 @@ class MainMenu:
 
         self.lives = 9
         self.score = 0
-        self.money = 1000
+        self.money = 200
         self.wave = 0
         self.waves = []
 
-        self.pause = True
+        self.price_archer = 100
 
+        self.pause = True
 
     ''' 启动游戏的菜单 '''
     ''' 界面变化后音乐也要变更,开始与选关界面为sound1,123关分别对应sound345,sound6为控制失败音乐，sound7为控制成功音乐 '''
+
     def run_game(self):
         sound1, sound3, sound4, sound5, sound6, sound7 = True, True, True, True, True, True
 
@@ -170,33 +182,40 @@ class MainMenu:
                 self.drawdata(1, self.win)
                 self.check_battle_scene()
 
-                if not self.hole_1_1_bool:
+                if not self.hole_1_1_bool and self.hole_1_1.lock:
                     self.hole_1_1.drawmenu(self.win)
+                    self.hole_1_1.drawselection1(self.win)
 
-                if not self.hole_1_2_bool:
+                if not self.hole_1_2_bool and self.hole_1_2.lock:
                     self.hole_1_2.drawmenu(self.win)
+                    self.hole_1_2.drawselection1(self.win)
 
-                if not self.hole_1_3_bool:
+                if not self.hole_1_3_bool and self.hole_1_3.lock:
                     self.hole_1_3.drawmenu(self.win)
+                    self.hole_1_3.drawselection1(self.win)
 
-                if not self.hole_1_4_bool:
+                if not self.hole_1_4_bool and self.hole_1_4.lock:
                     self.hole_1_4.drawmenu(self.win)
+                    self.hole_1_4.drawselection1(self.win)
 
-                if not self.hole_1_5_bool:
+                if not self.hole_1_5_bool and self.hole_1_5.lock:
                     self.hole_1_5.drawmenu(self.win)
+                    self.hole_1_5.drawselection1(self.win)
 
-                if not self.hole_1_6_bool:
+                if not self.hole_1_6_bool and self.hole_1_6.lock:
                     self.hole_1_6.drawmenu(self.win)
+                    self.hole_1_6.drawselection1(self.win)
 
-                if not self.hole_1_7_bool:
+                if not self.hole_1_7_bool and self.hole_1_7.lock:
                     self.hole_1_7.drawmenu(self.win)
+                    self.hole_1_7.drawselection1(self.win)
                 # 测试代码
-                self.waves = [[5]]
+                self.waves = [[5, 2], [5, 3], [10, 4]]
 
                 if self.pause:
                     if time.time() - self.timer >= random.randrange(1, 6) / 2:
                         self.timer = time.time()
-                        self.get_waves_enemies(self.waves, [Ntr(path_1_1)])  # 出一波敌人
+                        self.get_waves_enemies(self.waves, [Ntr(path_1_1), Goblin(path_1_1)])  # 出一波敌人
 
                 self.draw_enemies((1110, 582))
                 self.draw_towers()
@@ -297,8 +316,8 @@ class MainMenu:
 
             pygame.display.update()
 
-
     ''' 主菜单的渲染 '''
+
     def draw_main_menu(self):
         self.win.blit(self.bg, (0, 0))
         self.play_button.draw(self.win)
@@ -308,6 +327,7 @@ class MainMenu:
     ''' 不同按钮功能的实现 '''
     ''' 开始菜单选择开始游戏将进入选关界面，即场景2，选择退出按钮会退出游戏 
         在选关界面选择返回将会回到开始菜单，选择关卡1,2,3将分别进入对应关卡场景，即场景3，4，5 '''
+
     def click_play_button(self, mouse_pos):
         play_button_clicked = self.play_button.rect.collidepoint(mouse_pos)
         if play_button_clicked:
@@ -340,11 +360,11 @@ class MainMenu:
         if back_button_clicked:
             self.change_scene_number = 2
 
-
     ''' 以下部分为检测不同场景中发生事件的函数 '''
     ''' 开始界面检测开始游戏和退出按钮的点击，选关界面检测选关1,2,3以及返回按钮的点击；
         地图1,2,3界面检测音乐，暂停按钮的点击，以及键盘是否输入esc键，如输入则返回选关界面 
         成功界面检测是否进入下一关或返回选关界面的按钮点击，失败界面检测是否重新开始或返回选关 '''
+
     def check_scene1(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -378,38 +398,86 @@ class MainMenu:
                 self.click_back_button(mouse_pos)
                 self.pause = self.pause_button.click_continue_button(mouse_pos)
 
+
+
                 self.hole_1_1_bool = self.hole_1_1.click_hole(mouse_pos)
                 if not self.hole_1_1_bool:
                     self.hole_1_1_bool = self.hole_1_1.click_menu(mouse_pos)
+
+                self.hole_1_1_select1 = self.hole_1_1.click_tower1(mouse_pos)
+                if self.hole_1_1_select1 and self.hole_1_1.lock and self.money >= self.price_archer:
+                    self.towers.append(ArchTower(90, 435))
+                    self.money -= self.price_archer
+                    self.hole_1_1.lock = False
+
 
                 self.hole_1_2_bool = self.hole_1_2.click_hole(mouse_pos)
                 if not self.hole_1_2_bool:
                     self.hole_1_2_bool = self.hole_1_2.click_menu(mouse_pos)
 
+                self.hole_1_2_select1 = self.hole_1_2.click_tower1(mouse_pos)
+                if self.hole_1_2_select1 and self.hole_1_2.lock and self.money >= self.price_archer:
+                    self.towers.append(ArchTower(350, 411))
+                    self.money -= 100
+                    self.hole_1_2.lock = False
+
+
                 self.hole_1_3_bool = self.hole_1_3.click_hole(mouse_pos)
                 if not self.hole_1_3_bool:
                     self.hole_1_3_bool = self.hole_1_3.click_menu(mouse_pos)
+
+                self.hole_1_3_select1 = self.hole_1_3.click_tower1(mouse_pos)
+                if self.hole_1_3_select1 and self.hole_1_3.lock and self.money >= self.price_archer:
+                    self.towers.append(ArchTower(577, 175))
+                    self.money -= 100
+                    self.hole_1_3.lock = False
+
 
                 self.hole_1_4_bool = self.hole_1_4.click_hole(mouse_pos)
                 if not self.hole_1_4_bool:
                     self.hole_1_4_bool = self.hole_1_4.click_menu(mouse_pos)
 
+                self.hole_1_4_select1 = self.hole_1_4.click_tower1(mouse_pos)
+                if self.hole_1_4_select1 and self.hole_1_4.lock and self.money >= self.price_archer:
+                    self.towers.append(ArchTower(806, 381))
+                    self.money -= 100
+                    self.hole_1_4.lock = False
+
+
                 self.hole_1_5_bool = self.hole_1_5.click_hole(mouse_pos)
                 if not self.hole_1_5_bool:
                     self.hole_1_5_bool = self.hole_1_5.click_menu(mouse_pos)
+
+                self.hole_1_5_select1 = self.hole_1_5.click_tower1(mouse_pos)
+                if self.hole_1_5_select1 and self.hole_1_5.lock and self.money >= self.price_archer:
+                    self.towers.append(ArchTower(1019, 184))
+                    self.money -= 100
+                    self.hole_1_5.lock = False
 
                 self.hole_1_6_bool = self.hole_1_6.click_hole(mouse_pos)
                 if not self.hole_1_6_bool:
                     self.hole_1_6_bool = self.hole_1_6.click_menu(mouse_pos)
 
+                self.hole_1_6_select1 = self.hole_1_6.click_tower1(mouse_pos)
+                if self.hole_1_6_select1 and self.hole_1_6.lock and self.money >= self.price_archer:
+                    self.towers.append(ArchTower(1073, 418))
+                    self.money -= 100
+                    self.hole_1_6.lock = False
+
+
                 self.hole_1_7_bool = self.hole_1_7.click_hole(mouse_pos)
                 if not self.hole_1_7_bool:
                     self.hole_1_7_bool = self.hole_1_7.click_menu(mouse_pos)
 
+                self.hole_1_7_select1 = self.hole_1_7.click_tower1(mouse_pos)
+                if self.hole_1_7_select1 and self.hole_1_7.lock and self.money >= self.price_archer:
+                    self.towers.append(ArchTower(1030, 640))
+                    self.money -= 100
+                    self.hole_1_7.lock = False
+
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     self.change_scene_number = 2
-
 
     def check_Failure_scene(self):
         '''失败界面的按钮判定，加在3，4,5界面的后面'''
@@ -549,13 +617,13 @@ class MainMenu:
 
         self.pause = True
         self.enemies.clear()
+        self.towers.clear()
         self.lives = 9
         self.score = 0
-        self.money = 1000
+        self.money = 200
         self.wave = 0
         self.waves.clear()
         self.current_wave.clear()  # 重新加载数据
-
 
 
 

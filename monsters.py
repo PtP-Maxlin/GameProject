@@ -108,8 +108,9 @@ class Ntr(Monsters):
         self.max_health = 10
         self.health = self.max_health
         self.images = imgs1[:]
-        self.count_coin = 5
-        self.count_score = 10
+        self.count_coin = 10
+        self.count_score = 20
+        self.v = 1
 
 
 imgs2 = []
@@ -132,7 +133,7 @@ class Goblin(Monsters):
         self.health = self.max_health  # 血量
         self.count_coin = 15  # 金币
         self.count_score = 30  # 分数
-        self.v = 1  # 移动速度
+        self.v = 0.8  # 移动速度
         self.path = path
         self.images = imgs2[:]
 
@@ -157,6 +158,6 @@ class Wraith(Monsters):
         self.health = self.max_health  # 血量
         self.count_coin = 25  # 金币
         self.count_score = 50  # 分数
-        self.v = 1.5  # 移动速度
+        self.v = 2  # 移动速度
         self.path = path
         self.images = imgs3[:]
