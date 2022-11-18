@@ -1,6 +1,7 @@
 import sys
 
 from buttons import *
+from holes import *
 
 from scenes import LevelSelection
 from scenes import BattleScene1
@@ -372,13 +373,35 @@ class MainMenu:
                 self.music_button.click_music_on_button(mouse_pos)
                 self.click_back_button(mouse_pos)
                 self.pause = self.pause_button.click_continue_button(mouse_pos)
-                self.hole_1_1_bool = self.hole_1_1.click_hole_1_1(mouse_pos)
-                self.hole_1_2_bool = self.hole_1_2.click_hole_1_2(mouse_pos)
-                self.hole_1_3_bool = self.hole_1_3.click_hole_1_3(mouse_pos)
-                self.hole_1_4_bool = self.hole_1_4.click_hole_1_4(mouse_pos)
-                self.hole_1_5_bool = self.hole_1_5.click_hole_1_5(mouse_pos)
-                self.hole_1_6_bool = self.hole_1_6.click_hole_1_6(mouse_pos)
-                self.hole_1_7_bool = self.hole_1_7.click_hole_1_7(mouse_pos)
+
+                self.hole_1_1_bool = self.hole_1_1.click_hole(mouse_pos)
+                if not self.hole_1_1_bool:
+                    self.hole_1_1_bool = self.hole_1_1.click_menu(mouse_pos)
+
+                self.hole_1_2_bool = self.hole_1_2.click_hole(mouse_pos)
+                if not self.hole_1_2_bool:
+                    self.hole_1_2_bool = self.hole_1_2.click_menu(mouse_pos)
+
+                self.hole_1_3_bool = self.hole_1_3.click_hole(mouse_pos)
+                if not self.hole_1_3_bool:
+                    self.hole_1_3_bool = self.hole_1_3.click_menu(mouse_pos)
+
+                self.hole_1_4_bool = self.hole_1_4.click_hole(mouse_pos)
+                if not self.hole_1_4_bool:
+                    self.hole_1_4_bool = self.hole_1_4.click_menu(mouse_pos)
+
+                self.hole_1_5_bool = self.hole_1_5.click_hole(mouse_pos)
+                if not self.hole_1_5_bool:
+                    self.hole_1_5_bool = self.hole_1_5.click_menu(mouse_pos)
+
+                self.hole_1_6_bool = self.hole_1_6.click_hole(mouse_pos)
+                if not self.hole_1_6_bool:
+                    self.hole_1_6_bool = self.hole_1_6.click_menu(mouse_pos)
+
+                self.hole_1_7_bool = self.hole_1_7.click_hole(mouse_pos)
+                if not self.hole_1_7_bool:
+                    self.hole_1_7_bool = self.hole_1_7.click_menu(mouse_pos)
+
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     self.change_scene_number = 2
