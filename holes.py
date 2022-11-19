@@ -96,3 +96,5 @@ class Hole:
     def flush(self):
         self.menu = True
         self.lock = True
+        self.bool = True
+        self.selected = [False, False, False, False]
