@@ -154,8 +154,8 @@ class TurretTower(Tower):
                     if enemy.die(self.damage):
                         if enemy in enemies:
                             enemies.remove(enemy)
-                        count[0] = enemy.count_coin
-                        count[1] = enemy.count_score
+                        count[0] += enemy.count_coin
+                        count[1] += enemy.count_score
 
 
                 self.bullet.remove(bullet)
