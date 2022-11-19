@@ -496,8 +496,6 @@ class MainMenu:
 
         for hole in self.holes:
             hole.flush()
-            hole.bool = True
-            hole.selected = [False, False, False, False]
         self.pause = True
         self.enemies.clear()
         self.towers.clear()
