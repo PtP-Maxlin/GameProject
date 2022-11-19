@@ -411,10 +411,10 @@ class MainMenu:
                 self.hole_1_1_bool = self.hole_1_1.click_hole(mouse_pos)
                 if not self.hole_1_1_bool:
                     self.hole_1_1_bool = self.hole_1_1.click_menu(mouse_pos)
-
-                self.hole_1_1_select1 = self.hole_1_1.click_tower1(mouse_pos)
-                self.hole_1_1_select2 = self.hole_1_1.click_tower2(mouse_pos)
-                self.hole_1_1_select3 = self.hole_1_1.click_tower3(mouse_pos)
+                
+                    self.hole_1_1_select1 = self.hole_1_1.click_tower1(mouse_pos)
+                    self.hole_1_1_select2 = self.hole_1_1.click_tower2(mouse_pos)
+                    self.hole_1_1_select3 = self.hole_1_1.click_tower3(mouse_pos)
 
                 if self.hole_1_1_select1 and self.hole_1_1.lock and self.money >= self.price_archer:
                     self.towers.append(ArchTower(90, 435))
@@ -434,10 +434,10 @@ class MainMenu:
                 self.hole_1_2_bool = self.hole_1_2.click_hole(mouse_pos)
                 if not self.hole_1_2_bool:
                     self.hole_1_2_bool = self.hole_1_2.click_menu(mouse_pos)
-
-                self.hole_1_2_select1 = self.hole_1_2.click_tower1(mouse_pos)
-                self.hole_1_2_select2 = self.hole_1_2.click_tower2(mouse_pos)
-                self.hole_1_2_select3 = self.hole_1_2.click_tower3(mouse_pos)
+                
+                    self.hole_1_2_select1 = self.hole_1_2.click_tower1(mouse_pos)
+                    self.hole_1_2_select2 = self.hole_1_2.click_tower2(mouse_pos)
+                    self.hole_1_2_select3 = self.hole_1_2.click_tower3(mouse_pos)
 
                 if self.hole_1_2_select1 and self.hole_1_2.lock and self.money >= self.price_archer:
                     self.towers.append(ArchTower(350, 411))
@@ -458,10 +458,10 @@ class MainMenu:
                 self.hole_1_3_bool = self.hole_1_3.click_hole(mouse_pos)
                 if not self.hole_1_3_bool:
                     self.hole_1_3_bool = self.hole_1_3.click_menu(mouse_pos)
-
-                self.hole_1_3_select1 = self.hole_1_3.click_tower1(mouse_pos)
-                self.hole_1_3_select2 = self.hole_1_3.click_tower2(mouse_pos)
-                self.hole_1_3_select3 = self.hole_1_3.click_tower3(mouse_pos)
+                
+                    self.hole_1_3_select1 = self.hole_1_3.click_tower1(mouse_pos)
+                    self.hole_1_3_select2 = self.hole_1_3.click_tower2(mouse_pos)
+                    self.hole_1_3_select3 = self.hole_1_3.click_tower3(mouse_pos)
 
                 if self.hole_1_3_select1 and self.hole_1_3.lock and self.money >= self.price_archer:
                     self.towers.append(ArchTower(577, 175))
@@ -482,10 +482,10 @@ class MainMenu:
                 self.hole_1_4_bool = self.hole_1_4.click_hole(mouse_pos)
                 if not self.hole_1_4_bool:
                     self.hole_1_4_bool = self.hole_1_4.click_menu(mouse_pos)
-
-                self.hole_1_4_select1 = self.hole_1_4.click_tower1(mouse_pos)
-                self.hole_1_4_select2 = self.hole_1_4.click_tower2(mouse_pos)
-                self.hole_1_4_select3 = self.hole_1_4.click_tower3(mouse_pos)
+                
+                    self.hole_1_4_select1 = self.hole_1_4.click_tower1(mouse_pos)
+                    self.hole_1_4_select2 = self.hole_1_4.click_tower2(mouse_pos)
+                    self.hole_1_4_select3 = self.hole_1_4.click_tower3(mouse_pos)
 
                 if self.hole_1_4_select1 and self.hole_1_4.lock and self.money >= self.price_archer:
                     self.towers.append(ArchTower(806, 381))
@@ -505,10 +505,10 @@ class MainMenu:
                 self.hole_1_5_bool = self.hole_1_5.click_hole(mouse_pos)
                 if not self.hole_1_5_bool:
                     self.hole_1_5_bool = self.hole_1_5.click_menu(mouse_pos)
-
-                self.hole_1_5_select1 = self.hole_1_5.click_tower1(mouse_pos)
-                self.hole_1_5_select2 = self.hole_1_5.click_tower2(mouse_pos)
-                self.hole_1_5_select3 = self.hole_1_5.click_tower3(mouse_pos)
+                
+                    self.hole_1_5_select1 = self.hole_1_5.click_tower1(mouse_pos)
+                    self.hole_1_5_select2 = self.hole_1_5.click_tower2(mouse_pos)
+                    self.hole_1_5_select3 = self.hole_1_5.click_tower3(mouse_pos)
 
                 if self.hole_1_5_select1 and self.hole_1_5.lock and self.money >= self.price_archer:
                     self.towers.append(ArchTower(1019, 184))
@@ -528,10 +528,10 @@ class MainMenu:
                 self.hole_1_6_bool = self.hole_1_6.click_hole(mouse_pos)
                 if not self.hole_1_6_bool:
                     self.hole_1_6_bool = self.hole_1_6.click_menu(mouse_pos)
-
-                self.hole_1_6_select1 = self.hole_1_6.click_tower1(mouse_pos)
-                self.hole_1_6_select2 = self.hole_1_6.click_tower2(mouse_pos)
-                self.hole_1_6_select3 = self.hole_1_6.click_tower3(mouse_pos)
+                
+                    self.hole_1_6_select1 = self.hole_1_6.click_tower1(mouse_pos)
+                    self.hole_1_6_select2 = self.hole_1_6.click_tower2(mouse_pos)
+                    self.hole_1_6_select3 = self.hole_1_6.click_tower3(mouse_pos)
 
                 if self.hole_1_6_select1 and self.hole_1_6.lock and self.money >= self.price_archer:
                     self.towers.append(ArchTower(1073, 418))
@@ -552,10 +552,10 @@ class MainMenu:
                 self.hole_1_7_bool = self.hole_1_7.click_hole(mouse_pos)
                 if not self.hole_1_7_bool:
                     self.hole_1_7_bool = self.hole_1_7.click_menu(mouse_pos)
-
-                self.hole_1_7_select1 = self.hole_1_7.click_tower1(mouse_pos)
-                self.hole_1_7_select2 = self.hole_1_7.click_tower2(mouse_pos)
-                self.hole_1_7_select3 = self.hole_1_7.click_tower3(mouse_pos)
+                
+                    self.hole_1_7_select1 = self.hole_1_7.click_tower1(mouse_pos)
+                    self.hole_1_7_select2 = self.hole_1_7.click_tower2(mouse_pos)
+                    self.hole_1_7_select3 = self.hole_1_7.click_tower3(mouse_pos)
 
                 if self.hole_1_7_select1 and self.hole_1_7.lock and self.money >= self.price_archer:
                     self.towers.append(ArchTower(1030, 640))
