@@ -23,6 +23,9 @@ class Monsters:
         self.count_coin = 0  # 金币
         self.count_score = 0  # 分数
         self.v = 1  # 移动速度
+        
+        self.original_v = self.v
+        
         #
         # 移动相关
         self.path_pos = 0
@@ -111,6 +114,8 @@ class Ntr(Monsters):
         self.count_coin = 10
         self.count_score = 20
         self.v = 1
+        
+        self.original_v = self.v
 
 
 imgs2 = []
@@ -159,5 +164,8 @@ class Wraith(Monsters):
         self.count_coin = 25  # 金币
         self.count_score = 50  # 分数
         self.v = 2  # 移动速度
+        
+        self.original_v = self.v
+        
         self.path = path
         self.images = imgs3[:]
