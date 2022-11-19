@@ -68,30 +68,44 @@ class MainMenu:
         self.hole_1_1 = Hole_1_1()
         self.hole_1_1_bool = True
         self.hole_1_1_select1 = False
+        self.hole_1_1_select2 = False
+        self.hole_1_1_select3 = False
 
         self.hole_1_2 = Hole_1_2()
         self.hole_1_2_bool = True
         self.hole_1_2_select1 = False
+        self.hole_1_2_select2 = False
+        self.hole_1_2_select3 = False
 
         self.hole_1_3 = Hole_1_3()
         self.hole_1_3_bool = True
         self.hole_1_3_select1 = False
+        self.hole_1_3_select2 = False
+        self.hole_1_3_select3 = False
 
         self.hole_1_4 = Hole_1_4()
         self.hole_1_4_bool = True
         self.hole_1_4_select1 = False
+        self.hole_1_4_select2 = False
+        self.hole_1_4_select3 = False
 
         self.hole_1_5 = Hole_1_5()
         self.hole_1_5_bool = True
         self.hole_1_5_select1 = False
+        self.hole_1_5_select2 = False
+        self.hole_1_5_select3 = False
 
         self.hole_1_6 = Hole_1_6()
         self.hole_1_6_bool = True
         self.hole_1_6_select1 = False
+        self.hole_1_6_select2 = False
+        self.hole_1_6_select3 = False
 
         self.hole_1_7 = Hole_1_7()
         self.hole_1_7_bool = True
         self.hole_1_7_select1 = False
+        self.hole_1_7_select2 = False
+        self.hole_1_7_select3 = False
 
         self.level_scene = LevelSelection()
         self.battle_scene1 = BattleScene1()
@@ -120,11 +134,13 @@ class MainMenu:
 
         self.lives = 9
         self.score = 0
-        self.money = 200
+        self.money = 5000
         self.wave = 0
         self.waves = []
 
         self.price_archer = 100
+        self.price_turret = 200
+        self.price_slower = 150
 
         self.pause = True
 
@@ -184,31 +200,24 @@ class MainMenu:
 
                 if not self.hole_1_1_bool and self.hole_1_1.lock:
                     self.hole_1_1.drawmenu(self.win)
-                    self.hole_1_1.drawselection1(self.win)
 
                 if not self.hole_1_2_bool and self.hole_1_2.lock:
                     self.hole_1_2.drawmenu(self.win)
-                    self.hole_1_2.drawselection1(self.win)
 
                 if not self.hole_1_3_bool and self.hole_1_3.lock:
                     self.hole_1_3.drawmenu(self.win)
-                    self.hole_1_3.drawselection1(self.win)
 
                 if not self.hole_1_4_bool and self.hole_1_4.lock:
                     self.hole_1_4.drawmenu(self.win)
-                    self.hole_1_4.drawselection1(self.win)
 
                 if not self.hole_1_5_bool and self.hole_1_5.lock:
                     self.hole_1_5.drawmenu(self.win)
-                    self.hole_1_5.drawselection1(self.win)
 
                 if not self.hole_1_6_bool and self.hole_1_6.lock:
                     self.hole_1_6.drawmenu(self.win)
-                    self.hole_1_6.drawselection1(self.win)
 
                 if not self.hole_1_7_bool and self.hole_1_7.lock:
                     self.hole_1_7.drawmenu(self.win)
-                    self.hole_1_7.drawselection1(self.win)
                 # 测试代码
                 self.waves = [[5, 2], [5, 3], [10, 4]]
 
@@ -399,26 +408,50 @@ class MainMenu:
                 self.pause = self.pause_button.click_continue_button(mouse_pos)
 
 
-
                 self.hole_1_1_bool = self.hole_1_1.click_hole(mouse_pos)
                 if not self.hole_1_1_bool:
                     self.hole_1_1_bool = self.hole_1_1.click_menu(mouse_pos)
 
                 self.hole_1_1_select1 = self.hole_1_1.click_tower1(mouse_pos)
+                self.hole_1_1_select2 = self.hole_1_1.click_tower2(mouse_pos)
+                self.hole_1_1_select3 = self.hole_1_1.click_tower3(mouse_pos)
+
                 if self.hole_1_1_select1 and self.hole_1_1.lock and self.money >= self.price_archer:
                     self.towers.append(ArchTower(90, 435))
                     self.money -= self.price_archer
                     self.hole_1_1.lock = False
 
+                if self.hole_1_1_select2 and self.hole_1_1.lock and self.money >= self.price_turret:
+                    self.towers.append(TurretTower(90, 435))
+                    self.money -= self.price_turret
+                    self.hole_1_1.lock = False
+
+                if self.hole_1_1_select3 and self.hole_1_1.lock and self.money >= self.price_slower:
+                    self.towers.append(SlowTower(90, 435))
+                    self.money -= self.price_slower
+                    self.hole_1_1.lock = False
 
                 self.hole_1_2_bool = self.hole_1_2.click_hole(mouse_pos)
                 if not self.hole_1_2_bool:
                     self.hole_1_2_bool = self.hole_1_2.click_menu(mouse_pos)
 
                 self.hole_1_2_select1 = self.hole_1_2.click_tower1(mouse_pos)
+                self.hole_1_2_select2 = self.hole_1_2.click_tower2(mouse_pos)
+                self.hole_1_2_select3 = self.hole_1_2.click_tower3(mouse_pos)
+
                 if self.hole_1_2_select1 and self.hole_1_2.lock and self.money >= self.price_archer:
                     self.towers.append(ArchTower(350, 411))
-                    self.money -= 100
+                    self.money -= self.price_archer
+                    self.hole_1_2.lock = False
+
+                if self.hole_1_2_select2 and self.hole_1_2.lock and self.money >= self.price_turret:
+                    self.towers.append(TurretTower(350, 411))
+                    self.money -= self.price_turret
+                    self.hole_1_2.lock = False
+
+                if self.hole_1_2_select3 and self.hole_1_2.lock and self.money >= self.price_slower:
+                    self.towers.append(SlowTower(350, 411))
+                    self.money -= self.price_slower
                     self.hole_1_2.lock = False
 
 
@@ -427,9 +460,22 @@ class MainMenu:
                     self.hole_1_3_bool = self.hole_1_3.click_menu(mouse_pos)
 
                 self.hole_1_3_select1 = self.hole_1_3.click_tower1(mouse_pos)
+                self.hole_1_3_select2 = self.hole_1_3.click_tower2(mouse_pos)
+                self.hole_1_3_select3 = self.hole_1_3.click_tower3(mouse_pos)
+
                 if self.hole_1_3_select1 and self.hole_1_3.lock and self.money >= self.price_archer:
                     self.towers.append(ArchTower(577, 175))
-                    self.money -= 100
+                    self.money -= self.price_archer
+                    self.hole_1_3.lock = False
+
+                if self.hole_1_3_select2 and self.hole_1_3.lock and self.money >= self.price_turret:
+                    self.towers.append(TurretTower(577, 175))
+                    self.money -= self.price_turret
+                    self.hole_1_3.lock = False
+
+                if self.hole_1_3_select3 and self.hole_1_3.lock and self.money >= self.price_slower:
+                    self.towers.append(SlowTower(577, 175))
+                    self.money -= self.price_slower
                     self.hole_1_3.lock = False
 
 
@@ -438,20 +484,45 @@ class MainMenu:
                     self.hole_1_4_bool = self.hole_1_4.click_menu(mouse_pos)
 
                 self.hole_1_4_select1 = self.hole_1_4.click_tower1(mouse_pos)
+                self.hole_1_4_select2 = self.hole_1_4.click_tower2(mouse_pos)
+                self.hole_1_4_select3 = self.hole_1_4.click_tower3(mouse_pos)
+
                 if self.hole_1_4_select1 and self.hole_1_4.lock and self.money >= self.price_archer:
                     self.towers.append(ArchTower(806, 381))
-                    self.money -= 100
+                    self.money -= self.price_archer
                     self.hole_1_4.lock = False
 
+                if self.hole_1_4_select2 and self.hole_1_4.lock and self.money >= self.price_turret:
+                    self.towers.append(TurretTower(806, 381))
+                    self.money -= self.price_turret
+                    self.hole_1_4.lock = False
+
+                if self.hole_1_4_select3 and self.hole_1_4.lock and self.money >= self.price_slower:
+                    self.towers.append(SlowTower(806, 381))
+                    self.money -= self.price_slower
+                    self.hole_1_4.lock = False
 
                 self.hole_1_5_bool = self.hole_1_5.click_hole(mouse_pos)
                 if not self.hole_1_5_bool:
                     self.hole_1_5_bool = self.hole_1_5.click_menu(mouse_pos)
 
                 self.hole_1_5_select1 = self.hole_1_5.click_tower1(mouse_pos)
+                self.hole_1_5_select2 = self.hole_1_5.click_tower2(mouse_pos)
+                self.hole_1_5_select3 = self.hole_1_5.click_tower3(mouse_pos)
+
                 if self.hole_1_5_select1 and self.hole_1_5.lock and self.money >= self.price_archer:
                     self.towers.append(ArchTower(1019, 184))
-                    self.money -= 100
+                    self.money -= self.price_archer
+                    self.hole_1_5.lock = False
+
+                if self.hole_1_5_select2 and self.hole_1_5.lock and self.money >= self.price_turret:
+                    self.towers.append(TurretTower(1019, 184))
+                    self.money -= self.price_turret
+                    self.hole_1_5.lock = False
+
+                if self.hole_1_5_select3 and self.hole_1_5.lock and self.money >= self.price_slower:
+                    self.towers.append(SlowTower(1019, 184))
+                    self.money -= self.price_slower
                     self.hole_1_5.lock = False
 
                 self.hole_1_6_bool = self.hole_1_6.click_hole(mouse_pos)
@@ -459,9 +530,22 @@ class MainMenu:
                     self.hole_1_6_bool = self.hole_1_6.click_menu(mouse_pos)
 
                 self.hole_1_6_select1 = self.hole_1_6.click_tower1(mouse_pos)
+                self.hole_1_6_select2 = self.hole_1_6.click_tower2(mouse_pos)
+                self.hole_1_6_select3 = self.hole_1_6.click_tower3(mouse_pos)
+
                 if self.hole_1_6_select1 and self.hole_1_6.lock and self.money >= self.price_archer:
                     self.towers.append(ArchTower(1073, 418))
-                    self.money -= 100
+                    self.money -= self.price_archer
+                    self.hole_1_6.lock = False
+
+                if self.hole_1_6_select2 and self.hole_1_6.lock and self.money >= self.price_turret:
+                    self.towers.append(TurretTower(1073, 418))
+                    self.money -= self.price_turret
+                    self.hole_1_6.lock = False
+
+                if self.hole_1_6_select3 and self.hole_1_6.lock and self.money >= self.price_slower:
+                    self.towers.append(SlowTower(1073, 418))
+                    self.money -= self.price_slower
                     self.hole_1_6.lock = False
 
 
@@ -470,9 +554,22 @@ class MainMenu:
                     self.hole_1_7_bool = self.hole_1_7.click_menu(mouse_pos)
 
                 self.hole_1_7_select1 = self.hole_1_7.click_tower1(mouse_pos)
+                self.hole_1_7_select2 = self.hole_1_7.click_tower2(mouse_pos)
+                self.hole_1_7_select3 = self.hole_1_7.click_tower3(mouse_pos)
+
                 if self.hole_1_7_select1 and self.hole_1_7.lock and self.money >= self.price_archer:
                     self.towers.append(ArchTower(1030, 640))
                     self.money -= 100
+                    self.hole_1_7.lock = False
+
+                if self.hole_1_7_select2 and self.hole_1_7.lock and self.money >= self.price_turret:
+                    self.towers.append(TurretTower(1030, 640))
+                    self.money -= self.price_turret
+                    self.hole_1_7.lock = False
+
+                if self.hole_1_7_select3 and self.hole_1_7.lock and self.money >= self.price_slower:
+                    self.towers.append(SlowTower(1030, 640))
+                    self.money -= self.price_slower
                     self.hole_1_7.lock = False
 
             elif event.type == pygame.KEYDOWN:
@@ -530,6 +627,7 @@ class MainMenu:
                 self.wave += 1
                 if self.wave > len(waves):
                     # 跳到成功界面
+                    pygame.time.wait(1500)
                     self.change_scene_number = 6
                 else:
                     self.current_wave = waves[self.wave - 1]
@@ -550,6 +648,7 @@ class MainMenu:
                 self.enemies.remove(en)
                 if self.lives <= 0:
                     # 跳到失败界面
+                    pygame.time.wait(1500)
                     self.change_scene_number = 7
 
         for en in self.enemies:
@@ -620,14 +719,7 @@ class MainMenu:
         self.towers.clear()
         self.lives = 9
         self.score = 0
-        self.money = 200
+        self.money = 5000
         self.wave = 0
         self.waves.clear()
         self.current_wave.clear()  # 重新加载数据
-
-
-
-
-
-
-
