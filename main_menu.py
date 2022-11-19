@@ -411,10 +411,11 @@ class MainMenu:
                 self.hole_1_1_bool = self.hole_1_1.click_hole(mouse_pos)
                 if not self.hole_1_1_bool:
                     self.hole_1_1_bool = self.hole_1_1.click_menu(mouse_pos)
-                
+
                     self.hole_1_1_select1 = self.hole_1_1.click_tower1(mouse_pos)
                     self.hole_1_1_select2 = self.hole_1_1.click_tower2(mouse_pos)
                     self.hole_1_1_select3 = self.hole_1_1.click_tower3(mouse_pos)
+
 
                 if self.hole_1_1_select1 and self.hole_1_1.lock and self.money >= self.price_archer:
                     self.towers.append(ArchTower(90, 435))
@@ -434,7 +435,7 @@ class MainMenu:
                 self.hole_1_2_bool = self.hole_1_2.click_hole(mouse_pos)
                 if not self.hole_1_2_bool:
                     self.hole_1_2_bool = self.hole_1_2.click_menu(mouse_pos)
-                
+
                     self.hole_1_2_select1 = self.hole_1_2.click_tower1(mouse_pos)
                     self.hole_1_2_select2 = self.hole_1_2.click_tower2(mouse_pos)
                     self.hole_1_2_select3 = self.hole_1_2.click_tower3(mouse_pos)
@@ -458,7 +459,7 @@ class MainMenu:
                 self.hole_1_3_bool = self.hole_1_3.click_hole(mouse_pos)
                 if not self.hole_1_3_bool:
                     self.hole_1_3_bool = self.hole_1_3.click_menu(mouse_pos)
-                
+
                     self.hole_1_3_select1 = self.hole_1_3.click_tower1(mouse_pos)
                     self.hole_1_3_select2 = self.hole_1_3.click_tower2(mouse_pos)
                     self.hole_1_3_select3 = self.hole_1_3.click_tower3(mouse_pos)
@@ -482,7 +483,7 @@ class MainMenu:
                 self.hole_1_4_bool = self.hole_1_4.click_hole(mouse_pos)
                 if not self.hole_1_4_bool:
                     self.hole_1_4_bool = self.hole_1_4.click_menu(mouse_pos)
-                
+
                     self.hole_1_4_select1 = self.hole_1_4.click_tower1(mouse_pos)
                     self.hole_1_4_select2 = self.hole_1_4.click_tower2(mouse_pos)
                     self.hole_1_4_select3 = self.hole_1_4.click_tower3(mouse_pos)
@@ -505,7 +506,7 @@ class MainMenu:
                 self.hole_1_5_bool = self.hole_1_5.click_hole(mouse_pos)
                 if not self.hole_1_5_bool:
                     self.hole_1_5_bool = self.hole_1_5.click_menu(mouse_pos)
-                
+
                     self.hole_1_5_select1 = self.hole_1_5.click_tower1(mouse_pos)
                     self.hole_1_5_select2 = self.hole_1_5.click_tower2(mouse_pos)
                     self.hole_1_5_select3 = self.hole_1_5.click_tower3(mouse_pos)
@@ -528,7 +529,7 @@ class MainMenu:
                 self.hole_1_6_bool = self.hole_1_6.click_hole(mouse_pos)
                 if not self.hole_1_6_bool:
                     self.hole_1_6_bool = self.hole_1_6.click_menu(mouse_pos)
-                
+
                     self.hole_1_6_select1 = self.hole_1_6.click_tower1(mouse_pos)
                     self.hole_1_6_select2 = self.hole_1_6.click_tower2(mouse_pos)
                     self.hole_1_6_select3 = self.hole_1_6.click_tower3(mouse_pos)
@@ -552,7 +553,7 @@ class MainMenu:
                 self.hole_1_7_bool = self.hole_1_7.click_hole(mouse_pos)
                 if not self.hole_1_7_bool:
                     self.hole_1_7_bool = self.hole_1_7.click_menu(mouse_pos)
-                
+
                     self.hole_1_7_select1 = self.hole_1_7.click_tower1(mouse_pos)
                     self.hole_1_7_select2 = self.hole_1_7.click_tower2(mouse_pos)
                     self.hole_1_7_select3 = self.hole_1_7.click_tower3(mouse_pos)
@@ -701,18 +702,47 @@ class MainMenu:
 
         self.hole_1_1.flush()
         self.hole_1_1_bool = True
+        self.hole_1_1_select1 = False
+        self.hole_1_1_select2 = False
+        self.hole_1_1_select3 = False
+
         self.hole_1_2.flush()
         self.hole_1_2_bool = True
+        self.hole_1_2_select1 = False
+        self.hole_1_2_select2 = False
+        self.hole_1_2_select3 = False
+
         self.hole_1_3.flush()
         self.hole_1_3_bool = True
+        self.hole_1_3_select1 = False
+        self.hole_1_3_select2 = False
+        self.hole_1_3_select3 = False
+
         self.hole_1_4.flush()
         self.hole_1_4_bool = True
+        self.hole_1_4_select1 = False
+        self.hole_1_4_select2 = False
+        self.hole_1_4_select3 = False
+
         self.hole_1_5.flush()
         self.hole_1_5_bool = True
+        self.hole_1_5_select1 = False
+        self.hole_1_5_select2 = False
+        self.hole_1_5_select3 = False
+
         self.hole_1_6.flush()
         self.hole_1_6_bool = True
+        self.hole_1_6_select1 = False
+        self.hole_1_6_select2 = False
+        self.hole_1_6_select3 = False
+
         self.hole_1_7.flush()
         self.hole_1_7_bool = True
+        self.hole_1_7_select1 = False
+        self.hole_1_7_select2 = False
+        self.hole_1_7_select3 = False
+
+
 
         self.pause = True
         self.enemies.clear()

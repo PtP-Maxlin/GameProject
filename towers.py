@@ -151,10 +151,13 @@ class TurretTower(Tower):
             if bullet.move():
                 bullet.getAttackTarget(enemies, self.attack_range)
                 for enemy in bullet.enemy_toAttack:
-                    if enemy.die(self.damage) and enemy in enemies:
+                    if enemy.die(self.damage):
+                        if enemy in enemies:
+                            enemies.remove(enemy)
                         count[0] = enemy.count_coin
                         count[1] = enemy.count_score
-                        enemies.remove(enemy)
+
+
                 self.bullet.remove(bullet)
         return count
 
