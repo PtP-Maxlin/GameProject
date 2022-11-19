@@ -159,3 +159,25 @@ class TurretTower(Tower):
         return count
 
     
+class SlowTower(Tower):
+
+    def __init__(self, x, y):
+        super().__init__(x, y)
+        self.tower_img = pygame.transform.scale(pygame.image.load
+                                                ("塔防游戏素材/防御塔/archer_towers/support/18.png"), (90, 90))
+        self.slow = 0.5
+
+    def draw(self, win):
+        img = self.tower_img
+        win.blit(img, (self.x - img.get_width() / 2, self.y - img.get_height() / 2))
+
+    def attack(self, enemies):
+        for enemy in enemies:
+            x = enemy.x
+            y = enemy.y
+            dis = math.sqrt((self.x - x) ** 2 + (self.y - y) ** 2)  # distance
+            if dis < self.range:
+                enemy.v = enemy.original_v * self.slow
+            else:
+                enemy.v = enemy.original_v
+        return [0, 0]
