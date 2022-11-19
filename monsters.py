@@ -68,6 +68,7 @@ class Monsters:
                 if self.x <= x2 and self.y >= y2:
                     self.x, self.y = self.path[self.path_pos + 1]
                     self.path_pos += 1
+        self.v = self.original_v
 
     def die(self, damage):  # 敌人死亡  与防御塔关联
         self.health -= damage
