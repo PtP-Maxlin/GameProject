@@ -85,7 +85,7 @@ class ArchTower(Tower):
                 self.bullet.append(ArcherBullet(self.x, self.y, first_enemy))
         for bullet in self.bullet:
             if bullet.move():
-                if bullet.target.die(self.damage):
+                if bullet.target.die(self.damage) and bullet.target in enemies:
                     count[0] = bullet.target.count_coin
                     count[1] = bullet.target.count_score
                     enemies.remove(bullet.target)
@@ -151,7 +151,7 @@ class TurretTower(Tower):
             if bullet.move():
                 bullet.getAttackTarget(enemies, self.attack_range)
                 for enemy in bullet.enemy_toAttack:
-                    if enemy.die(self.damage):
+                    if enemy.die(self.damage) and enemy in enemies:
                         count[0] = enemy.count_coin
                         count[1] = enemy.count_score
                         enemies.remove(enemy)
