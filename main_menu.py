@@ -344,7 +344,7 @@ class MainMenu:
                     if not hole.bool:
                         hole.bool = hole.click_menu(mouse_pos)
                         hole.selected = [hole.click_tower1(mouse_pos), hole.click_tower2(mouse_pos),
-                                         hole.click_tower3(mouse_pos)]
+                                         hole.click_tower3(mouse_pos), hole.click_tower4(mouse_pos)]
                     if hole.selected[0] and hole.lock and self.money >= self.price_archer:
                         self.towers.append(ArchTower(hole.hole_rect.x + 65, hole.hole_rect.y))
                         self.money -= self.price_archer
@@ -357,6 +357,9 @@ class MainMenu:
                         self.towers.append(SlowTower(hole.hole_rect.x + 65, hole.hole_rect.y))
                         self.money -= self.price_slower
                         hole.lock = False
+
+
+
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     self.change_scene_number = 2
@@ -487,13 +490,14 @@ class MainMenu:
             if not hole.bool and hole.lock:
                 hole.drawmenu(self.win)
 
+
     def flushdata(self):
         self.pause_button.flush_button()
 
         for hole in self.holes:
             hole.flush()
             hole.bool = True
-            hole.slected = [False, False, False]
+            hole.selected = [False, False, False, False]
         self.pause = True
         self.enemies.clear()
         self.towers.clear()
