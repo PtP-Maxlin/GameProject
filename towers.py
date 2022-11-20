@@ -55,10 +55,6 @@ class ArchTower(Tower):
     def draw(self, win):
         img = self.tower_imgs[self.level - 1]
         win.blit(img, (self.x - img.get_width() / 2, self.y - img.get_height() / 2))
-        # 这里后面改成攻击才动
-        self.archer_count += 1
-        if self.archer_count >= len(self.archer_imgs) * 10:
-            self.archer_count = 0
         archer = self.archer_imgs[self.archer_count // 10]
         win.blit(archer, ((self.x - 25), (self.y - archer.get_height() - 25)))
         for bullet in self.bullet:
