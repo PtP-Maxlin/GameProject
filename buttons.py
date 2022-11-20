@@ -176,7 +176,7 @@ class RestartButton:
 
 class BackButton:
     def __init__(self):
-        self.Back_button = pygame.image.load('塔防游戏素材/按钮/返回.png')
+        self.Back_button = pygame.image.load('塔防游戏素材/按钮/back_button.png')
         self.Back_button = pygame.transform.smoothscale(self.Back_button, (68, 63))
         self.width = self.Back_button.get_width()
         self.height = self.Back_button.get_height()
