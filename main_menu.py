@@ -155,7 +155,7 @@ class MainMenu:
                 self.back_button.draw(self.win)
 
                 self.drawdata(1, self.win)
-                self.check_battle_scene()
+                self.check_battle_scene(1)
                 self.draw_holes()
 
                 # 测试代码
@@ -188,7 +188,7 @@ class MainMenu:
                 self.pause_button.draw(self.win)
                 self.back_button.draw(self.win)
                 self.drawdata(2, self.win)
-                self.check_battle_scene()
+                self.check_battle_scene(2)
                 self.draw_holes2()
 
                 self.waves = [[5, 5]]
@@ -221,7 +221,7 @@ class MainMenu:
                 self.pause_button.draw(self.win)
                 self.back_button.draw(self.win)
                 self.drawdata(3, self.win)
-                self.check_battle_scene()
+                self.check_battle_scene(3)
                 self.draw_holes3()
 
                 self.waves = [[1, 2]]
@@ -338,7 +338,7 @@ class MainMenu:
                 self.click_number_button(mouse_pos)
                 self.click_return_button(mouse_pos)
 
-    def check_battle_scene(self):
+    def check_battle_scene(self, num):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -349,62 +349,65 @@ class MainMenu:
                 self.click_back_button(mouse_pos)
                 self.pause = self.pause_button.click_continue_button(mouse_pos)
 
-                for hole in self.holes:
-                    hole.bool = hole.click_hole(mouse_pos)
-                    if not hole.bool:
-                        hole.bool = hole.click_menu(mouse_pos)
-                        hole.selected = [hole.click_tower1(mouse_pos), hole.click_tower2(mouse_pos),
-                                         hole.click_tower3(mouse_pos), hole.click_tower4(mouse_pos)]
-                    if hole.selected[0] and hole.lock and self.money >= self.price_archer:
-                        self.towers.append(ArchTower(hole.hole_rect.x + 65, hole.hole_rect.y))
-                        self.money -= self.price_archer
-                        hole.lock = False
-                    if hole.selected[1] and hole.lock and self.money >= self.price_turret:
-                        self.towers.append(TurretTower(hole.hole_rect.x + 65, hole.hole_rect.y))
-                        self.money -= self.price_turret
-                        hole.lock = False
-                    if hole.selected[2] and hole.lock and self.money >= self.price_slower:
-                        self.towers.append(SlowTower(hole.hole_rect.x + 65, hole.hole_rect.y))
-                        self.money -= self.price_slower
-                        hole.lock = False
+                if num == 1:
+                    for hole in self.holes:
+                        hole.bool = hole.click_hole(mouse_pos)
+                        if not hole.bool:
+                            hole.bool = hole.click_menu(mouse_pos)
+                            hole.selected = [hole.click_tower1(mouse_pos), hole.click_tower2(mouse_pos),
+                                             hole.click_tower3(mouse_pos), hole.click_tower4(mouse_pos)]
+                        if hole.selected[0] and hole.lock and self.money >= self.price_archer:
+                            self.towers.append(ArchTower(hole.hole_rect.x + 65, hole.hole_rect.y))
+                            self.money -= self.price_archer
+                            hole.lock = False
+                        if hole.selected[1] and hole.lock and self.money >= self.price_turret:
+                            self.towers.append(TurretTower(hole.hole_rect.x + 65, hole.hole_rect.y))
+                            self.money -= self.price_turret
+                            hole.lock = False
+                        if hole.selected[2] and hole.lock and self.money >= self.price_slower:
+                            self.towers.append(SlowTower(hole.hole_rect.x + 65, hole.hole_rect.y))
+                            self.money -= self.price_slower
+                            hole.lock = False
 
-                for hole in self.holes2:
-                    hole.bool = hole.click_hole(mouse_pos)
-                    if not hole.bool:
-                        hole.bool = hole.click_menu(mouse_pos)
-                        hole.selected = [hole.click_tower1(mouse_pos), hole.click_tower2(mouse_pos),
-                                         hole.click_tower3(mouse_pos), hole.click_tower4(mouse_pos)]
-                    if hole.selected[0] and hole.lock and self.money >= self.price_archer:
-                        self.towers.append(ArchTower(hole.hole_rect.x + 45, hole.hole_rect.y + 8))
-                        self.money -= self.price_archer
-                        hole.lock = False
-                    if hole.selected[1] and hole.lock and self.money >= self.price_turret:
-                        self.towers.append(TurretTower(hole.hole_rect.x + 45, hole.hole_rect.y + 8))
-                        self.money -= self.price_turret
-                        hole.lock = False
-                    if hole.selected[2] and hole.lock and self.money >= self.price_slower:
-                        self.towers.append(SlowTower(hole.hole_rect.x + 45, hole.hole_rect.y + 8))
-                        self.money -= self.price_slower
-                        hole.lock = False
+                elif num == 2:
+                    for hole in self.holes2:
+                        hole.bool = hole.click_hole(mouse_pos)
+                        if not hole.bool:
+                            hole.bool = hole.click_menu(mouse_pos)
+                            hole.selected = [hole.click_tower1(mouse_pos), hole.click_tower2(mouse_pos),
+                                             hole.click_tower3(mouse_pos), hole.click_tower4(mouse_pos)]
+                        if hole.selected[0] and hole.lock and self.money >= self.price_archer:
+                            self.towers.append(ArchTower(hole.hole_rect.x + 45, hole.hole_rect.y + 8))
+                            self.money -= self.price_archer
+                            hole.lock = False
+                        if hole.selected[1] and hole.lock and self.money >= self.price_turret:
+                            self.towers.append(TurretTower(hole.hole_rect.x + 45, hole.hole_rect.y + 8))
+                            self.money -= self.price_turret
+                            hole.lock = False
+                        if hole.selected[2] and hole.lock and self.money >= self.price_slower:
+                            self.towers.append(SlowTower(hole.hole_rect.x + 45, hole.hole_rect.y + 8))
+                            self.money -= self.price_slower
+                            hole.lock = False
 
-                for hole in self.holes3:
-                    hole.bool = hole.click_hole(mouse_pos)
-                    if not hole.bool:
-                        hole.bool = hole.click_menu(mouse_pos)
-                        hole.selected = [hole.click_tower1(mouse_pos), hole.click_tower2(mouse_pos),
-                                         hole.click_tower3(mouse_pos), hole.click_tower4(mouse_pos)]
-                    if hole.selected[0] and hole.lock and self.money >= self.price_archer:
-                        self.towers.append(ArchTower(hole.hole_rect.x + 42, hole.hole_rect.y + 25))
-                        self.money -= self.price_archer
-                        hole.lock = False
-                    if hole.selected[1] and hole.lock and self.money >= self.price_turret:
-                        self.towers.append(TurretTower(hole.hole_rect.x + 42, hole.hole_rect.y + 25))
-                        self.money -= self.price_turret
-                        hole.lock = False
-                    if hole.selected[2] and hole.lock and self.money >= self.price_slower:
-                        self.towers.append(SlowTower(hole.hole_rect.x + 42, hole.hole_rect.y + 25))
-                        self.money -= self.price_slower
-                        hole.lock = False
+                elif num == 3:
+                    for hole in self.holes3:
+                        hole.bool = hole.click_hole(mouse_pos)
+                        if not hole.bool:
+                            hole.bool = hole.click_menu(mouse_pos)
+                            hole.selected = [hole.click_tower1(mouse_pos), hole.click_tower2(mouse_pos),
+                                             hole.click_tower3(mouse_pos), hole.click_tower4(mouse_pos)]
+                        if hole.selected[0] and hole.lock and self.money >= self.price_archer:
+                            self.towers.append(ArchTower(hole.hole_rect.x + 42, hole.hole_rect.y + 25))
+                            self.money -= self.price_archer
+                            hole.lock = False
+                        if hole.selected[1] and hole.lock and self.money >= self.price_turret:
+                            self.towers.append(TurretTower(hole.hole_rect.x + 40, hole.hole_rect.y + 25))
+                            self.money -= self.price_turret
+                            hole.lock = False
+                        if hole.selected[2] and hole.lock and self.money >= self.price_slower:
+                            self.towers.append(SlowTower(hole.hole_rect.x + 42, hole.hole_rect.y + 22))
+                            self.money -= self.price_slower
+                            hole.lock = False
 
 
             elif event.type == pygame.KEYDOWN:
