@@ -66,8 +66,15 @@ class MainMenu:
 
         self.holes = [Hole(25, 435), Hole(285, 411), Hole(512, 175), Hole(741, 381),
                       Hole(954, 184), Hole(1008, 418), Hole(965, 640)]
-        self.holes2 = [Hole2(127, 268), Hole2(190, 435), Hole2(221, 629),Hole2(402, 300), Hole2(413, 484), Hole2(576, 130), Hole2(621, 584),
-                       Hole2(843, 582), Hole2(735, 462), Hole2(905, 175), Hole2(1095, 265), Hole2(1168, 451), Hole2(1167, 584)]
+        self.holes2 = [Hole2(127, 268), Hole2(190, 435), Hole2(221, 629), Hole2(402, 300), Hole2(413, 484),
+                       Hole2(576, 130), Hole2(621, 584),
+                       Hole2(843, 582), Hole2(735, 462), Hole2(905, 175), Hole2(1095, 265), Hole2(1168, 451),
+                       Hole2(1167, 584)]
+        self.holes3 = [Hole3(65, 190), Hole3(189, 190), Hole3(311, 190), Hole3(65, 586), Hole3(189, 586),
+                       Hole3(311, 586), Hole3(504, 101), Hole3(504, 266), Hole3(504, 477), Hole3(504, 652),
+                       Hole3(788, 101), Hole3(788, 266), Hole3(788, 477), Hole3(788, 652), Hole3(993, 176),
+                       Hole3(1127, 176), Hole3(1247, 176), Hole3(1007, 378), Hole3(1133, 378), Hole3(995, 586),
+                       Hole3(1133, 586), Hole3(1263, 586), Hole3(189, 378), Hole3(311, 378)]
         self.level_scene = LevelSelection()
         self.battle_scene1 = BattleScene1()
         self.battle_scene2 = BattleScene2()
@@ -104,9 +111,6 @@ class MainMenu:
 
         self.pause = True
 
-
-
-
     ''' 启动游戏的菜单 '''
     ''' 界面变化后音乐也要变更,开始与选关界面为sound1,123关分别对应sound345,sound6为控制失败音乐，sound7为控制成功音乐 '''
 
@@ -136,7 +140,6 @@ class MainMenu:
                 self.music_button.draw(self.win)
                 self.check_scene2()
                 self.flushdata()
-                self.flushdata2()
 
             elif self.change_scene_number == 3:
                 self.battle_scene_number = 1
@@ -156,12 +159,12 @@ class MainMenu:
                 self.draw_holes()
 
                 # 测试代码
-                self.waves = [[5, 2], [5, 3], [10, 4]]
+                self.waves = [[5, 2], [5, 3], [10, 4, 5]]
 
                 if self.pause:
                     if time.time() - self.timer >= random.randrange(1, 6) / 2:
                         self.timer = time.time()
-                        self.get_waves_enemies(self.waves, [Ntr(path_1_1), Goblin(path_1_1)])  # 出一波敌人
+                        self.get_waves_enemies(self.waves, [Ntr(path_1_1), Goblin(path_1_1), Wraith(path_1_1)])  # 出一波敌人
 
                 self.draw_enemies((1110, 582))
                 self.draw_towers()
@@ -174,14 +177,12 @@ class MainMenu:
 
             elif self.change_scene_number == 4:
                 self.battle_scene_number = 2
-
                 if sound4 and self.music_button.music_paused:
                     pygame.mixer.init()
                     pygame.mixer.music.load('塔防游戏素材/音乐/丛林地图.mp3')
                     sound4 = False
                     sound1, sound3, sound5, sound6, sound7 = True, True, True, True, True
                     pygame.mixer.music.play()
-
                 self.battle_scene2.draw(self.win)
                 self.music_button.draw(self.win)
                 self.pause_button.draw(self.win)
@@ -195,7 +196,7 @@ class MainMenu:
                 if self.pause:
                     if time.time() - self.timer >= random.randrange(1, 6):
                         self.timer = time.time()
-                        self.get_waves_enemies(self.waves, [Goblin(path_2_1), Wraith(path_2_1)])  # 出一波敌人
+                        self.get_waves_enemies(self.waves, [Goblin(path_2_4), Wraith(path_2_4)])  # 出一波敌人
 
                 self.draw_enemies((673, 308))
                 self.draw_towers()
@@ -221,6 +222,7 @@ class MainMenu:
                 self.back_button.draw(self.win)
                 self.drawdata(3, self.win)
                 self.check_battle_scene()
+                self.draw_holes3()
 
                 self.waves = [[1, 2]]
 
@@ -385,6 +387,25 @@ class MainMenu:
                         self.money -= self.price_slower
                         hole.lock = False
 
+                for hole in self.holes3:
+                    hole.bool = hole.click_hole(mouse_pos)
+                    if not hole.bool:
+                        hole.bool = hole.click_menu(mouse_pos)
+                        hole.selected = [hole.click_tower1(mouse_pos), hole.click_tower2(mouse_pos),
+                                         hole.click_tower3(mouse_pos), hole.click_tower4(mouse_pos)]
+                    if hole.selected[0] and hole.lock and self.money >= self.price_archer:
+                        self.towers.append(ArchTower(hole.hole_rect.x + 42, hole.hole_rect.y + 25))
+                        self.money -= self.price_archer
+                        hole.lock = False
+                    if hole.selected[1] and hole.lock and self.money >= self.price_turret:
+                        self.towers.append(TurretTower(hole.hole_rect.x + 42, hole.hole_rect.y + 25))
+                        self.money -= self.price_turret
+                        hole.lock = False
+                    if hole.selected[2] and hole.lock and self.money >= self.price_slower:
+                        self.towers.append(SlowTower(hole.hole_rect.x + 42, hole.hole_rect.y + 25))
+                        self.money -= self.price_slower
+                        hole.lock = False
+
 
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
@@ -484,27 +505,25 @@ class MainMenu:
         lives_text = self.font_lives.render(str(self.lives), True, (255, 255, 255))
         score_text = self.font_score.render(str(self.score), True, (120, 255, 120))
         money_text = self.font_money.render(str(self.money), True, (255, 255, 120))
-        wave_text1 = self.font_wave.render(str(self.wave) + '   /  10', True, (255, 255, 200))
-        wave_text2 = self.font_wave.render(str(self.wave)+'   /  10', True, (255, 255, 200))
-        wave_text3 = self.font_wave.render(str(self.wave) + '   /  20', True, (255, 255, 200))
+        wave_text = self.font_wave.render(str(self.wave), True, (255, 255, 200))
 
         if num == 1:
             win.blit(lives_text, [36, 24])
             win.blit(score_text, [1010, 15])
             win.blit(money_text, [1258, 15])
-            win.blit(wave_text1, [1245, 120])
+            win.blit(wave_text, [1245, 120])
 
         elif num == 2:
             win.blit(lives_text, [61, 20])
             win.blit(score_text, [990, 15])
             win.blit(money_text, [1243, 15])
-            win.blit(wave_text2, [607, 20])
+            win.blit(wave_text, [607, 20])
 
         elif num == 3:
             win.blit(lives_text, [33, 16])
             win.blit(score_text, [990, 15])
             win.blit(money_text, [1243, 15])
-            win.blit(wave_text3, [625, 25])
+            win.blit(wave_text, [625, 25])
 
         elif num == 4:
             win.blit(score_text, [670, 385])
@@ -524,25 +543,21 @@ class MainMenu:
             if not hole.bool and hole.lock:
                 hole.drawmenu(self.win)
 
+    def draw_holes3(self):
+        for hole in self.holes3:
+            hole.draw(self.win)
+            if not hole.bool and hole.lock:
+                hole.drawmenu(self.win)
+
+
     def flushdata(self):
         self.pause_button.flush_button()
 
         for hole in self.holes:
             hole.flush()
-        self.pause = True
-        self.enemies.clear()
-        self.towers.clear()
-        self.lives = 9
-        self.score = 0
-        self.money = 5000
-        self.wave = 0
-        self.waves.clear()
-        self.current_wave.clear()  # 重新加载数据
-
-    def flushdata2(self):
-        self.pause_button.flush_button()
-
         for hole in self.holes2:
+            hole.flush()
+        for hole in self.holes3:
             hole.flush()
         self.pause = True
         self.enemies.clear()
@@ -553,3 +568,5 @@ class MainMenu:
         self.wave = 0
         self.waves.clear()
         self.current_wave.clear()  # 重新加载数据
+
+
