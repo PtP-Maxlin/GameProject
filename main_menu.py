@@ -166,7 +166,7 @@ class MainMenu:
                         self.timer = time.time()
                         self.get_waves_enemies(self.waves, [Ntr(path_1_1), Goblin(path_1_1), Wraith(path_1_1)])  # 出一波敌人
 
-                self.draw_enemies((1110, 582))
+                self.draw_enemies()
                 self.draw_towers()
                 self.towers_attack()
 
@@ -198,7 +198,7 @@ class MainMenu:
                         self.timer = time.time()
                         self.get_waves_enemies(self.waves, [Goblin(path_2_4), Wraith(path_2_4)])  # 出一波敌人
 
-                self.draw_enemies((673, 308))
+                self.draw_enemies()
                 self.draw_towers()
                 self.towers_attack()
 
@@ -231,7 +231,7 @@ class MainMenu:
                         self.timer = time.time()
                         self.get_waves_enemies(self.waves, [Goblin(path_3_4), Wraith(path_3_4)])  # 出一波敌人
 
-                self.draw_enemies((127, 387))
+                self.draw_enemies()
                 self.draw_towers()
                 self.towers_attack()
 
@@ -477,11 +477,12 @@ class MainMenu:
                     break
 
     # 渲染敌人
-    def draw_enemies(self, target):  # target表示进门的坐标
+    def draw_enemies(self):  # target表示进门的坐标
         for en in self.enemies:
             if self.pause:
                 en.move()
-            if target[0] - 5 <= en.x <= target[0] + 5 and target[1] - 5 <= en.y <= target[1] + 5:
+            if en.path[len(en.path) - 1][0] - 5 <= en.x <= en.path[len(en.path) - 1][0] + 5 and\
+                    en.path[len(en.path) - 1][1] - 5 <= en.y <= en.path[len(en.path) - 1][1] + 5:
                 self.lives -= 1
                 self.enemies.remove(en)
                 if self.lives <= 0:
