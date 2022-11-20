@@ -1,4 +1,5 @@
 import pygame
+import pygame
 import os
 import math
 import time
@@ -75,6 +76,9 @@ class ArchTower(Tower):
         # 选定最近的一个敌人攻击
         enemy_inRange.sort(key=lambda x: -x.distance)
         if len(enemy_inRange) > 0:
+            self.archer_count += 1
+            if self.archer_count >= len(self.archer_imgs) * 10:
+                self.archer_count = 0
             first_enemy = enemy_inRange[0]
             if time.time() - self.timer >= 0.5:
                 self.timer = time.time()
@@ -150,10 +154,8 @@ class TurretTower(Tower):
                     if enemy.die(self.damage):
                         if enemy in enemies:
                             enemies.remove(enemy)
-                        count[0] += enemy.count_coin
-                        count[1] += enemy.count_score
-
-
+                        count[0] = enemy.count_coin
+                        count[1] = enemy.count_score
                 self.bullet.remove(bullet)
         return count
 
@@ -171,6 +173,7 @@ class SlowTower(Tower):
         win.blit(img, (self.x - img.get_width() / 2, self.y - img.get_height() / 2))
 
     def attack(self, enemies):
+        enemy_inRange = []
         for enemy in enemies:
             x = enemy.x
             y = enemy.y
@@ -178,3 +181,4 @@ class SlowTower(Tower):
             if dis < self.range:
                 enemy.v = enemy.original_v * self.slow
         return [0, 0]
+
