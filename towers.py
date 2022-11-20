@@ -120,9 +120,6 @@ class TurretTower(Tower):
         bottom = self.bottom_imgs[self.level - 1]
         win.blit(bottom, (self.x - bottom.get_width() / 2, self.y - bottom.get_height() / 2))
         # 这里后面改成攻击才动
-        self.count += self.move
-        if self.count >= 10 or self.count <= -10:
-            self.move = -self.move
         top = self.top_imgs[self.level - 1]
         win.blit(top, (self.x - 45, (self.y - top.get_height() + 10 + self.count)))
         for bullet in self.bullet:
@@ -130,6 +127,9 @@ class TurretTower(Tower):
 
     def attack(self, enemies):
         count = [0, 0]
+        self.count += self.move
+        if self.count >= 10 or self.count <= -10:
+            self.move = -self.move
         self.inRange = False
         enemy_inRange = []
         for enemy in enemies:
