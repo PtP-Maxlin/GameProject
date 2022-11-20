@@ -181,6 +181,4 @@ class SlowTower(Tower):
             dis = math.sqrt((self.x - x) ** 2 + (self.y - y) ** 2)  # distance
             if dis < self.range:
                 enemy.v = enemy.original_v * self.slow
-            else:
-                enemy.v = enemy.original_v
         return [0, 0]
