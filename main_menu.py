@@ -3,12 +3,7 @@ import sys
 from buttons import *
 from holes import *
 
-from scenes import LevelSelection
-from scenes import BattleScene1
-from scenes import BattleScene2
-from scenes import BattleScene3
-from scenes import FailureScene
-from scenes import VictoryScene
+from scenes import *
 from towers import *
 
 from monsters import *
@@ -63,6 +58,12 @@ class MainMenu:
         self.restart_button = RestartButton()
         self.next_button = NextButton()
         self.back_button = BackButton()
+        self.help_button = HelpButton()
+        self.Help1Scene = Help1Scene()
+        self.Help2Scene = Help2Scene()
+        self.TurnLeftButton = TurnLeftButton()
+        self.TurnRightButton = TurnRightButton()
+        self.change_help_number = 1
 
         self.holes = [Hole(25, 435), Hole(285, 411), Hole(512, 175), Hole(741, 381),
                       Hole(954, 184), Hole(1008, 418), Hole(965, 640)]
@@ -97,11 +98,11 @@ class MainMenu:
         self.font_lives = pygame.font.Font(None, 36)
         self.font_score = pygame.font.Font(None, 50)
         self.font_money = pygame.font.Font(None, 50)
-        self.font_wave = pygame.font.Font(None, 50)
+        self.font_wave = pygame.font.Font(None, 40)
 
         self.lives = 9
         self.score = 0
-        self.money = 5000
+        self.money = 300
         self.wave = 0
         self.waves = []
 
@@ -125,9 +126,19 @@ class MainMenu:
                     pygame.mixer.music.load('塔防游戏素材/音乐/开始界面 The 7 Seas.mp3')
                     sound1 = False
                     sound3, sound4, sound5, sound6, sound7 = True, True, True, True, True
-                    pygame.mixer.music.play()
+                    pygame.mixer.music.play(-1)
                 self.draw_main_menu()
                 self.check_scene1()
+                if self.help_button.click_help_button:
+
+                    if self.change_help_number==1:
+                        self.TurnRightButton.draw(self.win)
+                        self.Help1Scene.draw(self.win)
+                    elif self.change_help_number==2:
+                        self.TurnLeftButton.draw(self.win)
+                        self.Help2Scene.draw(self.win)
+                else:
+                    self.draw_main_menu()
 
             elif self.change_scene_number == 2:
                 if sound1 and self.music_button.music_paused:
@@ -135,7 +146,7 @@ class MainMenu:
                     pygame.mixer.music.load('塔防游戏素材/音乐/开始界面 The 7 Seas.mp3')
                     sound1 = False
                     sound3, sound4, sound5, sound6, sound7 = True, True, True, True, True
-                    pygame.mixer.music.play()
+                    pygame.mixer.music.play(-1)
                 self.level_scene.draw(self.win)
                 self.music_button.draw(self.win)
                 self.check_scene2()
@@ -148,7 +159,7 @@ class MainMenu:
                     pygame.mixer.music.load('塔防游戏素材/音乐/沼泽地图.mp3')
                     sound3 = False
                     sound1, sound4, sound5, sound6, sound7 = True, True, True, True, True
-                    pygame.mixer.music.play()
+                    pygame.mixer.music.play(-1)
                 self.battle_scene1.draw(self.win)
                 self.music_button.draw(self.win)
                 self.pause_button.draw(self.win)
@@ -159,12 +170,12 @@ class MainMenu:
                 self.draw_holes()
 
                 # 测试代码
-                self.waves = [[5, 2], [5, 3], [10, 4, 5]]
+                self.waves = [[5, 0], [5, 3], [3, 5], [5, 5], [10, 10], [0, 8], [5, 8], [10, 5], [10, 8], [15, 15]]
 
                 if self.pause:
-                    if time.time() - self.timer >= random.randrange(1, 6) / 2:
+                    if time.time() - self.timer >= random.randrange(1, 6) * 1:
                         self.timer = time.time()
-                        self.get_waves_enemies(self.waves, [Ntr(path_1_1), Goblin(path_1_1), Wraith(path_1_1)])  # 出一波敌人
+                        self.get_waves_enemies(self.waves, [Ntr(path_1_1), Goblin(path_1_1)])  # 出一波敌人
 
                 self.draw_enemies()
                 self.draw_towers()
@@ -182,7 +193,7 @@ class MainMenu:
                     pygame.mixer.music.load('塔防游戏素材/音乐/丛林地图.mp3')
                     sound4 = False
                     sound1, sound3, sound5, sound6, sound7 = True, True, True, True, True
-                    pygame.mixer.music.play()
+                    pygame.mixer.music.play(-1)
                 self.battle_scene2.draw(self.win)
                 self.music_button.draw(self.win)
                 self.pause_button.draw(self.win)
@@ -191,12 +202,22 @@ class MainMenu:
                 self.check_battle_scene(2)
                 self.draw_holes2()
 
-                self.waves = [[5, 5]]
+                self.waves = [[5, 0, 0, 0, 0, 0, 0, 0],
+                              [5, 0, 0, 0, 5, 0, 0, 0],
+                              [0, 5, 0, 0, 0, 5, 0, 0],
+                              [3, 3, 0, 0, 3, 3, 0, 0],
+                              [5, 5, 3, 0, 5, 5, 3, 0],
+                              [3, 3, 3, 0, 3, 3, 3, 0],
+                              [5, 3, 5, 3, 3, 5, 3, 3],
+                              [5, 3, 5, 5, 3, 3, 5, 5],
+                              [10, 8, 8, 8, 8, 8, 8, 10],
+                              [15, 15, 15, 15, 15, 15, 15, 15]]
 
                 if self.pause:
                     if time.time() - self.timer >= random.randrange(1, 6):
                         self.timer = time.time()
-                        self.get_waves_enemies(self.waves, [Goblin(path_2_4), Wraith(path_2_4)])  # 出一波敌人
+                        self.get_waves_enemies(self.waves, [Reaper(path_2_1), Reaper(path_2_2), Reaper(path_2_3), Reaper(path_2_4),
+                                                            Wraith(path_2_1), Wraith(path_2_2), Wraith(path_2_3), Wraith(path_2_4)])  # 出一波敌人
 
                 self.draw_enemies()
                 self.draw_towers()
@@ -215,7 +236,7 @@ class MainMenu:
                     pygame.mixer.music.load('塔防游戏素材/音乐/沙漠地图.mp3')
                     sound5 = False
                     sound1, sound3, sound4, sound6, sound7 = True, True, True, True, True
-                    pygame.mixer.music.play()
+                    pygame.mixer.music.play(-1)
                 self.battle_scene3.draw(self.win)
                 self.music_button.draw(self.win)
                 self.pause_button.draw(self.win)
@@ -224,12 +245,12 @@ class MainMenu:
                 self.check_battle_scene(3)
                 self.draw_holes3()
 
-                self.waves = [[1, 2]]
+                self.waves = [[1]]
 
                 if self.pause:
-                    if time.time() - self.timer >= random.randrange(1, 6):
+                    if time.time() - self.timer >= random.randrange(1, 6) * 1.5:
                         self.timer = time.time()
-                        self.get_waves_enemies(self.waves, [Goblin(path_3_4), Wraith(path_3_4)])  # 出一波敌人
+                        self.get_waves_enemies(self.waves, [BatMonster(path_3_2)])  # 出一波敌人
 
                 self.draw_enemies()
                 self.draw_towers()
@@ -247,7 +268,7 @@ class MainMenu:
                     pygame.mixer.music.load('塔防游戏素材/音乐/成功音效.wav')
                     sound6 = False
                     sound1, sound3, sound4, sound5, sound7 = True, True, True, True, True
-                    pygame.mixer.music.play()
+                    pygame.mixer.music.play(-1)
                 self.VictoryScene.draw(self.win)
                 self.next_button.draw(self.win)
                 self.check_Victory_scene()
@@ -260,7 +281,7 @@ class MainMenu:
                     pygame.mixer.music.load('塔防游戏素材/音乐/失败音效.mp3')
                     sound7 = False
                     sound1, sound3, sound4, sound5, sound6 = True, True, True, True, True
-                    pygame.mixer.music.play()
+                    pygame.mixer.music.play(-1)
                 self.FailureScene.draw(self.win)
                 self.check_Failure_scene()
                 self.drawdata(5, self.win)
@@ -274,6 +295,7 @@ class MainMenu:
         self.play_button.draw(self.win)
         self.exit_button.draw(self.win)
         self.music_button.draw(self.win)
+        self.help_button.draw(self.win)
 
     ''' 不同按钮功能的实现 '''
     ''' 开始菜单选择开始游戏将进入选关界面，即场景2，选择退出按钮会退出游戏 
@@ -311,6 +333,23 @@ class MainMenu:
         if back_button_clicked:
             self.change_scene_number = 2
 
+    def click_help_buttton(self, mouse_pos):
+        help_button_clicked = self.help_button.rect.collidepoint(mouse_pos)
+        if help_button_clicked:
+            self.help_button.click_help_button = not self.help_button.click_help_button
+
+    def click_turn_left_buttton(self, mouse_pos):
+        turn_left_buttton_clicked = self.TurnLeftButton.rect.collidepoint(mouse_pos)
+        if turn_left_buttton_clicked:
+            if self.change_help_number!=1:
+                self.change_help_number-=1
+
+    def click_turn_right_buttton(self, mouse_pos):
+        turn_right_buttton_clicked = self.TurnRightButton.rect.collidepoint(mouse_pos)
+        if turn_right_buttton_clicked:
+            if self.change_help_number!=2:
+                self.change_help_number+=1
+
     ''' 以下部分为检测不同场景中发生事件的函数 '''
     ''' 开始界面检测开始游戏和退出按钮的点击，选关界面检测选关1,2,3以及返回按钮的点击；
         地图1,2,3界面检测音乐，暂停按钮的点击，以及键盘是否输入esc键，如输入则返回选关界面 
@@ -321,11 +360,19 @@ class MainMenu:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                mouse_pos = pygame.mouse.get_pos()
-                self.music_button.click_music_on_button(mouse_pos)
-                self.click_play_button(mouse_pos)
-                self.click_exit_button(mouse_pos)
+            if self.help_button.click_help_button == False:
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    mouse_pos = pygame.mouse.get_pos()
+                    self.music_button.click_music_on_button(mouse_pos)
+                    self.click_play_button(mouse_pos)
+                    self.click_exit_button(mouse_pos)
+                    self.click_help_buttton(mouse_pos)
+            else:
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    mouse_pos = pygame.mouse.get_pos()
+                    self.click_help_buttton(mouse_pos)
+                    self.click_turn_right_buttton(mouse_pos)
+                    self.click_turn_left_buttton(mouse_pos)
 
     def check_scene2(self):
         for event in pygame.event.get():
@@ -481,9 +528,9 @@ class MainMenu:
         for en in self.enemies:
             if self.pause:
                 en.move()
-            if en.path[len(en.path) - 1][0] - 5 <= en.x <= en.path[len(en.path) - 1][0] + 5 and\
+            if en.path[len(en.path) - 1][0] - 5 <= en.x <= en.path[len(en.path) - 1][0] + 5 and \
                     en.path[len(en.path) - 1][1] - 5 <= en.y <= en.path[len(en.path) - 1][1] + 5:
-                self.lives -= 1
+                self.lives -= en.damage
                 self.enemies.remove(en)
                 if self.lives <= 0:
                     # 跳到失败界面
@@ -509,25 +556,25 @@ class MainMenu:
         lives_text = self.font_lives.render(str(self.lives), True, (255, 255, 255))
         score_text = self.font_score.render(str(self.score), True, (120, 255, 120))
         money_text = self.font_money.render(str(self.money), True, (255, 255, 120))
-        wave_text = self.font_wave.render(str(self.wave), True, (255, 255, 200))
+        wave_text = self.font_wave.render("wave:" + str(self.wave) + " / 10 ", True, (255, 255, 200))
 
         if num == 1:
             win.blit(lives_text, [36, 24])
-            win.blit(score_text, [1010, 15])
-            win.blit(money_text, [1258, 15])
-            win.blit(wave_text, [1245, 120])
+            win.blit(score_text, [1030, 15])
+            win.blit(money_text, [1275, 15])
+            win.blit(wave_text, [1220, 122])
 
         elif num == 2:
             win.blit(lives_text, [61, 20])
-            win.blit(score_text, [990, 15])
-            win.blit(money_text, [1243, 15])
-            win.blit(wave_text, [607, 20])
+            win.blit(score_text, [1015, 18])
+            win.blit(money_text, [1265, 18])
+            win.blit(wave_text, [587, 18])
 
         elif num == 3:
             win.blit(lives_text, [33, 16])
-            win.blit(score_text, [990, 15])
-            win.blit(money_text, [1243, 15])
-            win.blit(wave_text, [625, 25])
+            win.blit(score_text, [1010, 15])
+            win.blit(money_text, [1265, 15])
+            win.blit(wave_text, [612, 29])
 
         elif num == 4:
             win.blit(score_text, [670, 385])
@@ -568,7 +615,7 @@ class MainMenu:
         self.towers.clear()
         self.lives = 9
         self.score = 0
-        self.money = 5000
+        self.money = 300
         self.wave = 0
         self.waves.clear()
         self.current_wave.clear()  # 重新加载数据

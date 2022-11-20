@@ -23,9 +23,10 @@ class Monsters:
         self.count_coin = 0  # 金币
         self.count_score = 0  # 分数
         self.v = 1  # 移动速度
-        
+
         self.original_v = self.v
-        
+        self.damage = 1
+
         #
         # 移动相关
         self.path_pos = 0
@@ -112,10 +113,10 @@ class Ntr(Monsters):
         self.max_health = 10
         self.health = self.max_health
         self.images = imgs1[:]
-        self.count_coin = 10
+        self.count_coin = 5
         self.count_score = 20
-        self.v = 1
-        
+        self.v = 1.2
+
         self.original_v = self.v
 
 
@@ -137,11 +138,12 @@ class Goblin(Monsters):
         self.height = 75  # 体积
         self.max_health = 20
         self.health = self.max_health  # 血量
-        self.count_coin = 15  # 金币
+        self.count_coin = 10  # 金币
         self.count_score = 30  # 分数
-        self.v = 0.8  # 移动速度
+        self.v = 1  # 移动速度
         self.path = path
         self.images = imgs2[:]
+        self.original_v = self.v
 
 
 imgs3 = []
@@ -151,7 +153,8 @@ for x in range(12):
         add_str = "0" + add_str
     add_str = "0" + add_str
     imgs3.append(pygame.transform.scale(
-        pygame.image.load(os.path.join("塔防游戏素材/怪物/漂浮幽灵/Walking", "Wraith_01_Moving Forward_" + add_str + ".png")),
+        pygame.image.load(
+            os.path.join("塔防游戏素材/怪物/漂浮幽灵/Walking", "Wraith_01_Moving Forward_" + add_str + ".png")),
         (78, 63)))
 
 
@@ -162,11 +165,85 @@ class Wraith(Monsters):
         self.height = 63  # 体积
         self.max_health = 10
         self.health = self.max_health  # 血量
-        self.count_coin = 25  # 金币
-        self.count_score = 50  # 分数
+        self.count_coin = 15  # 金币
+        self.count_score = 60  # 分数
         self.v = 2  # 移动速度
-        
+
         self.original_v = self.v
-        
+
         self.path = path
         self.images = imgs3[:]
+
+
+imgs4 = []
+for x in range(12):
+    add_str = str(x)
+    if x < 10:
+        add_str = "0" + add_str
+    add_str = "0" + add_str
+    imgs4.append(pygame.transform.scale(
+        pygame.image.load(
+            os.path.join("塔防游戏素材/怪物/第二关boss/Running", "0_Reaper_Man_Running_" + add_str + ".png")),
+        (75, 75)))
+
+
+class Reaper(Monsters):
+    def __init__(self, path):
+        super().__init__(path)
+        self.width = 75
+        self.height = 75  # 体积
+        self.max_health = 15
+        self.health = self.max_health  # 血量
+        self.count_coin = 15  # 金币
+        self.count_score = 50  # 分数
+        self.v = 1.5  # 移动速度
+
+        self.original_v = self.v
+
+        self.path = path
+        self.images = imgs4[:]
+
+
+imgs5 = []
+for x in range(31):
+    add_str = str(x)
+    if x < 10:
+        add_str = "0" + add_str
+    add_str = "0" + add_str
+    imgs5.append(pygame.transform.scale(
+        pygame.image.load(
+            os.path.join("塔防游戏素材/怪物/BatMonster/Walking", "Troll_03_1_WALK_" + add_str + ".png")),
+        (250, 200)))
+
+
+class BatMonster(Monsters):
+    def __init__(self, path):
+        super().__init__(path)
+        self.width = 250
+        self.height = 200  # 体积
+        self.max_health = 648
+        self.health = self.max_health  # 血量
+        self.count_coin = 200  # 金币
+        self.count_score = 500  # 分数
+        self.v = 1  # 移动速度
+        self.damage = 10
+
+        self.original_v = self.v
+
+        self.path = path
+        self.images = imgs5[:]
+
+    def draw(self, win):  # 怪物＋血条
+        self.img = pygame.transform.scale(self.images[self.animation_count], (self.width, self.height))
+        win.blit(self.img, (self.x - self.width / 2, self.y - self.height / 2-50))
+        self.draw_health_bar(win)
+
+    def draw_health_bar(self, win):  # 血条
+        length = 135
+        loseHP = length / self.max_health
+        health_bar = loseHP * self.health
+        pygame.draw.rect(win, (255, 0, 0), (self.x - self.width / 4 - 6, self.y - self.height * 3 / 4 +30, length, 6),
+                         0)
+        pygame.draw.rect(win, (0, 255, 0),
+                         (self.x - self.width / 4 - 6, self.y - self.height * 3 / 4 + 30, health_bar, 6), 0)
+

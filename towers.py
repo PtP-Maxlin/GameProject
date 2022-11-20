@@ -46,6 +46,8 @@ class ArchTower(Tower):
 
     def __init__(self, x, y):
         super().__init__(x, y)
+        self.damage = 2
+        self.range = 200
         self.tower_imgs = []
         self.archer_imgs = []
         self.archer_count = 0
@@ -110,8 +112,8 @@ class TurretTower(Tower):
         super().__init__(x, y)
         self.count = 0
         self.move = 0.5
-        self.damage = 10
-        self.attack_range = self.range / 3
+        self.damage = 3
+        self.attack_range = self.range
         self.bottom_imgs = turret_imgs1[:]
         self.top_imgs = turret_imgs2[:]
         self.bullet = []
@@ -154,8 +156,8 @@ class TurretTower(Tower):
                     if enemy.die(self.damage):
                         if enemy in enemies:
                             enemies.remove(enemy)
-                        count[0] = enemy.count_coin
-                        count[1] = enemy.count_score
+                        count[0] += enemy.count_coin
+                        count[1] += enemy.count_score
                 self.bullet.remove(bullet)
         return count
 
@@ -181,4 +183,3 @@ class SlowTower(Tower):
             if dis < self.range:
                 enemy.v = enemy.original_v * self.slow
         return [0, 0]
-

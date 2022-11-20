@@ -1,8 +1,5 @@
 import pygame
-from buttons import NumberButton
-from buttons import ReturnButton
-from buttons import NextButton
-from buttons import RestartButton
+from buttons import *
 
 
 
@@ -93,5 +90,16 @@ class VictoryScene:
         self.NextButton.draw(win)
         self.RestartButton.draw_win(win)
 
+class Help1Scene:
+    def __init__(self):
+        self.bg = pygame.image.load('塔防游戏素材/地图/帮助.png')
 
+    def draw(self, win):
+        win.blit(self.bg, (350, 0))
 
+class Help2Scene:
+    def __init__(self):
+        self.bg = pygame.image.load('塔防游戏素材/地图/页面功能介绍.png')
+
+    def draw(self, win):
+        win.blit(self.bg, (350, 0))

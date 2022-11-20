@@ -186,3 +186,35 @@ class BackButton:
 
     def draw(self, win):
         win.blit(self.Back_button, self.back_rect)
+
+class HelpButton:
+    def __init__(self):
+        self.Help_button = pygame.image.load('塔防游戏素材/按钮/书本.png')
+        self.rect = self.Help_button.get_rect()
+        self.rect.x = 1250
+        self.rect.y = 20
+        self.click_help_button = False
+
+    def draw(self, win):
+        win.blit(self.Help_button, self.rect)
+
+class TurnLeftButton:
+    def __init__(self):
+        self.Turnleft_button = pygame.image.load('塔防游戏素材/按钮/翻页按钮上.png')
+        self.rect = self.Turnleft_button.get_rect()
+        self.rect.x = 250
+        self.rect.y = 570
+
+    def draw(self, win):
+        win.blit(self.Turnleft_button, self.rect)
+
+
+class TurnRightButton:
+    def __init__(self):
+        self.Turnrightt_button = pygame.image.load('塔防游戏素材/按钮/翻页按钮下.png')
+        self.rect = self.Turnrightt_button.get_rect()
+        self.rect.x = 1050
+        self.rect.y = 570
+
+    def draw(self, win):
+        win.blit(self.Turnrightt_button, self.rect)
