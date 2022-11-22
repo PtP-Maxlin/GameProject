@@ -14,8 +14,8 @@ class Tower:
         self.level = 1
         self.timer = time.time()
 
-        self.width = 0
-        self.height = 0
+        self.width = 90
+        self.height = 90
         self.sell_price = [0, 0, 0]  # 需要花费的价钱
         self.price = [0, 0, 0]
         self.number = 1  # 建造的序号
@@ -53,6 +53,8 @@ class ArchTower(Tower):
         self.tower_imgs = tower_imgs1[:]
         self.archer_imgs = archer_imgs1[:]
         self.bullet = []
+        self.width = 90
+        self.height = 110
 
     def draw(self, win):
         img = self.tower_imgs[self.level - 1]
@@ -127,6 +129,8 @@ class TurretTower(Tower):
         self.top_imgs = turret_imgs2[:]
         self.tcount = 0
         self.bullet = []
+        self.width = 90
+        self.height = 90
 
     def draw(self, win):
         bottom = self.bottom_imgs[self.level - 1]
