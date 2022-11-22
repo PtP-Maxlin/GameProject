@@ -104,6 +104,7 @@ class MainMenu:
         self.price_archer = 100
         self.price_turret = 200
         self.price_slower = 150
+        self.price_poisoner = 200
 
     ''' 启动游戏的菜单 '''
     ''' 界面变化后音乐也要变更,开始与选关界面为sound1,123关分别对应sound345,sound6为控制失败音乐，sound7为控制成功音乐 '''
@@ -324,11 +325,7 @@ class MainMenu:
 
                 if num == 1:
                     for hole in self.holes:
-                        hole.bool = hole.click_hole(mouse_pos)
-                        if not hole.bool:
-                            hole.bool = hole.click_menu(mouse_pos)
-                            hole.selected = [hole.click_tower1(mouse_pos), hole.click_tower2(mouse_pos),
-                                             hole.click_tower3(mouse_pos), hole.click_tower4(mouse_pos)]
+                        hole.click_hole(mouse_pos)
                         if hole.selected[0] and hole.lock and self.money >= self.price_archer:
                             self.towers.append(ArchTower(hole.hole_rect.x + 65, hole.hole_rect.y))
                             self.money -= self.price_archer
@@ -341,14 +338,14 @@ class MainMenu:
                             self.towers.append(SlowTower(hole.hole_rect.x + 65, hole.hole_rect.y))
                             self.money -= self.price_slower
                             hole.lock = False
+                        if hole.selected[3] and hole.lock and self.money >= self.price_poisoner:
+                            self.towers.append(PoisonTower(hole.hole_rect.x + 65, hole.hole_rect.y))
+                            self.money -= self.price_poisoner
+                            hole.lock = False
 
                 elif num == 2:
                     for hole in self.holes2:
-                        hole.bool = hole.click_hole(mouse_pos)
-                        if not hole.bool:
-                            hole.bool = hole.click_menu(mouse_pos)
-                            hole.selected = [hole.click_tower1(mouse_pos), hole.click_tower2(mouse_pos),
-                                             hole.click_tower3(mouse_pos), hole.click_tower4(mouse_pos)]
+                        hole.click_hole(mouse_pos)
                         if hole.selected[0] and hole.lock and self.money >= self.price_archer:
                             self.towers.append(ArchTower(hole.hole_rect.x + 45, hole.hole_rect.y + 8))
                             self.money -= self.price_archer
@@ -361,14 +358,14 @@ class MainMenu:
                             self.towers.append(SlowTower(hole.hole_rect.x + 45, hole.hole_rect.y + 8))
                             self.money -= self.price_slower
                             hole.lock = False
+                        if hole.selected[3] and hole.lock and self.money >= self.price_poisoner:
+                            self.towers.append(PoisonTower(hole.hole_rect.x + 65, hole.hole_rect.y))
+                            self.money -= self.price_poisoner
+                            hole.lock = False
 
                 elif num == 3:
                     for hole in self.holes3:
-                        hole.bool = hole.click_hole(mouse_pos)
-                        if not hole.bool:
-                            hole.bool = hole.click_menu(mouse_pos)
-                            hole.selected = [hole.click_tower1(mouse_pos), hole.click_tower2(mouse_pos),
-                                             hole.click_tower3(mouse_pos), hole.click_tower4(mouse_pos)]
+                        hole.click_hole(mouse_pos)
                         if hole.selected[0] and hole.lock and self.money >= self.price_archer:
                             self.towers.append(ArchTower(hole.hole_rect.x + 42, hole.hole_rect.y + 25))
                             self.money -= self.price_archer
@@ -381,7 +378,10 @@ class MainMenu:
                             self.towers.append(SlowTower(hole.hole_rect.x + 42, hole.hole_rect.y + 22))
                             self.money -= self.price_slower
                             hole.lock = False
-
+                        if hole.selected[3] and hole.lock and self.money >= self.price_poisoner:
+                            self.towers.append(PoisonTower(hole.hole_rect.x + 65, hole.hole_rect.y))
+                            self.money -= self.price_poisoner
+                            hole.lock = False
 
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
@@ -520,6 +520,8 @@ class MainMenu:
 
     def towers_attack(self):
         if self.pause_button.game_paused:
+            for en in self.enemies:
+                en.lose_hp()
             for tower in self.towers:
                 count = tower.attack(self.enemies)
                 self.money += count[0]
