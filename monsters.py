@@ -247,3 +247,159 @@ class BatMonster(Monsters):
         pygame.draw.rect(win, (0, 255, 0),
                          (self.x - self.width / 4 - 6, self.y - self.height * 3 / 4 + 30, health_bar, 6), 0)
 
+
+imgs6 = []
+for x in range(24):
+    add_str = str(x)
+    if x < 10:
+        add_str = "0" + add_str
+    add_str = "0" + add_str
+    imgs6.append(pygame.transform.scale(
+        pygame.image.load(
+            os.path.join("塔防游戏素材/怪物/白色小怪/Walking", "0_Fallen_Angels_Walking_" + add_str + ".png")),
+        (75, 75)))
+
+
+class Angel(Monsters):
+    def __init__(self, path):
+        super().__init__(path)
+        self.width = 75
+        self.height = 75  # 体积
+        self.max_health = 15
+        self.health = self.max_health  # 血量
+        self.count_coin = 15  # 金币
+        self.count_score = 50  # 分数
+        self.v = 1.5  # 移动速度
+
+        self.original_v = self.v
+
+        self.path = path
+        self.images = imgs6[:]
+
+imgs7 = []
+for x in range(18):
+    add_str = str(x)
+    if x < 10:
+        add_str = "0" + add_str
+    add_str = "0" + add_str
+    imgs7.append(pygame.transform.scale(
+        pygame.image.load(
+            os.path.join("塔防游戏素材/怪物/光头小怪/Walking", "Golem_03_Walking_" + add_str + ".png")),
+        (75, 75)))
+
+
+class Gollem(Monsters):
+    def __init__(self, path):
+        super().__init__(path)
+        self.width = 75
+        self.height = 75  # 体积
+        self.max_health = 15
+        self.health = self.max_health  # 血量
+        self.count_coin = 15  # 金币
+        self.count_score = 50  # 分数
+        self.v = 1.5  # 移动速度
+
+        self.original_v = self.v
+
+        self.path = path
+        self.images = imgs7[:]
+
+imgs8 = []
+for x in range(24):
+    add_str = str(x)
+    if x < 10:
+        add_str = "0" + add_str
+    add_str = "0" + add_str
+    imgs8.append(pygame.transform.scale(
+        pygame.image.load(
+            os.path.join("塔防游戏素材/怪物/火小怪/Walking", "0_Golem_Walking_" + add_str + ".png")),
+        (75, 75)))
+
+
+class Fire(Monsters):
+    def __init__(self, path):
+        super().__init__(path)
+        self.width = 75
+        self.height = 75  # 体积
+        self.max_health = 15
+        self.health = self.max_health  # 血量
+        self.count_coin = 15  # 金币
+        self.count_score = 50  # 分数
+        self.v = 1.5  # 移动速度
+
+        self.original_v = self.v
+
+        self.path = path
+        self.images = imgs8[:]
+
+
+imgs9 = []
+for x in range(18):
+    add_str = str(x)
+    if x < 10:
+        add_str = "0" + add_str
+    add_str = "0" + add_str
+    imgs9.append(pygame.transform.scale(
+        pygame.image.load(
+            os.path.join("塔防游戏素材/怪物/海盗/Walking", "Minotaur_02_Walking_" + add_str + ".png")),
+        (75, 75)))
+
+
+class Minotaur(Monsters):
+    def __init__(self, path):
+        super().__init__(path)
+        self.width = 75
+        self.height = 75  # 体积
+        self.max_health = 15
+        self.health = self.max_health  # 血量
+        self.count_coin = 15  # 金币
+        self.count_score = 50  # 分数
+        self.v = 1.5  # 移动速度
+
+        self.original_v = self.v
+
+        self.path = path
+        self.images = imgs9[:]
+
+imgs10 = []
+for x in range(10):
+    add_str = str(x)
+    if x < 10:
+        add_str = "0" + add_str
+    add_str = "0" + add_str
+    imgs10.append(pygame.transform.scale(
+        pygame.image.load(
+            os.path.join("塔防游戏素材/怪物/最终boss/Walking", "Walk_" + add_str + ".png")),
+        (200, 120)))
+
+
+class Final(Monsters):
+    def __init__(self, path):
+        super().__init__(path)
+        self.width = 200
+        self.height = 120  # 体积
+        self.max_health = 648
+        self.health = self.max_health  # 血量
+        self.count_coin = 200  # 金币
+        self.count_score = 500  # 分数
+        self.v = 0.5  # 移动速度
+        self.damage = 10
+
+        self.original_v = self.v
+
+        self.path = path
+        self.images = imgs10[:]
+
+    def draw(self, win):  # 怪物＋血条
+        self.img = pygame.transform.scale(self.images[self.animation_count], (self.width, self.height))
+        win.blit(self.img, (self.x - self.width / 2, self.y - self.height / 2-50))
+        self.draw_health_bar(win)
+
+    def draw_health_bar(self, win):  # 血条
+        length = 135
+        loseHP = length / self.max_health
+        health_bar = loseHP * self.health
+        pygame.draw.rect(win, (255, 0, 0), (self.x - self.width / 4 - 47, self.y - self.height * 3 / 4 - 18, length, 6),
+                         0)
+        pygame.draw.rect(win, (0, 255, 0),
+                         (self.x - self.width / 4 - 47, self.y - self.height * 3 / 4 - 18, health_bar, 6), 0)
