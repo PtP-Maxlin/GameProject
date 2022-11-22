@@ -10,12 +10,6 @@ from monsters import *
 import time
 import random
 
-"""
-        需要初始化的变量
-        waves[][]  第几关、第几个口
-        path[][]  第几关、第几个口
-        wave_enemies[][] 第几关、第几个口 每个里面path一样
-"""
 path_1_1 = [(1, 580), (115, 579), (194, 534), (214, 464), (232, 394), (305, 341), (391, 317), (430, 248), (457, 173),
             (512, 119), (560, 105), (773, 108), (782, 106), (820, 91), (845, 90), (867, 94), (915, 108), (1041, 107),
             (1108, 130), (1118, 123), (1145, 168), (1149, 245), (1100, 311), (1029, 329), (966, 373),
@@ -89,6 +83,7 @@ class MainMenu:
 
         self.enemies = []
         self.clicks = []
+        self.count = 0
 
         self.current_wave = []
         self.timer = time.time()
@@ -110,8 +105,6 @@ class MainMenu:
         self.price_turret = 200
         self.price_slower = 150
 
-        self.pause = True
-
     ''' 启动游戏的菜单 '''
     ''' 界面变化后音乐也要变更,开始与选关界面为sound1,123关分别对应sound345,sound6为控制失败音乐，sound7为控制成功音乐 '''
 
@@ -126,15 +119,15 @@ class MainMenu:
                     pygame.mixer.music.load('塔防游戏素材/音乐/开始界面 The 7 Seas.mp3')
                     sound1 = False
                     sound3, sound4, sound5, sound6, sound7 = True, True, True, True, True
-                    pygame.mixer.music.play(-1)
+                    pygame.mixer.music.play()
                 self.draw_main_menu()
                 self.check_scene1()
                 if self.help_button.click_help_button:
 
-                    if self.change_help_number==1:
+                    if self.change_help_number == 1:
                         self.TurnRightButton.draw(self.win)
                         self.Help1Scene.draw(self.win)
-                    elif self.change_help_number==2:
+                    elif self.change_help_number == 2:
                         self.TurnLeftButton.draw(self.win)
                         self.Help2Scene.draw(self.win)
                 else:
@@ -146,7 +139,7 @@ class MainMenu:
                     pygame.mixer.music.load('塔防游戏素材/音乐/开始界面 The 7 Seas.mp3')
                     sound1 = False
                     sound3, sound4, sound5, sound6, sound7 = True, True, True, True, True
-                    pygame.mixer.music.play(-1)
+                    pygame.mixer.music.play()
                 self.level_scene.draw(self.win)
                 self.music_button.draw(self.win)
                 self.check_scene2()
@@ -160,31 +153,8 @@ class MainMenu:
                     sound3 = False
                     sound1, sound4, sound5, sound6, sound7 = True, True, True, True, True
                     pygame.mixer.music.play(-1)
-                self.battle_scene1.draw(self.win)
-                self.music_button.draw(self.win)
-                self.pause_button.draw(self.win)
-                self.back_button.draw(self.win)
-
-                self.drawdata(1, self.win)
-                self.check_battle_scene(1)
-                self.draw_holes()
-
-                # 测试代码
                 self.waves = [[5, 0], [5, 3], [3, 5], [5, 5], [10, 10], [0, 8], [5, 8], [10, 5], [10, 8], [15, 15]]
-
-                if self.pause:
-                    if time.time() - self.timer >= random.randrange(1, 6) * 1:
-                        self.timer = time.time()
-                        self.get_waves_enemies(self.waves, [Ntr(path_1_1), Goblin(path_1_1)])  # 出一波敌人
-
-                self.draw_enemies()
-                self.draw_towers()
-                self.towers_attack()
-
-                # event = pygame.event.wait()
-                # if event.type == pygame.MOUSEBUTTONDOWN:
-                #     self.clicks.append(event.pos)
-                #     print(self.clicks)
+                self.draw_battle_scene1()
 
             elif self.change_scene_number == 4:
                 self.battle_scene_number = 2
@@ -194,14 +164,6 @@ class MainMenu:
                     sound4 = False
                     sound1, sound3, sound5, sound6, sound7 = True, True, True, True, True
                     pygame.mixer.music.play(-1)
-                self.battle_scene2.draw(self.win)
-                self.music_button.draw(self.win)
-                self.pause_button.draw(self.win)
-                self.back_button.draw(self.win)
-                self.drawdata(2, self.win)
-                self.check_battle_scene(2)
-                self.draw_holes2()
-
                 self.waves = [[5, 0, 0, 0, 0, 0, 0, 0],
                               [5, 0, 0, 0, 5, 0, 0, 0],
                               [0, 5, 0, 0, 0, 5, 0, 0],
@@ -212,54 +174,18 @@ class MainMenu:
                               [5, 3, 5, 5, 3, 3, 5, 5],
                               [10, 8, 8, 8, 8, 8, 8, 10],
                               [15, 15, 15, 15, 15, 15, 15, 15]]
-
-                if self.pause:
-                    if time.time() - self.timer >= random.randrange(1, 6):
-                        self.timer = time.time()
-                        self.get_waves_enemies(self.waves, [Reaper(path_2_1), Reaper(path_2_2), Reaper(path_2_3), Reaper(path_2_4),
-                                                            Wraith(path_2_1), Wraith(path_2_2), Wraith(path_2_3), Wraith(path_2_4)])  # 出一波敌人
-
-                self.draw_enemies()
-                self.draw_towers()
-                self.towers_attack()
-
-                # event = pygame.event.wait()
-                # if event.type == pygame.MOUSEBUTTONDOWN:
-                #     self.clicks.append(event.pos)
-                #     print(self.clicks)
+                self.draw_battle_scene2()
 
             elif self.change_scene_number == 5:
                 self.battle_scene_number = 3
-                self.clock.tick(100)
                 if sound5 and self.music_button.music_paused:
                     pygame.mixer.init()
                     pygame.mixer.music.load('塔防游戏素材/音乐/沙漠地图.mp3')
                     sound5 = False
                     sound1, sound3, sound4, sound6, sound7 = True, True, True, True, True
                     pygame.mixer.music.play(-1)
-                self.battle_scene3.draw(self.win)
-                self.music_button.draw(self.win)
-                self.pause_button.draw(self.win)
-                self.back_button.draw(self.win)
-                self.drawdata(3, self.win)
-                self.check_battle_scene(3)
-                self.draw_holes3()
-
                 self.waves = [[1]]
-
-                if self.pause:
-                    if time.time() - self.timer >= random.randrange(1, 6) * 1.5:
-                        self.timer = time.time()
-                        self.get_waves_enemies(self.waves, [BatMonster(path_3_2)])  # 出一波敌人
-
-                self.draw_enemies()
-                self.draw_towers()
-                self.towers_attack()
-
-                # event = pygame.event.wait()
-                # if event.type == pygame.MOUSEBUTTONDOWN:
-                #     self.clicks.append(event.pos)
-                #     print(self.clicks)
+                self.draw_battle_scene3()
 
             elif self.change_scene_number == 6:
                 self.clock.tick(100)
@@ -268,7 +194,7 @@ class MainMenu:
                     pygame.mixer.music.load('塔防游戏素材/音乐/成功音效.wav')
                     sound6 = False
                     sound1, sound3, sound4, sound5, sound7 = True, True, True, True, True
-                    pygame.mixer.music.play(-1)
+                    pygame.mixer.music.play()
                 self.VictoryScene.draw(self.win)
                 self.next_button.draw(self.win)
                 self.check_Victory_scene()
@@ -281,7 +207,7 @@ class MainMenu:
                     pygame.mixer.music.load('塔防游戏素材/音乐/失败音效.mp3')
                     sound7 = False
                     sound1, sound3, sound4, sound5, sound6 = True, True, True, True, True
-                    pygame.mixer.music.play(-1)
+                    pygame.mixer.music.play()
                 self.FailureScene.draw(self.win)
                 self.check_Failure_scene()
                 self.drawdata(5, self.win)
@@ -341,14 +267,14 @@ class MainMenu:
     def click_turn_left_buttton(self, mouse_pos):
         turn_left_buttton_clicked = self.TurnLeftButton.rect.collidepoint(mouse_pos)
         if turn_left_buttton_clicked:
-            if self.change_help_number!=1:
-                self.change_help_number-=1
+            if self.change_help_number != 1:
+                self.change_help_number -= 1
 
     def click_turn_right_buttton(self, mouse_pos):
         turn_right_buttton_clicked = self.TurnRightButton.rect.collidepoint(mouse_pos)
         if turn_right_buttton_clicked:
-            if self.change_help_number!=2:
-                self.change_help_number+=1
+            if self.change_help_number != 2:
+                self.change_help_number += 1
 
     ''' 以下部分为检测不同场景中发生事件的函数 '''
     ''' 开始界面检测开始游戏和退出按钮的点击，选关界面检测选关1,2,3以及返回按钮的点击；
@@ -394,7 +320,7 @@ class MainMenu:
                 mouse_pos = pygame.mouse.get_pos()
                 self.music_button.click_music_on_button(mouse_pos)
                 self.click_back_button(mouse_pos)
-                self.pause = self.pause_button.click_continue_button(mouse_pos)
+                self.pause_button.click_continue_button(mouse_pos)
 
                 if num == 1:
                     for hole in self.holes:
@@ -501,32 +427,80 @@ class MainMenu:
 
                     '''重新渲染界面'''
 
-    def get_waves_enemies(self, waves, wave_enemies):  # 每一关的波数和对应的小怪种类、数量, 每一关、每个出怪口都是不同的
-        """
-        eg
-        waves[][] = [[10], [20], [25], [40]]
-        wave_enemies = [Ntr(path[][]), Boss(path[][])]
-        """
-        if sum(self.current_wave) == 0:
-            if len(self.enemies) == 0:
-                self.wave += 1
-                if self.wave > len(waves):
-                    # 跳到成功界面
-                    pygame.time.wait(1500)
-                    self.change_scene_number = 6
+    def draw_battle_scene1(self):
+        self.battle_scene1.draw(self.win)
+        self.music_button.draw(self.win)
+        self.pause_button.draw(self.win)
+        self.back_button.draw(self.win)
+        self.draw_holes()
+        self.draw_towers()
+        self.draw_enemies()
+        self.towers_attack()
+        self.drawdata(1, self.win)
+        self.check_battle_scene(1)
+        self.get_waves_enemies(self.waves, [Ntr(path_1_1), Goblin(path_1_1)], 1)
+
+    def draw_battle_scene2(self):
+        self.battle_scene2.draw(self.win)
+        self.music_button.draw(self.win)
+        self.pause_button.draw(self.win)
+        self.back_button.draw(self.win)
+        self.draw_holes2()
+        self.draw_towers()
+        self.draw_enemies()
+        self.towers_attack()
+        self.drawdata(2, self.win)
+        self.check_battle_scene(2)
+        self.get_waves_enemies(self.waves,
+                               [Reaper(path_2_1), Reaper(path_2_2), Reaper(path_2_3), Reaper(path_2_4),
+                                Wraith(path_2_1), Wraith(path_2_2), Wraith(path_2_3),
+                                Wraith(path_2_4)], 4)
+
+    def draw_battle_scene3(self):
+        self.battle_scene3.draw(self.win)
+        self.music_button.draw(self.win)
+        self.pause_button.draw(self.win)
+        self.back_button.draw(self.win)
+        self.draw_holes3()
+        self.draw_towers()
+        self.draw_enemies()
+        self.towers_attack()
+        self.drawdata(3, self.win)
+        self.check_battle_scene(3)
+        self.get_waves_enemies(self.waves, [BatMonster(path_3_2)], 4)  # 出一波敌人
+
+    def get_waves_enemies(self, waves, wave_enemies, number):  # 每一关的波数和对应的小怪种类、数量, 每一关、每个出怪口都是不同的
+        if self.pause_button.game_paused:
+            self.count += 1
+            if self.count >= random.randrange(50, 100):
+                self.count = 0
+                if sum(self.current_wave) == 0:
+                    if len(self.enemies) == 0:
+                        self.wave += 1
+                        if self.wave > len(waves):
+                            # 跳到成功界面
+                            pygame.time.wait(1000)
+                            self.change_scene_number = 6
+                        else:
+                            self.current_wave = waves[self.wave - 1]
+                            self.pause_button.game_paused = False
                 else:
-                    self.current_wave = waves[self.wave - 1]
-        else:
-            for x in range(len(self.current_wave)):
-                if self.current_wave[x] != 0:
-                    self.enemies.append(wave_enemies[x])
-                    self.current_wave[x] = self.current_wave[x] - 1
-                    break
+                    for i in range((len(self.current_wave) // number)):
+                        flag = False
+                        for x in range(number):
+                            if self.current_wave[number * i + x] != 0:
+                                flag = True
+                                self.enemies.append(wave_enemies[number * i + x])
+                                self.current_wave[number * i + x] -= 1
+                        if flag:
+                            break
+
+
 
     # 渲染敌人
     def draw_enemies(self):  # target表示进门的坐标
         for en in self.enemies:
-            if self.pause:
+            if self.pause_button.game_paused:
                 en.move()
             if en.path[len(en.path) - 1][0] - 5 <= en.x <= en.path[len(en.path) - 1][0] + 5 and \
                     en.path[len(en.path) - 1][1] - 5 <= en.y <= en.path[len(en.path) - 1][1] + 5:
@@ -545,7 +519,7 @@ class MainMenu:
             tower.draw(self.win)
 
     def towers_attack(self):
-        if self.pause:
+        if self.pause_button.game_paused:
             for tower in self.towers:
                 count = tower.attack(self.enemies)
                 self.money += count[0]
@@ -600,7 +574,6 @@ class MainMenu:
             if not hole.bool and hole.lock:
                 hole.drawmenu(self.win)
 
-
     def flushdata(self):
         self.pause_button.flush_button()
 
@@ -610,7 +583,7 @@ class MainMenu:
             hole.flush()
         for hole in self.holes3:
             hole.flush()
-        self.pause = True
+        self.pause_button.game_paused = True
         self.enemies.clear()
         self.towers.clear()
         self.lives = 9
@@ -619,5 +592,4 @@ class MainMenu:
         self.wave = 0
         self.waves.clear()
         self.current_wave.clear()  # 重新加载数据
-
-
+        self.count = 0
