@@ -91,9 +91,8 @@ class ArchTower(Tower):
                 self.left = False
                 for x, img in enumerate(self.archer_imgs):
                     self.archer_imgs[x] = pygame.transform.flip(img, True, False)
-            if time.time() - self.timer >= 0.5:
-                self.timer = time.time()
-                self.bullet.append(ArcherBullet(self.x, self.y, first_enemy))
+            if self.archer_count == 30:
+                self.bullet.append(ArcherBullet(self.x, self.y - 25, first_enemy))
         else:
             self.archer_count = 0
         for bullet in self.bullet:
@@ -159,8 +158,7 @@ class TurretTower(Tower):
         enemy_inRange.sort(key=lambda x: -x.distance)
         if len(enemy_inRange) > 0:
             first_enemy = enemy_inRange[0]
-            if time.time() - self.timer >= 2:
-                self.timer = time.time()
+            if self.count == 10:
                 self.bullet.append(TurretBullet(self.x, self.y, first_enemy))
         for bullet in self.bullet:
             if bullet.move():
