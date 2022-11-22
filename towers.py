@@ -1,5 +1,4 @@
 import pygame
-import pygame
 import os
 import math
 import time
@@ -78,13 +77,23 @@ class ArchTower(Tower):
         # 选定最近的一个敌人攻击
         enemy_inRange.sort(key=lambda x: -x.distance)
         if len(enemy_inRange) > 0:
-            self.archer_count += 1
+            self.archer_count += 3
             if self.archer_count >= len(self.archer_imgs) * 10:
                 self.archer_count = 0
             first_enemy = enemy_inRange[0]
+            if first_enemy.x > self.x and not (self.left):
+                self.left = True
+                for x, img in enumerate(self.archer_imgs):
+                    self.archer_imgs[x] = pygame.transform.flip(img, True, False)
+            elif self.left and first_enemy.x < self.x:
+                self.left = False
+                for x, img in enumerate(self.archer_imgs):
+                    self.archer_imgs[x] = pygame.transform.flip(img, True, False)
             if time.time() - self.timer >= 0.5:
                 self.timer = time.time()
                 self.bullet.append(ArcherBullet(self.x, self.y, first_enemy))
+        else:
+            self.archer_count = 0
         for bullet in self.bullet:
             if bullet.move():
                 if bullet.target.die(self.damage) and bullet.target in enemies:
@@ -116,12 +125,12 @@ class TurretTower(Tower):
         self.attack_range = self.range
         self.bottom_imgs = turret_imgs1[:]
         self.top_imgs = turret_imgs2[:]
+        self.tcount = 0
         self.bullet = []
 
     def draw(self, win):
         bottom = self.bottom_imgs[self.level - 1]
         win.blit(bottom, (self.x - bottom.get_width() / 2, self.y - bottom.get_height() / 2))
-        # 这里后面改成攻击才动
         top = self.top_imgs[self.level - 1]
         win.blit(top, (self.x - 45, (self.y - top.get_height() + 10 + self.count)))
         for bullet in self.bullet:
@@ -182,4 +191,24 @@ class SlowTower(Tower):
             dis = math.sqrt((self.x - x) ** 2 + (self.y - y) ** 2)  # distance
             if dis < self.range:
                 enemy.v = enemy.original_v * self.slow
+        return [0, 0]
+
+class PoisonTower(Tower):
+
+    def __init__(self, x, y):
+        super().__init__(x, y)
+        self.tower_img = pygame.transform.scale(pygame.image.load
+                                                ("塔防游戏素材/防御塔/archer_towers/support/18.png"), (90, 90))
+
+    def draw(self, win):
+        img = self.tower_img
+        win.blit(img, (self.x - img.get_width() / 2, self.y - img.get_height() / 2))
+
+    def attack(self, enemies):
+        for enemy in enemies:
+            x = enemy.x
+            y = enemy.y
+            dis = math.sqrt((self.x - x) ** 2 + (self.y - y) ** 2)  # distance
+            if dis < self.range:
+                enemy.last = 500
         return [0, 0]
