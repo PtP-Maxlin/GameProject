@@ -1,6 +1,4 @@
-import pygame
 from buttons import *
-
 
 
 ''' 此处是游戏所有的界面类  '''
@@ -8,6 +6,8 @@ from buttons import *
 
 '''  进入选关时的界面    '''
 '''  初始化选关背景图，返回按钮，选关按钮 '''
+
+
 class LevelSelection:
 
     def __init__(self):
@@ -26,6 +26,8 @@ class LevelSelection:
 
 
 ''' 以下为三个关卡的界面 '''
+
+
 class BattleScene1:
     def __init__(self):
         self.win = pygame.display.set_mode((1400, 750))
@@ -55,6 +57,8 @@ class BattleScene3:
 
 ''' 失败界面 '''
 ''' 初始化返回按钮，重新开始按钮以及失败背景图 '''
+
+
 class FailureScene:
     def __init__(self):
         self.win = pygame.display.set_mode((1400, 750))
@@ -73,6 +77,8 @@ class FailureScene:
 
 ''' 胜利界面 '''
 ''' 初始化重新开始按钮，下一关的按钮以及胜利背景图 '''
+
+
 class VictoryScene:
     def __init__(self):
         self.win = pygame.display.set_mode((1400, 750))
@@ -83,12 +89,12 @@ class VictoryScene:
         self.NextButton = NextButton()
         self.RestartButton.rect.midbottom = (700, 667)
 
-
     def draw(self, win):
         win.blit(self.bg, (0, 0))
         self.ReturnButton.draw(win)
         self.NextButton.draw(win)
         self.RestartButton.draw_win(win)
+
 
 class Help1Scene:
     def __init__(self):
@@ -96,6 +102,7 @@ class Help1Scene:
 
     def draw(self, win):
         win.blit(self.bg, (350, 0))
+
 
 class Help2Scene:
     def __init__(self):

@@ -73,8 +73,6 @@ class MusicButton:
                 pygame.mixer.music.pause()
 
 
-
-
 ''' 控制游戏是否暂停的按钮 '''
 ''' 实现原理类似于音乐开关按钮 '''
 

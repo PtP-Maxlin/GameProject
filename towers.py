@@ -29,7 +29,7 @@ class Tower:
         self.sell_price = 50
         self.rect = pygame.Rect(x, y, 90, 90)
 
-        self.menu = pygame.image.load("塔防游戏素材/按钮/菜单3.png")
+        self.menu = pygame.image.load("塔防游戏素材/按钮/菜单2.png")
         self.menu = pygame.transform.smoothscale(self.menu, (160, 90))
         self.menu_rect = self.menu.get_rect()
         self.upgrade = pygame.image.load("塔防游戏素材/按钮/升级.png")
@@ -48,10 +48,10 @@ class Tower:
     def draw_menu(self, win, x2, y2):
         self.menu_rect.x = x2 - 5
         self.menu_rect.y = y2 + 50
-        self.upgrade_rect.x = self.menu_rect.x + 0
-        self.upgrade_rect.y = self.menu_rect.y + 17
-        self.sell_rect.x = self.menu_rect.x + 120
-        self.sell_rect.y = self.menu_rect.y + 19
+        self.upgrade_rect.x = self.menu_rect.x + 55
+        self.upgrade_rect.y = self.menu_rect.y + 0
+        self.sell_rect.x = self.menu_rect.x + 55
+        self.sell_rect.y = self.menu_rect.y + 50
 
         win.blit(self.menu, self.menu_rect)
         win.blit(self.upgrade, self.upgrade_rect)

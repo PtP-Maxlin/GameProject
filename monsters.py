@@ -2,9 +2,6 @@ import pygame
 import os
 import math
 
-poison_img = pygame.transform.scale(
-        pygame.image.load(os.path.join("塔防游戏素材/怪物/中毒.png")),
-        (50, 50))
 
 class Monsters:
     def __init__(self, path):
@@ -29,9 +26,7 @@ class Monsters:
 
         self.original_v = self.v
         self.damage = 1
-        self.damage_p = 0.1
-        self.last = 0
-        self.add = 0
+
         #
         # 移动相关
         self.path_pos = 0
@@ -82,22 +77,13 @@ class Monsters:
             return True
         return False
 
-    def lose_hp(self):
-        if self.last > 0:
-            self.last -= 1
-            self.add += 1
-            if self.add >= 10:
-                self.add = 0
-                if self.health > self.damage_p:
-                    self.health -= self.damage_p
-                else:
-                    self.last = 0
+    def getpath(self, path):  # 路径，一个精灵组用一个路径
+        self.path = path
 
     def draw(self, win):  # 怪物＋血条
         self.img = pygame.transform.scale(self.images[self.animation_count], (self.width, self.height))
         win.blit(self.img, (self.x - self.width / 2, self.y - self.height / 2))
         self.draw_health_bar(win)
-        self.draw_poison(win)
 
     def draw_health_bar(self, win):  # 血条
         length = 50
@@ -107,10 +93,6 @@ class Monsters:
                          0)
         pygame.draw.rect(win, (0, 255, 0),
                          (self.x - self.width / 4 - 6, self.y - self.height * 3 / 4 - 6, health_bar, 6), 0)
-
-    def draw_poison(self, win):
-        if self.last > 0:
-            win.blit(poison_img, (self.x - self.width / 2, self.y - self.height / 2))
 
 
 imgs1 = []
@@ -210,7 +192,7 @@ class Reaper(Monsters):
         super().__init__(path)
         self.width = 75
         self.height = 75  # 体积
-        self.max_health = 15
+        self.max_health = 20
         self.health = self.max_health  # 血量
         self.count_coin = 15  # 金币
         self.count_score = 50  # 分数
@@ -239,7 +221,7 @@ class BatMonster(Monsters):
         super().__init__(path)
         self.width = 250
         self.height = 200  # 体积
-        self.max_health = 648
+        self.max_health = 200
         self.health = self.max_health  # 血量
         self.count_coin = 200  # 金币
         self.count_score = 500  # 分数
@@ -255,7 +237,6 @@ class BatMonster(Monsters):
         self.img = pygame.transform.scale(self.images[self.animation_count], (self.width, self.height))
         win.blit(self.img, (self.x - self.width / 2, self.y - self.height / 2-50))
         self.draw_health_bar(win)
-        self.draw_poison(win)
 
     def draw_health_bar(self, win):  # 血条
         length = 135
@@ -284,7 +265,7 @@ class Angel(Monsters):
         super().__init__(path)
         self.width = 75
         self.height = 75  # 体积
-        self.max_health = 15
+        self.max_health = 20
         self.health = self.max_health  # 血量
         self.count_coin = 15  # 金币
         self.count_score = 50  # 分数
@@ -312,7 +293,7 @@ class Gollem(Monsters):
         super().__init__(path)
         self.width = 75
         self.height = 75  # 体积
-        self.max_health = 15
+        self.max_health = 20
         self.health = self.max_health  # 血量
         self.count_coin = 15  # 金币
         self.count_score = 50  # 分数
@@ -340,7 +321,7 @@ class Fire(Monsters):
         super().__init__(path)
         self.width = 75
         self.height = 75  # 体积
-        self.max_health = 15
+        self.max_health = 20
         self.health = self.max_health  # 血量
         self.count_coin = 15  # 金币
         self.count_score = 50  # 分数
@@ -369,7 +350,7 @@ class Minotaur(Monsters):
         super().__init__(path)
         self.width = 75
         self.height = 75  # 体积
-        self.max_health = 15
+        self.max_health = 20
         self.health = self.max_health  # 血量
         self.count_coin = 15  # 金币
         self.count_score = 50  # 分数
@@ -397,7 +378,7 @@ class Final(Monsters):
         super().__init__(path)
         self.width = 200
         self.height = 120  # 体积
-        self.max_health = 648
+        self.max_health = 200
         self.health = self.max_health  # 血量
         self.count_coin = 200  # 金币
         self.count_score = 500  # 分数
@@ -413,7 +394,6 @@ class Final(Monsters):
         self.img = pygame.transform.scale(self.images[self.animation_count], (self.width, self.height))
         win.blit(self.img, (self.x - self.width / 2, self.y - self.height / 2-50))
         self.draw_health_bar(win)
-        self.draw_poison(win)
 
     def draw_health_bar(self, win):  # 血条
         length = 135

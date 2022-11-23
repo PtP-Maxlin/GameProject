@@ -362,6 +362,7 @@ class MainMenu:
                         if tower.selected[1] and not tower.bool:
                             self.towers.remove(tower)
                             self.money += tower.sell_price
+                            tower.selected = [False, False]
                             tower.bool = True
 
                             for hole in self.holes:
@@ -376,40 +377,44 @@ class MainMenu:
                             self.towers.append(ArchTower(hole.hole_rect.x + 38, hole.hole_rect.y + 8))
                             self.money -= self.price_archer
                             hole.lock = False
+                            hole.selected = [False, False, False, False]
                         if hole.selected[1] and hole.lock and self.money >= self.price_turret and not hole.bool:
                             self.towers.append(TurretTower(hole.hole_rect.x + 38, hole.hole_rect.y + 8))
                             self.money -= self.price_turret
                             hole.lock = False
+                            hole.selected = [False, False, False, False]
                         if hole.selected[2] and hole.lock and self.money >= self.price_slower and not hole.bool:
                             self.towers.append(SlowTower(hole.hole_rect.x + 38, hole.hole_rect.y + 8))
                             self.money -= self.price_slower
                             hole.lock = False
+                            hole.selected = [False, False, False, False]
                         if hole.selected[3] and hole.lock and self.money >= self.price_poisoner and not hole.bool:
                             self.towers.append(PoisonTower(hole.hole_rect.x + 38, hole.hole_rect.y + 8))
                             self.money -= self.price_poisoner
                             hole.lock = False
+                            hole.selected = [False, False, False, False]
 
                     for tower in self.towers:
                         for hole in self.holes2:
                             if hole.hole_rect.x == tower.x - 38 and hole.hole_rect.y == tower.y - 8:
-                                tower.bool = tower.click_tower(mouse_pos, hole.hole_rect)
+                                tower.click_tower(mouse_pos, hole.hole_rect)
 
-                        if not tower.bool:
-                            tower.upgrade_choose = tower.click_upgrade(mouse_pos)
-                            tower.sell_choose = tower.click_sell(mouse_pos)
-                            if tower.upgrade_choose:
-                                if self.money >= tower.upgrade_price and tower.level < 3:
-                                    tower.level += 1
-                                    self.money -= tower.upgrade_price
-                                tower.bool = True
+                        if tower.selected[0] and self.money >= tower.upgrade_price and tower.level < 3 and not tower.bool:
+                            tower.level += 1
+                            self.money -= tower.upgrade_price
+                            tower.selected = [False, False]
+                            tower.bool = True
 
-                            if tower.sell_choose:
-                                self.towers.remove(tower)
-                                self.money += tower.sell_price
-                                for hole in self.holes2:
-                                    if hole.hole_rect.x == tower.x - 38 and hole.hole_rect.y == tower.y - 8:
-                                        hole.lock = True
-                                        hole.bool = True
+                        if tower.selected[1] and not tower.bool:
+                            self.towers.remove(tower)
+                            self.money += tower.sell_price
+                            tower.selected = [False, False]
+                            tower.bool = True
+
+                            for hole in self.holes2:
+                                if hole.hole_rect.x == tower.x - 38 and hole.hole_rect.y == tower.y - 8:
+                                    hole.lock = True
+                                    hole.bool = True
 
                 elif num == 3:
                     for hole in self.holes3:
@@ -418,40 +423,44 @@ class MainMenu:
                             self.towers.append(ArchTower(hole.hole_rect.x + 40, hole.hole_rect.y + 25))
                             self.money -= self.price_archer
                             hole.lock = False
+                            hole.selected = [False, False, False, False]
                         if hole.selected[1] and hole.lock and self.money >= self.price_turret and not hole.bool:
                             self.towers.append(TurretTower(hole.hole_rect.x + 40, hole.hole_rect.y + 25))
                             self.money -= self.price_turret
                             hole.lock = False
+                            hole.selected = [False, False, False, False]
                         if hole.selected[2] and hole.lock and self.money >= self.price_slower and not hole.bool:
                             self.towers.append(SlowTower(hole.hole_rect.x + 40, hole.hole_rect.y + 25))
                             self.money -= self.price_slower
                             hole.lock = False
+                            hole.selected = [False, False, False, False]
                         if hole.selected[3] and hole.lock and self.money >= self.price_poisoner and not hole.bool:
                             self.towers.append(PoisonTower(hole.hole_rect.x + 40, hole.hole_rect.y + 25))
                             self.money -= self.price_poisoner
                             hole.lock = False
+                            hole.selected = [False, False, False, False]
 
                     for tower in self.towers:
                         for hole in self.holes3:
                             if hole.hole_rect.x == tower.x - 40 and hole.hole_rect.y == tower.y - 25:
-                                tower.bool = tower.click_tower(mouse_pos, hole.hole_rect)
+                                tower.click_tower(mouse_pos, hole.hole_rect)
 
-                        if not tower.bool:
-                            tower.upgrade_choose = tower.click_upgrade(mouse_pos)
-                            tower.sell_choose = tower.click_sell(mouse_pos)
-                            if tower.upgrade_choose:
-                                if self.money >= tower.upgrade_price and tower.level < 3:
-                                    tower.level += 1
-                                    self.money -= tower.upgrade_price
-                                tower.bool = True
+                        if tower.selected[0] and self.money >= tower.upgrade_price and tower.level < 3 and not tower.bool:
+                            tower.level += 1
+                            self.money -= tower.upgrade_price
+                            tower.selected = [False, False]
+                            tower.bool = True
 
-                            if tower.sell_choose:
-                                self.towers.remove(tower)
-                                self.money += tower.sell_price
-                                for hole in self.holes3:
-                                    if hole.hole_rect.x == tower.x - 40 and hole.hole_rect.y == tower.y - 25:
-                                        hole.lock = True
-                                        hole.bool = True
+                        if tower.selected[1] and not tower.bool:
+                            self.towers.remove(tower)
+                            self.money += tower.sell_price
+                            tower.selected = [False, False]
+                            tower.bool = True
+
+                            for hole in self.holes3:
+                                if hole.hole_rect.x == tower.x - 40 and hole.hole_rect.y == tower.y - 25:
+                                    hole.lock = True
+                                    hole.bool = True
 
 
             elif event.type == pygame.KEYDOWN:
