@@ -89,13 +89,18 @@ class Hole:
         elif not self.click_menu(mouse_pos):
             self.bool = True
             self.menu = True
+        elif self.click_menu(mouse_pos) and True not in self.selected:
+            self.bool = True
+            self.menu = True
 
     def click_menu(self, mouse_pos):
-        menu = self.hole_menu_rect.collidepoint(mouse_pos)
-        if menu:
-            self.menu = not self.menu
-            self.selected = [self.click_tower1(mouse_pos), self.click_tower2(mouse_pos),
-                             self.click_tower3(mouse_pos), self.click_tower4(mouse_pos)]
+        if not self.bool:
+            menu = self.hole_menu_rect.collidepoint(mouse_pos)
+            if menu:
+                self.menu = not self.menu
+                self.selected = [self.click_tower1(mouse_pos), self.click_tower2(mouse_pos),
+                                 self.click_tower3(mouse_pos), self.click_tower4(mouse_pos)]
+
         return self.menu
 
     def flush(self):

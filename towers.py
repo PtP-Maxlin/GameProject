@@ -1,4 +1,5 @@
 import pygame
+import pygame
 import os
 import math
 import time
@@ -14,8 +15,8 @@ class Tower:
         self.level = 1
         self.timer = time.time()
 
-        self.width = 90
-        self.height = 90
+        self.width = 0
+        self.height = 0
         self.sell_price = [0, 0, 0]  # 需要花费的价钱
         self.price = [0, 0, 0]
         self.number = 1  # 建造的序号
@@ -26,8 +27,66 @@ class Tower:
         self.original_range = self.range
         self.left = True
 
+        '''新增菜单'''
+        self.level = 1
+        self.upgrade_price = 100
+        self.sell_price = 50
+        self.rect = pygame.Rect(x, y, 90, 90)
+
+        self.menu = pygame.image.load("塔防游戏素材/按钮/菜单2.png")
+        self.menu = pygame.transform.smoothscale(self.menu, (150, 65))
+        self.menu_rect = self.menu.get_rect()
+        self.upgrade = pygame.image.load("塔防游戏素材/按钮/升级.png")
+        self.upgrade = pygame.transform.smoothscale(self.upgrade, (46, 40))
+        self.upgrade_rect = self.upgrade.get_rect()
+        self.sell = pygame.image.load("塔防游戏素材/按钮/拆除.png")
+        self.sell = pygame.transform.smoothscale(self.sell, (46, 40))
+        self.sell_rect = self.sell.get_rect()
+        # self.menu_on = True
+        self.bool = True
+        self.upgrade_choose = False
+        self.sell_choose = False
+
     def draw(self, win):  # 每个防御塔不一样
         pass
+
+    def draw_menu(self, win, x2, y2):
+        self.menu_rect.x = x2
+        self.menu_rect.y = y2 + 50
+        self.upgrade_rect.x = self.menu_rect.x + 52
+        self.upgrade_rect.y = self.menu_rect.y - 15
+        self.sell_rect.x = self.menu_rect.x + 52
+        self.sell_rect.y = self.menu_rect.y + 35
+
+        win.blit(self.menu, self.menu_rect)
+        win.blit(self.upgrade, self.upgrade_rect)
+        win.blit(self.sell, self.sell_rect)
+
+    def click_tower(self, mouse_pos, rect):
+        click = rect.collidepoint(mouse_pos)
+        if click:
+            self.bool = not self.bool
+        return self.bool
+
+    def click_upgrade(self, mouse_pos):
+        click = self.upgrade_rect.collidepoint(mouse_pos)
+        if click:
+            return True
+        else:
+            return False
+
+    def click_sell(self, mouse_pos):
+        click = self.sell_rect.collidepoint(mouse_pos)
+        if click:
+            return True
+        else:
+            return False
+
+    def flush(self):
+        self.menu_on = True
+        self.bool = True
+        self.selected = [False, False]
+
 
 
 tower_imgs1 = []
@@ -53,8 +112,9 @@ class ArchTower(Tower):
         self.tower_imgs = tower_imgs1[:]
         self.archer_imgs = archer_imgs1[:]
         self.bullet = []
-        self.width = 90
-        self.height = 110
+
+        self.upgrade_price = 100
+        self.sell_price = 50
 
     def draw(self, win):
         img = self.tower_imgs[self.level - 1]
@@ -79,22 +139,13 @@ class ArchTower(Tower):
         # 选定最近的一个敌人攻击
         enemy_inRange.sort(key=lambda x: -x.distance)
         if len(enemy_inRange) > 0:
-            self.archer_count += 3
+            self.archer_count += 1
             if self.archer_count >= len(self.archer_imgs) * 10:
                 self.archer_count = 0
             first_enemy = enemy_inRange[0]
-            if first_enemy.x > self.x and not (self.left):
-                self.left = True
-                for x, img in enumerate(self.archer_imgs):
-                    self.archer_imgs[x] = pygame.transform.flip(img, True, False)
-            elif self.left and first_enemy.x < self.x:
-                self.left = False
-                for x, img in enumerate(self.archer_imgs):
-                    self.archer_imgs[x] = pygame.transform.flip(img, True, False)
-            if self.archer_count == 30:
-                self.bullet.append(ArcherBullet(self.x, self.y - 25, first_enemy))
-        else:
-            self.archer_count = 0
+            if time.time() - self.timer >= 0.5:
+                self.timer = time.time()
+                self.bullet.append(ArcherBullet(self.x, self.y, first_enemy))
         for bullet in self.bullet:
             if bullet.move():
                 if bullet.target.die(self.damage) and bullet.target in enemies:
@@ -103,6 +154,8 @@ class ArchTower(Tower):
                     enemies.remove(bullet.target)
                 self.bullet.remove(bullet)
         return count
+
+
 
 
 turret_imgs1 = []
@@ -122,18 +175,19 @@ class TurretTower(Tower):
         super().__init__(x, y)
         self.count = 0
         self.move = 0.5
-        self.damage = 3
+        self.damage = 5
         self.attack_range = self.range
         self.bottom_imgs = turret_imgs1[:]
         self.top_imgs = turret_imgs2[:]
-        self.tcount = 0
         self.bullet = []
-        self.width = 90
-        self.height = 90
+
+        self.upgrade_price = 100
+        self.sell_price = 50
 
     def draw(self, win):
         bottom = self.bottom_imgs[self.level - 1]
         win.blit(bottom, (self.x - bottom.get_width() / 2, self.y - bottom.get_height() / 2))
+        # 这里后面改成攻击才动
         top = self.top_imgs[self.level - 1]
         win.blit(top, (self.x - 45, (self.y - top.get_height() + 10 + self.count)))
         for bullet in self.bullet:
@@ -158,7 +212,8 @@ class TurretTower(Tower):
         enemy_inRange.sort(key=lambda x: -x.distance)
         if len(enemy_inRange) > 0:
             first_enemy = enemy_inRange[0]
-            if self.count == 10:
+            if time.time() - self.timer >= 2:
+                self.timer = time.time()
                 self.bullet.append(TurretBullet(self.x, self.y, first_enemy))
         for bullet in self.bullet:
             if bullet.move():
@@ -178,8 +233,11 @@ class SlowTower(Tower):
     def __init__(self, x, y):
         super().__init__(x, y)
         self.tower_img = pygame.transform.scale(pygame.image.load
-                                                ("塔防游戏素材/防御塔/archer_towers/support/18.png"), (90, 90))
+                                                ("塔防游戏素材/防御塔/冰霜塔/冰霜塔1.png"), (100, 90))
         self.slow = 0.5
+
+        self.upgrade_price = 100
+        self.sell_price = 50
 
     def draw(self, win):
         img = self.tower_img
@@ -195,22 +253,43 @@ class SlowTower(Tower):
                 enemy.v = enemy.original_v * self.slow
         return [0, 0]
 
+
 class PoisonTower(Tower):
 
     def __init__(self, x, y):
         super().__init__(x, y)
         self.tower_img = pygame.transform.scale(pygame.image.load
-                                                ("塔防游戏素材/防御塔/archer_towers/support/18.png"), (90, 90))
+                                                ("塔防游戏素材/防御塔/毒/毒气塔.png"), (90, 90))
+
+        self.upgrade_price = 100
+        self.sell_price = 50
 
     def draw(self, win):
         img = self.tower_img
         win.blit(img, (self.x - img.get_width() / 2, self.y - img.get_height() / 2))
 
     def attack(self, enemies):
+        count = [0, 0]
+        enemies_in = []
         for enemy in enemies:
             x = enemy.x
             y = enemy.y
             dis = math.sqrt((self.x - x) ** 2 + (self.y - y) ** 2)  # distance
-            if dis < self.range:
-                enemy.last = 500
-        return [0, 0]
+            if dis <= self.range:
+                enemies_in.append(enemy)
+            if dis > self.range and enemy in enemies_in:
+                enemies_in.remove(enemy)
+
+        for enemy in enemies:
+            self.damage = enemy.max_health / 10
+            if time.time() - self.timer > 1:
+                self.timer = time.time()
+                for e in enemies_in:
+                    if e.die(self.damage):
+                        if e in enemies:
+                            enemies.remove(e)
+                            enemies_in.remove(e)
+                            count[0] += e.count_coin
+                            count[1] += e.count_score
+
+        return count
