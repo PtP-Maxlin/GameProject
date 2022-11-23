@@ -633,10 +633,12 @@ class MainMenu:
             win.blit(wave_text, [612, 29])
 
         elif num == 4:
-            win.blit(score_text, [670, 385])
+            final_score = self.font_score.render(str(self.score + self.lives * 100 + self.money), True, (120, 255, 120))
+            win.blit(final_score, [670, 385])
 
         elif num == 5:
-            win.blit(score_text, [675, 400])
+            final_score = self.font_score.render(str(self.score + self.lives * 100 + self.money), True, (120, 255, 120))
+            win.blit(final_score, [675, 400])
 
     def draw_holes(self):
         for hole in self.holes:

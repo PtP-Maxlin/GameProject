@@ -244,7 +244,7 @@ class SlowTower(Tower):
         self.tower_img = pygame.transform.scale(pygame.image.load
                                                 ("塔防游戏素材/防御塔/冰霜塔/冰霜塔1.png"), (100, 90))
         self.tower_img2 = pygame.transform.scale(pygame.image.load
-                                                ("塔防游戏素材/防御塔/冰霜塔/冰霜塔2.png"), (100, 100))
+                                                ("塔防游戏素材/防御塔/冰霜塔/冰霜塔2.png"), (120, 100))
         self.slow = 0.5
 
         self.upgrade_price = 100
@@ -275,7 +275,7 @@ class PoisonTower(Tower):
         self.tower_img = pygame.transform.scale(pygame.image.load
                                                 ("塔防游戏素材/防御塔/毒/毒气塔.png"), (90, 90))
         self.tower_img2 = pygame.transform.scale(pygame.image.load
-                                                ("塔防游戏素材/防御塔/毒/毒气塔2.png"), (90, 100))
+                                                ("塔防游戏素材/防御塔/毒/毒气塔2.png"), (90, 90))
 
         self.upgrade_price = 100
         self.sell_price = 50
