@@ -219,14 +219,14 @@ class Hole2:
 
 class Hole3:
     def __init__(self, x, y):
-        self.hole = pygame.image.load('塔防游戏素材/按钮/坑3.png')
+        self.hole = pygame.image.load('塔防游戏素材/按钮/坑3改.png')
         self.hole_menu = pygame.image.load('塔防游戏素材/按钮/建造2.png')
         self.hole_menu_tower1 = pygame.image.load('塔防游戏素材/按钮/选项1.png')
         self.hole_menu_tower2 = pygame.image.load('塔防游戏素材/按钮/选项2.png')
         self.hole_menu_tower3 = pygame.image.load('塔防游戏素材/按钮/选项3.png')
         self.hole_menu_tower4 = pygame.image.load('塔防游戏素材/按钮/选项4.png')
 
-        self.hole = pygame.transform.smoothscale(self.hole, (80, 70))
+        self.hole = pygame.transform.smoothscale(self.hole, (80, 60))
         self.hole_menu = pygame.transform.smoothscale(self.hole_menu, (150, 130))
         self.hole_menu_tower1 = pygame.transform.smoothscale(self.hole_menu_tower1, (46, 40))
         self.hole_menu_tower2 = pygame.transform.smoothscale(self.hole_menu_tower2, (46, 40))
@@ -241,7 +241,7 @@ class Hole3:
         self.hole_menu_tower4_rect = self.hole_menu_tower4.get_rect()
         # x, y 改一下
         self.hole_rect.x = x
-        self.hole_rect.y = y
+        self.hole_rect.y = y + 10
         self.hole_menu_rect.x = self.hole_rect.x - 32
         self.hole_menu_rect.y = self.hole_rect.y - 130
         self.hole_menu_tower1_rect.x = self.hole_rect.x - 28
