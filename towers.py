@@ -1,7 +1,3 @@
-import pygame
-import pygame
-import os
-import math
 import time
 from bullet import *
 
@@ -33,8 +29,8 @@ class Tower:
         self.sell_price = 50
         self.rect = pygame.Rect(x, y, 90, 90)
 
-        self.menu = pygame.image.load("塔防游戏素材/按钮/菜单2.png")
-        self.menu = pygame.transform.smoothscale(self.menu, (150, 65))
+        self.menu = pygame.image.load("塔防游戏素材/按钮/菜单3.png")
+        self.menu = pygame.transform.smoothscale(self.menu, (160, 90))
         self.menu_rect = self.menu.get_rect()
         self.upgrade = pygame.image.load("塔防游戏素材/按钮/升级.png")
         self.upgrade = pygame.transform.smoothscale(self.upgrade, (46, 40))
@@ -42,21 +38,20 @@ class Tower:
         self.sell = pygame.image.load("塔防游戏素材/按钮/拆除.png")
         self.sell = pygame.transform.smoothscale(self.sell, (46, 40))
         self.sell_rect = self.sell.get_rect()
-        # self.menu_on = True
         self.bool = True
-        self.upgrade_choose = False
-        self.sell_choose = False
+        self.selected = [False, False]
+        self.menu_on = True
 
     def draw(self, win):  # 每个防御塔不一样
         pass
 
     def draw_menu(self, win, x2, y2):
-        self.menu_rect.x = x2
+        self.menu_rect.x = x2 - 5
         self.menu_rect.y = y2 + 50
-        self.upgrade_rect.x = self.menu_rect.x + 52
-        self.upgrade_rect.y = self.menu_rect.y - 15
-        self.sell_rect.x = self.menu_rect.x + 52
-        self.sell_rect.y = self.menu_rect.y + 35
+        self.upgrade_rect.x = self.menu_rect.x + 0
+        self.upgrade_rect.y = self.menu_rect.y + 17
+        self.sell_rect.x = self.menu_rect.x + 120
+        self.sell_rect.y = self.menu_rect.y + 19
 
         win.blit(self.menu, self.menu_rect)
         win.blit(self.upgrade, self.upgrade_rect)
@@ -65,8 +60,23 @@ class Tower:
     def click_tower(self, mouse_pos, rect):
         click = rect.collidepoint(mouse_pos)
         if click:
-            self.bool = not self.bool
-        return self.bool
+            self.menu_on = not self.menu_on
+            self.bool = self.menu_on
+        elif not self.click_menu(mouse_pos):
+            self.bool = True
+            self.menu_on = True
+        elif self.click_menu(mouse_pos) and True not in self.selected:
+            self.bool = True
+            self.menu_on = True
+
+    def click_menu(self, mouse_pos):
+        if not self.bool:
+            menu_on = self.menu_rect.collidepoint(mouse_pos)
+            if menu_on:
+                self.menu_on = not self.menu_on
+                self.selected = [self.click_upgrade(mouse_pos), self.click_sell(mouse_pos)]
+
+        return self.menu_on
 
     def click_upgrade(self, mouse_pos):
         click = self.upgrade_rect.collidepoint(mouse_pos)
@@ -86,7 +96,6 @@ class Tower:
         self.menu_on = True
         self.bool = True
         self.selected = [False, False]
-
 
 
 tower_imgs1 = []
@@ -234,13 +243,18 @@ class SlowTower(Tower):
         super().__init__(x, y)
         self.tower_img = pygame.transform.scale(pygame.image.load
                                                 ("塔防游戏素材/防御塔/冰霜塔/冰霜塔1.png"), (100, 90))
+        self.tower_img2 = pygame.transform.scale(pygame.image.load
+                                                ("塔防游戏素材/防御塔/冰霜塔/冰霜塔2.png"), (100, 100))
         self.slow = 0.5
 
         self.upgrade_price = 100
         self.sell_price = 50
 
     def draw(self, win):
-        img = self.tower_img
+        if self.level == 1:
+            img = self.tower_img
+        else:
+            img = self.tower_img2
         win.blit(img, (self.x - img.get_width() / 2, self.y - img.get_height() / 2))
 
     def attack(self, enemies):
@@ -260,12 +274,17 @@ class PoisonTower(Tower):
         super().__init__(x, y)
         self.tower_img = pygame.transform.scale(pygame.image.load
                                                 ("塔防游戏素材/防御塔/毒/毒气塔.png"), (90, 90))
+        self.tower_img2 = pygame.transform.scale(pygame.image.load
+                                                ("塔防游戏素材/防御塔/毒/毒气塔2.png"), (90, 100))
 
         self.upgrade_price = 100
         self.sell_price = 50
 
     def draw(self, win):
-        img = self.tower_img
+        if self.level == 1:
+            img = self.tower_img
+        else:
+            img = self.tower_img2
         win.blit(img, (self.x - img.get_width() / 2, self.y - img.get_height() / 2))
 
     def attack(self, enemies):

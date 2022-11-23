@@ -1,6 +1,6 @@
 import sys
 
-from buttons import *
+
 from holes import *
 
 from scenes import *
@@ -348,30 +348,26 @@ class MainMenu:
                             hole.lock = False
                             hole.selected = [False, False, False, False]
 
-
                     for tower in self.towers:
                         for hole in self.holes:
                             if hole.hole_rect.x == tower.x - 65 and hole.hole_rect.y == tower.y:
-                                tower.bool = tower.click_tower(mouse_pos, hole.hole_rect)
+                                tower.click_tower(mouse_pos, hole.hole_rect)
 
-                        if not tower.bool:
-                            tower.upgrade_choose = tower.click_upgrade(mouse_pos)
-                            tower.sell_choose = tower.click_sell(mouse_pos)
-                            if tower.upgrade_choose:
-                                if self.money >= tower.upgrade_price and tower.level < 3:
-                                    tower.level += 1
-                                    self.money -= tower.upgrade_price
+                        if tower.selected[0] and self.money >= tower.upgrade_price and tower.level < 3 and not tower.bool:
+                            tower.level += 1
+                            self.money -= tower.upgrade_price
+                            tower.selected = [False, False]
+                            tower.bool = True
 
-                                tower.bool = True
+                        if tower.selected[1] and not tower.bool:
+                            self.towers.remove(tower)
+                            self.money += tower.sell_price
+                            tower.bool = True
 
-                            if tower.sell_choose:
-                                self.towers.remove(tower)
-                                self.money += tower.sell_price
-
-                                for hole in self.holes:
-                                    if hole.hole_rect.x == tower.x - 65 and hole.hole_rect.y == tower.y:
-                                        hole.lock = True
-                                        hole.bool = True
+                            for hole in self.holes:
+                                if hole.hole_rect.x == tower.x - 65 and hole.hole_rect.y == tower.y:
+                                    hole.lock = True
+                                    hole.bool = True
 
                 elif num == 2:
                     for hole in self.holes2:
